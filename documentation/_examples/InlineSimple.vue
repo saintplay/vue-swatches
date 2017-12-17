@@ -1,6 +1,6 @@
 <template>
   <div>
-    <swatches v-model="color" shapes="circles" />
+    <swatches v-model="color" inline shapes="circles" />
   </div>
 </template>
 

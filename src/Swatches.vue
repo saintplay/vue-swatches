@@ -1,10 +1,19 @@
 <template>
   <div class="vue-swatches">
+    <div v-if="!inline">
+      <div
+        class="color-input"
+        :class="{'is-empty': !value}"
+        :style="[colorInputStyle]"
+      ></div>
+    </div>
     <div
-      v-for="color in colorSwatches"
-      :key="color"
+      v-for="swatch in colorSwatches"
+      :key="swatch"
+      class="swatch"
       :class="swatchClass"
-      :style="{backgroundColor: color}"
+      :style="{backgroundColor: swatch}"
+      @click="updateSwatch(swatch)"
     >
     </div>
   </div>
@@ -20,9 +29,22 @@ export default {
       type: Array | String,
       default: 'simple'
     },
+    inline: {
+      type: Boolean,
+      default: false
+    },
     shapes: {
       type: String,
       default: 'squares'
+    },
+    value: {
+      type: String,
+      default: ''
+    }
+  },
+  data () {
+    return {
+      internalValue: this.value
     }
   },
   computed: {
@@ -43,6 +65,18 @@ export default {
         default:
           return 'swatch-square'
       }
+    },
+    // Styles
+    colorInputStyle () {
+      return {
+        backgroundColor: this.value ? this.value : '#fff',
+        borderRadius: this.shapes === 'circles' ? '50%' : '10px'
+      }
+    }
+  },
+  methods: {
+    updateSwatch (swatch) {
+      this.$emit('input', swatch)
     }
   }
 }
@@ -50,22 +84,31 @@ export default {
 
 <style lang="scss">
   .vue-swatches {
-    .swatch-square {
+    .color-input {
       display: inline-block;
-      width: 24px;
-      height: 24px;
-      margin: 4px 4px;
-      border-radius: 4px;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+
+      &.is-empty {
+        border: 1px solid #111;
+      }
+    }
+
+    .swatch {
+      display: inline-block;
+      width: 42px;
+      height: 42px;
+      margin: 6px 6px;
       cursor: pointer;
     }
 
+    .swatch-square {
+      border-radius: 10px;
+    }
+
     .swatch-circle {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      margin: 4px 4px;
       border-radius: 50%;
-      cursor: pointer;
     }
   }
 </style>

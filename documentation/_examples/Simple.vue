@@ -1,5 +1,6 @@
 <template>
 <div>
+  <strong>Color:</strong>
   <swatches v-model="color" />
 </div>
 </template>

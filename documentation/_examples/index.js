@@ -1,7 +1,7 @@
 import Simple from './Simple'
-import SimpleCircles from './SimpleCircles'
+import InlineSimple from './InlineSimple'
 
 export {
   Simple,
-  SimpleCircles
+  InlineSimple
 }
