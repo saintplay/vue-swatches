@@ -2,20 +2,26 @@
   <div class="vue-swatches">
     <div v-if="!inline">
       <div
-        class="color-input"
+        class="trigger"
         :class="{'is-empty': !value}"
-        :style="[colorInputStyle]"
+        :style="[triggerStyle]"
+        @click="toggleSwatches"
       ></div>
     </div>
-    <div
-      v-for="swatch in colorSwatches"
-      :key="swatch"
-      class="swatch"
-      :class="swatchClass"
-      :style="{backgroundColor: swatch}"
-      @click="updateSwatch(swatch)"
-    >
-    </div>
+
+    <transition name="swatches">
+      <div v-if="isOpen" class="swatches-wrapper" :class="{'inline': inline}">
+        <div
+          v-for="swatch in colorSwatches"
+          :key="swatch"
+          class="swatch"
+          :class="swatchClass"
+          :style="{backgroundColor: swatch}"
+          @click="updateSwatch(swatch)"
+        >
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -44,7 +50,8 @@ export default {
   },
   data () {
     return {
-      internalValue: this.value
+      internalValue: this.value,
+      open: false
     }
   },
   computed: {
@@ -55,6 +62,10 @@ export default {
         default:
           return presets.simple
       }
+    },
+    isOpen () {
+      if (this.inline) return true
+      return this.open
     },
     swatchClass () {
       switch (this.shapes) {
@@ -67,7 +78,7 @@ export default {
       }
     },
     // Styles
-    colorInputStyle () {
+    triggerStyle () {
       return {
         backgroundColor: this.value ? this.value : '#fff',
         borderRadius: this.shapes === 'circles' ? '50%' : '10px'
@@ -75,6 +86,9 @@ export default {
     }
   },
   methods: {
+    toggleSwatches () {
+      this.open = !this.open
+    },
     updateSwatch (swatch) {
       this.$emit('input', swatch)
     }
@@ -84,7 +98,7 @@ export default {
 
 <style lang="scss">
   .vue-swatches {
-    .color-input {
+    .trigger {
       display: inline-block;
       width: 42px;
       height: 42px;
@@ -95,20 +109,44 @@ export default {
       }
     }
 
+    .swatches-wrapper {
+      background-color: #fff;
+
+      &:not(.inline) {
+        position: absolute;
+        display: block;
+        width: 100%;
+        max-height: 240px;
+        overflow: auto;
+        border-radius: 5px;
+        box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+        z-index: 50;
+      }
+    }
+
     .swatch {
       display: inline-block;
       width: 42px;
       height: 42px;
       margin: 6px 6px;
       cursor: pointer;
+
+      &.swatch-square {
+        border-radius: 10px;
+      }
+
+      &.swatch-circle {
+        border-radius: 50%;
+      }
     }
 
-    .swatch-square {
-      border-radius: 10px;
-    }
+  }
 
-    .swatch-circle {
-      border-radius: 50%;
-    }
+  // Transition
+  .swatches-enter-active, .swatches-leave-active {
+    transition: all 0.15s ease;
+  }
+  .swatches-enter, .swatches-leave-active {
+    opacity: 0;
   }
 </style>
