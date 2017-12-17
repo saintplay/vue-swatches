@@ -15,8 +15,8 @@
         <!-- for nested distribution -->
         <template v-if="isNested">
           <div
-            v-for="swatchRow in colorSwatches"
-            :key="swatchRow"
+            v-for="(swatchRow, index) in colorSwatches"
+            :key="index"
             class="swatchs-row"
           >
             <div
@@ -161,7 +161,8 @@ export default {
       display: inline-block;
       width: 42px;
       height: 42px;
-      margin: 6px 6px;
+      margin-bottom: 12px;
+      margin-right: 12px;
       cursor: pointer;
 
       &.swatch-square {
