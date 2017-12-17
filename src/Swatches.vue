@@ -10,16 +10,39 @@
     </div>
 
     <transition name="swatches">
-      <div v-if="isOpen" class="swatches-wrapper" :class="{'inline': inline}">
-        <div
-          v-for="swatch in colorSwatches"
-          :key="swatch"
-          class="swatch"
-          :class="swatchClass"
-          :style="{backgroundColor: swatch}"
-          @click="updateSwatch(swatch)"
-        >
-        </div>
+      <div v-show="isOpen" class="swatches-wrapper" :class="{'inline': inline}">
+
+        <!-- for nested distribution -->
+        <template v-if="isNested">
+          <div
+            v-for="swatchRow in colorSwatches"
+            :key="swatchRow"
+            class="swatchs-row"
+          >
+            <div
+              v-for="swatch in swatchRow"
+              :key="swatch"
+              class="swatch"
+              :class="swatchClass"
+              :style="{backgroundColor: swatch}"
+              @click="updateSwatch(swatch)"
+            >
+            </div>
+          </div>
+        </template>
+
+        <!-- for normal distribution -->
+        <template v-else>
+          <div
+            v-for="swatch in colorSwatches"
+            :key="swatch"
+            class="swatch"
+            :class="swatchClass"
+            :style="{backgroundColor: swatch}"
+            @click="updateSwatch(swatch)"
+          >
+          </div>
+        </template>
       </div>
     </transition>
   </div>
@@ -66,6 +89,12 @@ export default {
         default:
           return presets.simple
       }
+    },
+    isNested () {
+      if (this.colorSwatches && this.colorSwatches.length > 0 && this.colorSwatches[0] instanceof Array) {
+        return true
+      }
+      return false
     },
     isOpen () {
       if (this.inline) return true
