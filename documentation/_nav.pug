@@ -1,0 +1,13 @@
+ul.list(
+  :class="{ 'list--sticky': isNavSticky }"
+)
+  li.list__heading Setup
+  +tocSubsection('Getting Started')
+
+  //- replaced later in _mixins.pug:renderToc()
+  ='%%_TOC_%%'
+
+  li.list__heading API
+  +tocSubsection('Props')
+  +tocSubsection('Events')
+  +tocSubsection('Slots')

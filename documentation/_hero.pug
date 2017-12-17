@@ -1,0 +1,8 @@
+section.start(:style="gradient")
+  .center-vertically
+    h1.typo__h1
+      img.logo(src=require('assets/vue-logo.png'))
+      | Vue-swatches
+      small.version
+        =`v${require('../package.json').version}`
+    h3.typo__h3 Help the user picking beautiful colors

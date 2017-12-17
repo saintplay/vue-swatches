@@ -1,0 +1,56 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1")
+    title Vue-Swatches | Help the uer picking beautiful colors
+    link(rel="icon", href="static/vue-logo.png", type="image/x-icon")
+    meta(name="description", content="Help the uer picking beautiful colors")
+    meta(property="og:title", content="Vue-Swatches")
+    meta(property="og:site_name", content="Vue-Swatches")
+    meta(property="og:url", content="https://vue-swatches.netlify.com")
+    meta(property="og:description", content="Help the uer picking beautiful colors")
+    meta(property="og:image", content="https://vue-swatches.netlify.com/static/vue-logo.png")
+    meta(property="twitter:image", content="https://vue-swatches.netlify.com/static/vue-logo.png")
+    meta(property="twitter:title", content="Vue-Swatches")
+    meta(property="twitter:description", content="Help the uer picking beautiful colors")
+  body
+    #app
+      include ./_mixins
+      include ./_hero
+
+      .grid__row.docs
+        .grid__columns.grid__unit--sm-3.small--hidden
+          include ./_nav
+
+        .grid__columns.grid__unit--sm-12.grid__unit--md-9
+          include ./_examples/_examples
+
+          include ./_getting-started
+
+          hr.typo__hr
+          include ./_api/_props
+          include ./_api/_events
+
+      include ./_footer
+
+    script(src=require('!!url-loader!assets/prism.js'))
+    script(src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js")
+    script.
+      /*eslint-disable */
+      Prism.languages.pug = Prism.languages.jade
+
+      WebFontConfig = {
+        google: { families: [ 'Lato:700,300', 'Dosis:400' ] }
+      }
+      ;(function() {
+        var wf = document.createElement('script')
+        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+          '://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js'
+        wf.type = 'text/javascript'
+        wf.async = 'true'
+        var s = document.getElementsByTagName('script')[0]
+        s.parentNode.insertBefore(wf, s)
+      })()
+
++renderToc()
