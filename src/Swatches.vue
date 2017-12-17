@@ -59,6 +59,10 @@ export default {
       switch (this.colors) {
         case 'simple':
           return presets.simple
+        case 'text-simple':
+          return presets.textSimple
+        case 'text-advanced':
+          return presets.textAdvanced
         default:
           return presets.simple
       }

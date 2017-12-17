@@ -8,7 +8,7 @@
 - }
 - const toc = [];
 
-mixin renderToc()
+mixin renderToc ()
   - const tocSwapBuffer = pug_html;
   - pug_html = '';
   for s in toc
@@ -17,17 +17,16 @@ mixin renderToc()
       +tocSubsection(sub)
   - pug_html = tocSwapBuffer.replace('%%_TOC_%%', pug_html);
 
-mixin tocSection(name)
+mixin tocSection (name)
   li.list__heading
     a.link.blank__link(href="#" + hyphenate(name))=name
 
-mixin tocSubsection(name)
+mixin tocSubsection (name)
   - var customClass = "{ 'list__link--active': currentPosition === 'sub-" + hyphenate(name) + "' }"
   li.list__element
     a.link.list__link(:class=customClass, href="#sub-" + hyphenate(name))=name
 
-
-mixin section(name)
+mixin section (name)
   - toc.push({name: name, subs: []})
   .grid__row
     .grid__column
@@ -37,7 +36,7 @@ mixin section(name)
         if block
           block
 
-mixin subsection(name)
+mixin subsection (name)
   - toc[toc.length - 1].subs.push(name)
   .grid__row
     .grid__column
@@ -45,7 +44,7 @@ mixin subsection(name)
       if block
         block
 
-mixin example(path)
+mixin example (path)
   .example.grid__row
     if block
       block
@@ -56,3 +55,10 @@ mixin example(path)
       div
         pre(v-pre).language-html
           code=require('!!raw-loader!vue-loader/lib/selector?type=template!examples/' + path + '.vue')
+
+mixin preset (presetName)
+  .grid__column.grid__unit--md-6
+    if block
+      block
+
+    <preset-example colors="#{presetName}" />
