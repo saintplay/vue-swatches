@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import * as examples from './_examples'
+import PresetExample from './_presets/PresetExample'
 import Swatches from 'vue-swatches'
 
 import './docs.scss'
@@ -23,6 +24,7 @@ new Vue({
   el: '#app',
   components: {
     ...examples,
+    PresetExample,
     Swatches
   },
   data () {
