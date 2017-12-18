@@ -19,29 +19,25 @@
             :key="index"
             class="swatchs-row"
           >
-            <div
+            <swatch
               v-for="swatch in swatchRow"
               :key="swatch"
-              class="swatch"
-              :class="swatchClass"
-              :style="{backgroundColor: swatch}"
+              :swatchColor="swatch"
+              :swatchClass="swatchClass"
               @click="updateSwatch(swatch)"
-            >
-            </div>
+            />
           </div>
         </template>
 
         <!-- for normal distribution -->
         <template v-else>
-          <div
+          <swatch
             v-for="swatch in colorSwatches"
             :key="swatch"
-            class="swatch"
-            :class="swatchClass"
-            :style="{backgroundColor: swatch}"
+            :swatchColor="swatch"
+            :swatchClass="swatchClass"
             @click="updateSwatch(swatch)"
-          >
-          </div>
+          />
         </template>
       </div>
     </transition>
@@ -50,9 +46,13 @@
 
 <script>
 import * as presets from 'src/presets'
+import Swatch from 'src/Swatch'
 
 export default {
   name: 'swatches',
+  components: {
+    Swatch
+  },
   props: {
     colors: {
       type: Array | String,
@@ -138,7 +138,7 @@ export default {
       cursor: pointer;
 
       &.is-empty {
-        border: 1px solid #111;
+        border: 2px solid #ccc;
       }
     }
 
@@ -164,6 +164,10 @@ export default {
       margin-bottom: 12px;
       margin-right: 12px;
       cursor: pointer;
+
+      &:hover {
+        opacity: 0.75;
+      }
 
       &.swatch-square {
         border-radius: 10px;
