@@ -44,7 +44,7 @@ mixin subsection (name)
       if block
         block
 
-mixin example (path)
+mixin example (path, { showJavascript } = {})
   .example.grid__row
     if block
       block
@@ -55,6 +55,11 @@ mixin example (path)
       div
         pre(v-pre).language-html
           code=require('!!raw-loader!vue-loader/lib/selector?type=template!examples/' + path + '.vue')
+
+      if showJavascript
+        div
+          pre(v-pre).language-javascript
+            code=require('!!raw-loader!vue-loader/lib/selector?type=script!examples/' + path + '.vue').replace(/^[\/\n]*/m,'')
 
 mixin preset (component)
   .grid__column.grid__unit--md-12

@@ -142,6 +142,8 @@ export default {
     },
     // Computed value for `colors`
     swatchColors () {
+      if (this.colors instanceof Array) return this.colors
+
       switch (this.colors) {
         case 'simple':
           return presets.simple
