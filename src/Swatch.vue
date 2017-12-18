@@ -1,8 +1,8 @@
 <template>
   <div
     class="swatch"
-    :class="{ [swatchClass]: true, 'swatch-border': showBorder, 'swatch-selected': selected }"
-    :style="[swatchStyle]"
+    :class="{ 'swatch-border': showBorder, 'swatch-selected': selected }"
+    :style="swatchStyles"
   >
     <check v-show="selected" />
   </div>
@@ -29,6 +29,10 @@ export default {
       type: Number
       // default is especified in `Swatches.vue`
     },
+    spacingSize: {
+      type: Number
+      // this prop comes from computed propertie and always should have a value
+    },
     swatchColor: {
       type: String,
       default: ''
@@ -43,10 +47,27 @@ export default {
       swatchStyle: {
         width: `${this.size}px`,
         height: `${this.size}px`,
-        marginBottom: '12px',
-        marginRight: '12px',
+        marginBottom: `${this.spacingSize}px`,
+        marginRight: `${this.spacingSize}px`,
         backgroundColor: this.swatchColor
       }
+    }
+  },
+  computed: {
+    swatchStyles () {
+      const styles = [this.swatchStyle]
+
+      if (this.swatchClass === 'swatch-square') {
+        styles.push({
+          borderRadius: `${Math.round(this.size * 0.25)}px`
+        })
+      } else if (this.swatchClass === 'swatch-circle') {
+        styles.push({
+          borderRadius: '50%'
+        })
+      }
+
+      return styles
     }
   }
 }
@@ -69,15 +90,6 @@ export default {
 
       &.swatch-selected {
         border: 2px solid #ccc;
-      }
-
-      &.swatch-square {
-        border-radius: 10px;
-
-      }
-
-      &.swatch-circle {
-        border-radius: 50%;
       }
     }
   }

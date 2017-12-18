@@ -4,13 +4,18 @@
       <div
         class="trigger"
         :class="{'is-empty': !value}"
-        :style="[triggerStyle]"
+        :style="triggerStyles"
         @click="toggleSwatches"
       ></div>
     </div>
 
     <transition name="swatches">
-      <div v-show="isOpen" class="swatches-wrapper" :class="{'inline': inline}">
+      <div
+        v-show="isOpen"
+        class="swatches-wrapper"
+        :class="{'inline': inline}"
+        :style="swatchWrapperStyles"
+      >
 
         <!-- for nested distribution -->
         <template v-if="isNested">
@@ -24,6 +29,7 @@
               :key="swatch"
               :selected="swatch === internalValue"
               :size="swatchSize"
+              :spacing-size="spacingSize"
               :showBorder="swatchShowBorder"
               :swatchColor="swatch"
               :swatchClass="swatchClass"
@@ -39,6 +45,7 @@
             :key="swatch"
             :selected="swatch === internalValue"
             :size="swatchSize"
+            :spacing-size="spacingSize"
             :showBorder="swatchShowBorder"
             :swatchColor="swatch"
             :swatchClass="swatchClass"
@@ -53,6 +60,9 @@
 <script>
 import * as presets from 'src/presets'
 import Swatch from 'src/Swatch'
+
+const DEFAULT_SWATCH_SIZE = 42
+const DEFAULT_SHOW_BORDER = false
 
 export default {
   name: 'swatches',
@@ -78,7 +88,7 @@ export default {
     },
     size: {
       type: Number | String,
-      default: 42
+      default: null
     },
     value: {
       type: String,
@@ -88,6 +98,7 @@ export default {
   data () {
     return {
       presetShowBorder: null,
+      presetSize: null,
       internalValue: this.value || null,
       internalIsOpen: false
     }
@@ -100,7 +111,7 @@ export default {
         case 'text-simple':
           return presets.textSimple
         case 'text-advanced':
-          this.presetShowBorder = true
+          this.presetSize = 24
           return presets.textAdvanced
         default:
           return presets.simple
@@ -116,13 +127,23 @@ export default {
       if (this.inline) return true
       return this.internalIsOpen
     },
+    spacingSize () {
+      return Math.round(this.swatchSize * 0.25)
+    },
     // Computed value for `size`
     swatchSize () {
-      if (!isNaN(this.size)) {
-        return Number(this.size)
+      // Priorize user value
+      if (this.size !== null) {
+        if (!isNaN(this.size)) {
+          return Number(this.size)
+        }
+        // Given size is not a number!
+        throw new Error(`${this.size} is not a Number. Size must be a Number`)
       }
-      // Given size is not a number!
-      throw new Error(`${this.size} is not a Number. Size must be a Number`)
+      // over preset value
+      if (this.presetSize !== null) return this.presetSize
+      // Use default value if these two are unset
+      return DEFAULT_SWATCH_SIZE
     },
     // Computed value for `showBorder`
     swatchShowBorder () {
@@ -130,8 +151,8 @@ export default {
       if (this.showBorder !== null) return this.showBorder
       // over preset value
       if (this.presetShowBorder !== null) return this.presetShowBorder
-      // Use `false` as default if these two are unset
-      return false
+      // Use default value if these two are unset
+      return DEFAULT_SHOW_BORDER
     },
     // Computed value for `shapes`
     swatchClass () {
@@ -147,9 +168,23 @@ export default {
     // Styles
     triggerStyle () {
       return {
+        width: '42px',
+        height: '42px',
         backgroundColor: this.value ? this.value : '#fff',
         borderRadius: this.shapes === 'circles' ? '50%' : '10px'
       }
+    },
+    triggerStyles () {
+      return [this.triggerStyle]
+    },
+    swatchWrapperStyle () {
+      return {
+        paddingTop: `${this.spacingSize}px`,
+        paddingLeft: `${this.spacingSize}px`
+      }
+    },
+    swatchWrapperStyles () {
+      return [this.swatchWrapperStyle]
     }
   },
   watch: {
@@ -173,8 +208,6 @@ export default {
   .vue-swatches {
     .trigger {
       display: inline-block;
-      width: 42px;
-      height: 42px;
       cursor: pointer;
 
       &.is-empty {
@@ -188,13 +221,10 @@ export default {
       &:not(.inline) {
         position: absolute;
         display: block;
-        width: 100%;
-        max-height: 240px;
+        max-height: 272px;
         overflow: auto;
-        padding-top: 12px;
-        padding-left: 12px;
         border-radius: 5px;
-        box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+        box-shadow: 0 2px 3px rgba(10, 10, 10, 0.2), 0 0 0 1px rgba(10, 10, 10, 0.2);
         z-index: 50;
       }
     }
@@ -203,7 +233,7 @@ export default {
 
   // Transition
   .swatches-enter-active, .swatches-leave-active {
-    transition: all 0.15s ease;
+    transition: all 0.3s ease;
   }
   .swatches-enter, .swatches-leave-active {
     opacity: 0;
