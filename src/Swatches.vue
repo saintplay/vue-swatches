@@ -22,6 +22,7 @@
             <swatch
               v-for="swatch in swatchRow"
               :key="swatch"
+              :showBorder="swatchShowBorder"
               :swatchColor="swatch"
               :swatchClass="swatchClass"
               @click="updateSwatch(swatch)"
@@ -34,6 +35,7 @@
           <swatch
             v-for="swatch in colorSwatches"
             :key="swatch"
+            :showBorder="swatchShowBorder"
             :swatchColor="swatch"
             :swatchClass="swatchClass"
             @click="updateSwatch(swatch)"
@@ -54,6 +56,10 @@ export default {
     Swatch
   },
   props: {
+    showBorder: {
+      type: Boolean,
+      default: null
+    },
     colors: {
       type: Array | String,
       default: 'simple'
@@ -73,8 +79,9 @@ export default {
   },
   data () {
     return {
+      presetShowBorder: null,
       internalValue: this.value,
-      open: false
+      internalIsOpen: false
     }
   },
   computed: {
@@ -85,6 +92,7 @@ export default {
         case 'text-simple':
           return presets.textSimple
         case 'text-advanced':
+          this.presetShowBorder = true
           return presets.textAdvanced
         default:
           return presets.simple
@@ -98,8 +106,18 @@ export default {
     },
     isOpen () {
       if (this.inline) return true
-      return this.open
+      return this.internalIsOpen
     },
+    // Computed value for `showBorder`
+    swatchShowBorder () {
+      // Priorize user value
+      if (this.showBorder !== null) return this.showBorder
+      // over preset value
+      if (this.presetShowBorder !== null) return this.presetShowBorder
+      // Use `false` as default if these two are unset
+      return false
+    },
+    // Computed value for `shapes`
     swatchClass () {
       switch (this.shapes) {
         case 'squares':
@@ -120,7 +138,7 @@ export default {
   },
   methods: {
     toggleSwatches () {
-      this.open = !this.open
+      this.internalIsOpen = !this.internalIsOpen
     },
     updateSwatch (swatch) {
       this.$emit('input', swatch)
@@ -154,27 +172,6 @@ export default {
         border-radius: 5px;
         box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
         z-index: 50;
-      }
-    }
-
-    .swatch {
-      display: inline-block;
-      width: 42px;
-      height: 42px;
-      margin-bottom: 12px;
-      margin-right: 12px;
-      cursor: pointer;
-
-      &:hover {
-        opacity: 0.75;
-      }
-
-      &.swatch-square {
-        border-radius: 10px;
-      }
-
-      &.swatch-circle {
-        border-radius: 50%;
       }
     }
 

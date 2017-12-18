@@ -1,6 +1,6 @@
 <template>
   <div>
-    <swatches :colors="colors" inline shapes="circles" />
+    <swatches inline :colors="colors" :shapes="shapes" :show-border="showBorder" />
   </div>
 </template>
 
@@ -15,6 +15,14 @@ export default {
     colors: {
       type: String,
       default: 'simple'
+    },
+    shapes: {
+      type: String,
+      default: 'squares'
+    },
+    showBorder: {
+      type: Boolean,
+      default: null
     }
   },
   data () {
