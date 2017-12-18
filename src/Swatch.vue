@@ -2,7 +2,7 @@
   <div
     class="swatch"
     :class="{ [swatchClass]: true, 'swatch-border': showBorder, 'swatch-selected': selected }"
-    :style="{ backgroundColor: swatchColor }"
+    :style="[swatchStyle]"
   >
     <check v-show="selected" />
   </div>
@@ -22,16 +22,31 @@ export default {
       default: false
     },
     showBorder: {
-      type: Boolean,
-      default: false
+      type: Boolean
+      // default is calculated in `Swatches.vue`
+    },
+    size: {
+      type: Number
+      // default is especified in `Swatches.vue`
     },
     swatchColor: {
       type: String,
       default: ''
     },
     swatchClass: {
-      type: String,
-      default: 'swatch-square'
+      type: String
+      // default is calculated in `Swatches.vue`
+    }
+  },
+  data () {
+    return {
+      swatchStyle: {
+        width: `${this.size}px`,
+        height: `${this.size}px`,
+        marginBottom: '12px',
+        marginRight: '12px',
+        backgroundColor: this.swatchColor
+      }
     }
   }
 }
@@ -42,10 +57,6 @@ export default {
     .swatch {
       position: relative;
       display: inline-block;
-      width: 42px;
-      height: 42px;
-      margin-bottom: 12px;
-      margin-right: 12px;
       cursor: pointer;
 
       &:hover {

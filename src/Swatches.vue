@@ -23,6 +23,7 @@
               v-for="swatch in swatchRow"
               :key="swatch"
               :selected="swatch === internalValue"
+              :size="swatchSize"
               :showBorder="swatchShowBorder"
               :swatchColor="swatch"
               :swatchClass="swatchClass"
@@ -37,6 +38,7 @@
             v-for="swatch in colorSwatches"
             :key="swatch"
             :selected="swatch === internalValue"
+            :size="swatchSize"
             :showBorder="swatchShowBorder"
             :swatchColor="swatch"
             :swatchClass="swatchClass"
@@ -74,6 +76,10 @@ export default {
       type: String,
       default: 'squares'
     },
+    size: {
+      type: Number | String,
+      default: 42
+    },
     value: {
       type: String,
       default: ''
@@ -109,6 +115,14 @@ export default {
     isOpen () {
       if (this.inline) return true
       return this.internalIsOpen
+    },
+    // Computed value for `size`
+    swatchSize () {
+      if (!isNaN(this.size)) {
+        return Number(this.size)
+      }
+      // Given size is not a number!
+      throw new Error(`${this.size} is not a Number. Size must be a Number`)
     },
     // Computed value for `showBorder`
     swatchShowBorder () {
