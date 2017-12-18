@@ -22,10 +22,11 @@
             <swatch
               v-for="swatch in swatchRow"
               :key="swatch"
+              :selected="swatch === internalValue"
               :showBorder="swatchShowBorder"
               :swatchColor="swatch"
               :swatchClass="swatchClass"
-              @click="updateSwatch(swatch)"
+              @click.native="updateSwatch(swatch)"
             />
           </div>
         </template>
@@ -35,10 +36,11 @@
           <swatch
             v-for="swatch in colorSwatches"
             :key="swatch"
+            :selected="swatch === internalValue"
             :showBorder="swatchShowBorder"
             :swatchColor="swatch"
             :swatchClass="swatchClass"
-            @click="updateSwatch(swatch)"
+            @click.native="updateSwatch(swatch)"
           />
         </template>
       </div>
@@ -80,7 +82,7 @@ export default {
   data () {
     return {
       presetShowBorder: null,
-      internalValue: this.value,
+      internalValue: this.value || null,
       internalIsOpen: false
     }
   },
@@ -136,11 +138,17 @@ export default {
       }
     }
   },
+  watch: {
+    value (newValue) {
+      this.internalValue = newValue
+    }
+  },
   methods: {
     toggleSwatches () {
       this.internalIsOpen = !this.internalIsOpen
     },
     updateSwatch (swatch) {
+      this.internalValue = swatch
       this.$emit('input', swatch)
     }
   }

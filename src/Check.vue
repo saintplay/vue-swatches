@@ -1,0 +1,46 @@
+<template>
+  <div class="check-wrapper has-children-centered">
+    <div class="check-circle has-children-centered">
+      <svg version="1.1" role="presentation" width="12" height="12" viewBox="0 0 1792 1792" class="check">
+        <path class="check-path"
+          d="M1671 566q0 40-28 68l-724 724-136 136q-28 28-68 28t-68-28l-136-136-362-362q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 295 656-657q28-28 68-28t68 28l136 136q28 28 28 68z"
+          >
+        </path>
+      </svg>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'check'
+}
+</script>
+
+<style lang="scss">
+  .vue-swatches {
+    .has-children-centered {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .check-wrapper {
+      width: 100%;
+      height: 100%;
+    }
+    .check-circle {
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+    .check {
+      color: white;
+    }
+    .check-path {
+      fill: white;
+    }
+  }
+</style>
+

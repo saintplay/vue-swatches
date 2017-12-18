@@ -4,13 +4,23 @@
     :class="{ [swatchClass]: true, 'swatch-border': showBorder }"
     :style="{ backgroundColor: swatchColor }"
   >
+    <check v-show="selected" />
   </div>
 </template>
 
 <script>
+import Check from 'src/Check'
+
 export default {
   name: 'swatch',
+  components: {
+    Check
+  },
   props: {
+    selected: {
+      type: Boolean,
+      default: false
+    },
     showBorder: {
       type: Boolean,
       default: false
@@ -30,6 +40,7 @@ export default {
 <style lang="scss">
   .vue-swatches {
     .swatch {
+      position: relative;
       display: inline-block;
       width: 42px;
       height: 42px;
@@ -42,7 +53,7 @@ export default {
       }
 
       &:hover {
-        opacity: 0.75;
+        opacity: 0.90;
       }
 
       &.swatch-square {
