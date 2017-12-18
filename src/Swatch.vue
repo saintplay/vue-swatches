@@ -1,7 +1,7 @@
 <template>
   <div
     class="swatch"
-    :class="{ [swatchClass]: true, 'swatch-border': showBorder }"
+    :class="{ [swatchClass]: true, 'swatch-border': showBorder, 'swatch-selected': selected }"
     :style="{ backgroundColor: swatchColor }"
   >
     <check v-show="selected" />
@@ -48,12 +48,16 @@ export default {
       margin-right: 12px;
       cursor: pointer;
 
+      &:hover {
+        opacity: 0.90;
+      }
+
       &.swatch-border {
         box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
       }
 
-      &:hover {
-        opacity: 0.90;
+      &.swatch-selected {
+        border: 2px solid #ccc;
       }
 
       &.swatch-square {
