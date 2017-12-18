@@ -17,6 +17,10 @@ export default {
     Check
   },
   props: {
+    borderRadius: {
+      type: String
+      // default is calculated in `Swatches.vue`
+    },
     selected: {
       type: Boolean,
       default: false
@@ -42,32 +46,19 @@ export default {
       // default is calculated in `Swatches.vue`
     }
   },
-  data () {
-    return {
-      swatchStyle: {
+  computed: {
+    swatchStyle () {
+      return {
         width: `${this.size}px`,
         height: `${this.size}px`,
         marginBottom: `${this.spacingSize}px`,
         marginRight: `${this.spacingSize}px`,
+        borderRadius: this.borderRadius,
         backgroundColor: this.swatchColor
       }
-    }
-  },
-  computed: {
+    },
     swatchStyles () {
-      const styles = [this.swatchStyle]
-
-      if (this.swatchClass === 'swatch-square') {
-        styles.push({
-          borderRadius: `${Math.round(this.size * 0.25)}px`
-        })
-      } else if (this.swatchClass === 'swatch-circle') {
-        styles.push({
-          borderRadius: '50%'
-        })
-      }
-
-      return styles
+      return [this.swatchStyle]
     }
   }
 }
@@ -90,7 +81,7 @@ export default {
       }
 
       &.swatch-selected {
-        border: 2px solid #ccc;
+        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
       }
     }
   }

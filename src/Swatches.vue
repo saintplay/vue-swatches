@@ -10,48 +10,56 @@
     </div>
 
     <transition name="swatches">
+      <!-- The container handles the padding -->
       <div
         v-show="isOpen"
-        class="swatches-wrapper"
+        class="swatches-container"
         :class="{'inline': inline}"
-        :style="swatchWrapperStyles"
       >
+        <!-- The wrapper handles the internal spacing -->
+        <div
+          class="swatches-wrapper"
+          :style="swatchWrapperStyles"
+        >
 
-        <!-- for nested distribution -->
-        <template v-if="isNested">
-          <div
-            v-for="(swatchRow, index) in colorSwatches"
-            :key="index"
-            class="swatches-row"
-          >
+          <!-- for nested distribution -->
+          <template v-if="isNested">
+            <div
+              v-for="(swatchRow, index) in swatchColors"
+              :key="index"
+              class="swatches-row"
+            >
+              <swatch
+                v-for="swatch in swatchRow"
+                :key="swatch"
+                :border-radius="swatchBorderRadius"
+                :selected="swatch === internalValue"
+                :size="swatchSize"
+                :spacing-size="swatchSpacingSize"
+                :showBorder="swatchShowBorder"
+                :swatchColor="swatch"
+                :swatchClass="swatchClass"
+                @click.native="updateSwatch(swatch)"
+              />
+            </div>
+          </template>
+
+          <!-- for normal distribution -->
+          <template v-else>
             <swatch
-              v-for="swatch in swatchRow"
+              v-for="swatch in swatchColors"
               :key="swatch"
+              :border-radius="swatchBorderRadius"
               :selected="swatch === internalValue"
               :size="swatchSize"
-              :spacing-size="spacingSize"
+              :spacing-size="swatchSpacingSize"
               :showBorder="swatchShowBorder"
               :swatchColor="swatch"
               :swatchClass="swatchClass"
               @click.native="updateSwatch(swatch)"
             />
-          </div>
-        </template>
-
-        <!-- for normal distribution -->
-        <template v-else>
-          <swatch
-            v-for="swatch in colorSwatches"
-            :key="swatch"
-            :selected="swatch === internalValue"
-            :size="swatchSize"
-            :spacing-size="spacingSize"
-            :showBorder="swatchShowBorder"
-            :swatchColor="swatch"
-            :swatchClass="swatchClass"
-            @click.native="updateSwatch(swatch)"
-          />
-        </template>
+          </template>
+        </div>
       </div>
     </transition>
   </div>
@@ -61,6 +69,7 @@
 import * as presets from 'src/presets'
 import Swatch from 'src/Swatch'
 
+const DEFAULT_BORDER_RADIUS = '10px'
 const DEFAULT_SWATCH_SIZE = 42
 const DEFAULT_SHOW_BORDER = false
 
@@ -97,28 +106,17 @@ export default {
   },
   data () {
     return {
+      presetBorderRadius: null,
       presetShowBorder: null,
       presetSize: null,
+      presetSpacingSize: null,
       internalValue: this.value || null,
       internalIsOpen: false
     }
   },
   computed: {
-    colorSwatches () {
-      switch (this.colors) {
-        case 'simple':
-          return presets.simple
-        case 'text-simple':
-          return presets.textSimple
-        case 'text-advanced':
-          this.presetSize = 24
-          return presets.textAdvanced
-        default:
-          return presets.simple
-      }
-    },
     isNested () {
-      if (this.colorSwatches && this.colorSwatches.length > 0 && this.colorSwatches[0] instanceof Array) {
+      if (this.swatchColors && this.swatchColors.length > 0 && this.swatchColors[0] instanceof Array) {
         return true
       }
       return false
@@ -127,8 +125,36 @@ export default {
       if (this.inline) return true
       return this.internalIsOpen
     },
+    borderRadius () {
+      if (this.shapes === 'squares') return `${Math.round(this.swatchSize * 0.25)}px`
+      if (this.shapes === 'circles') return `50%`
+      return DEFAULT_BORDER_RADIUS
+    },
     spacingSize () {
       return Math.round(this.swatchSize * 0.25)
+    },
+    // Computed value for `borderRadius`
+    swatchBorderRadius () {
+      // Priorize preset value
+      if (this.presetBorderRadius !== null) return this.presetBorderRadius
+      // over computed value
+      return this.borderRadius
+    },
+    // Computed value for `colors`
+    swatchColors () {
+      switch (this.colors) {
+        case 'simple':
+          return presets.simple
+        case 'text-simple':
+          return presets.textSimple
+        case 'text-advanced':
+          this.presetSize = 24
+          this.presetSpacingSize = 0
+          this.presetBorderRadius = '0'
+          return presets.textAdvanced
+        default:
+          return presets.simple
+      }
     },
     // Computed value for `size`
     swatchSize () {
@@ -144,6 +170,13 @@ export default {
       if (this.presetSize !== null) return this.presetSize
       // Use default value if these two are unset
       return DEFAULT_SWATCH_SIZE
+    },
+    // Computed value for `spacingSize`
+    swatchSpacingSize () {
+      // Priorize preset value
+      if (this.presetSpacingSize !== null) return this.presetSpacingSize
+      // over computed value
+      return this.spacingSize
     },
     // Computed value for `showBorder`
     swatchShowBorder () {
@@ -179,8 +212,8 @@ export default {
     },
     swatchWrapperStyle () {
       return {
-        paddingTop: `${this.spacingSize}px`,
-        paddingLeft: `${this.spacingSize}px`
+        paddingTop: `${this.swatchSpacingSize}px`,
+        paddingLeft: `${this.swatchSpacingSize}px`
       }
     },
     swatchWrapperStyles () {
@@ -215,13 +248,15 @@ export default {
       }
     }
 
-    .swatches-wrapper {
+    .swatches-container {
       background-color: #fff;
+      box-sizing: content-box;
 
       &:not(.inline) {
         position: absolute;
         display: block;
         max-height: 272px;
+        padding: 5px;
         overflow: auto;
         border-radius: 5px;
         box-shadow: 0 2px 3px rgba(10, 10, 10, 0.2), 0 0 0 1px rgba(10, 10, 10, 0.2);
@@ -229,6 +264,13 @@ export default {
       }
     }
 
+    .swatches-wrapper {
+      background-color: #fff;
+    }
+
+    .swatches-row {
+      font-size: 0;
+    }
   }
 
   // Transition
