@@ -1,5 +1,6 @@
 <template>
   <div>
+    <strong>Please choose a color</strong>
     <swatches v-model="color" inline />
   </div>
 </template>

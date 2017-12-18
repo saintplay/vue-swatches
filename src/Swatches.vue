@@ -17,7 +17,7 @@
           <div
             v-for="(swatchRow, index) in colorSwatches"
             :key="index"
-            class="swatchs-row"
+            class="swatches-row"
           >
             <swatch
               v-for="swatch in swatchRow"
@@ -177,6 +177,8 @@ export default {
         width: 100%;
         max-height: 240px;
         overflow: auto;
+        padding-top: 12px;
+        padding-left: 12px;
         border-radius: 5px;
         box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
         z-index: 50;
