@@ -33,10 +33,7 @@ export default {
       width: 21px;
       height: 21px;
       border-radius: 50%;
-      background-color: rgba(0, 0, 0, 0.25);
-    }
-    .check {
-      color: white;
+      background-color: rgba(0, 0, 0, 0.15);
     }
     .check-path {
       fill: white;

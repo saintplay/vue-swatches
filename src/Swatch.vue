@@ -82,6 +82,7 @@ export default {
 
       &:hover {
         opacity: 0.90;
+        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
       }
 
       &.swatch-border {
