@@ -28,8 +28,8 @@ mixin tocSubsection (name)
 
 mixin section (name)
   - toc.push({name: name, subs: []})
-  .grid__row
-    .grid__column
+  .row
+    .column
       section(id=hyphenate(name))
         h1.typo__h1=name
         hr.typo__hr
@@ -38,19 +38,19 @@ mixin section (name)
 
 mixin subsection (name)
   - toc[toc.length - 1].subs.push(name)
-  .grid__row
-    .grid__column
+  .row
+    .column
       h2.typo__h2(id='sub-' + hyphenate(name) data-section)=name
       if block
         block
 
 mixin example (path, { showJavascript } = {})
-  .example.grid__row
+  .examplerow
     if block
       block
-    .grid__column.grid__unit--md-5
+    .column.column-40
       #{hyphenate(path)}
-    .grid__column.grid__unit--md-7
+    .column.column-60
       label.typo__label Code sample
       div
         pre(v-pre).language-html
@@ -62,7 +62,7 @@ mixin example (path, { showJavascript } = {})
             code=require('!!raw-loader!vue-loader/lib/selector?type=script!examples/' + path + '.vue').replace(/^[\/\n]*/m,'')
 
 mixin preset (component)
-  .grid__column.grid__unit--md-12
+  .column
     if block
       block
 

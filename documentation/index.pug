@@ -19,31 +19,27 @@ html(lang="en")
       include ./_mixins
       include ./_hero
 
-      .grid__row.docs
-        .grid__columns.grid__unit--sm-3.small--hidden
-          include ./_nav
+      .container
+        .row
+          .column.column-30
+            include ./_nav
 
-        .grid__columns.grid__unit--sm-12.grid__unit--md-9
-          include ./_examples/_examples
+          .column.column-70
+            include ./_examples/_examples
 
-          include ./_getting-started
+            include ./_getting-started
 
-          include ./_presets/_presets
+            include ./_presets/_presets
 
-          hr.typo__hr
-          include ./_api/_props
-          include ./_api/_events
+            hr.typo__hr
+            include ./_api/_props
+            include ./_api/_events
 
       include ./_footer
 
-    script(src=require('!!url-loader!assets/prism.js'))
-    script(src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js")
     script.
-      /*eslint-disable */
-      Prism.languages.pug = Prism.languages.jade
-
       WebFontConfig = {
-        google: { families: [ 'Lato:700,300', 'Dosis:400' ] }
+        google: { families: [ 'Open Sans:400', 'Quicksand:400,500' ] }
       }
       ;(function() {
         var wf = document.createElement('script')

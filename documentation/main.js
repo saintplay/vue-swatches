@@ -3,7 +3,14 @@ import * as examples from './_examples'
 import PresetExample from './_presets/PresetExample'
 import Swatches from 'vue-swatches'
 
+import 'prismjs'
+import 'prismjs/themes/prism.css'
+import 'normalize.css'
+import 'milligram'
+
 import './docs.scss'
+
+let sections = null
 
 function calculateNavPositions () {
   sections = Array
@@ -16,9 +23,6 @@ function calculateNavPositions () {
     })
 }
 
-const SL = ', 100%, 85%'
-let sections
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -29,17 +33,7 @@ new Vue({
   },
   data () {
     return {
-      isNavSticky: false,
-      firstColor: Math.floor(Math.random() * 255),
-      secondColor: Math.floor(Math.random() * 255),
       currentPosition: ''
-    }
-  },
-  computed: {
-    gradient () {
-      return {
-        background: `linear-gradient(to left bottom, hsl(${this.firstColor + SL}) 0%, hsl(${this.secondColor + SL}) 100%)`
-      }
     }
   },
   methods: {
@@ -52,10 +46,6 @@ new Vue({
           break
         }
       }
-    },
-    onTagging (newTag) {
-      this.source.push({ name: newTag, language: newTag })
-      this.value.push({ name: newTag, language: newTag })
     }
   },
   mounted () {

@@ -1,11 +1,11 @@
-.grid__row
-  .grid__column
+.row
+  .column
     section#sub-getting-started(data-section)
       h1.typo__h1 Getting started
       hr.typo__hr
 
-      .grid__row
-        .grid__column
+      .row
+        .column
           h2.typo__h2 Installation
 
           h3.typo__h3 via npm
@@ -21,9 +21,10 @@
           h3.typo__h3 via CDN
           pre.language-html
             code
-              | &lt;script src="https://unpkg.com/vue-swatches">&lt;/script>
-
-        .grid__column
+              :escape-html
+                <script src="https://unpkg.com/vue-swatches"></script>
+      .row
+        .column
           h2.typo__h2 Basic usage
           pre.language-html
             code
