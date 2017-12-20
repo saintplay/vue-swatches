@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Check from 'src/Check'
+import Check from './Check'
 
 export default {
   name: 'swatch',

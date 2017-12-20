@@ -4,11 +4,21 @@
 }
 
 @function to-rem($size, $base-size: $global-font-size) {
-  $rem-size: ($size / $base-size) * 1rem;
+  $rem-size: (no-unit($size) / no-unit($base-size)) * 1rem;
 
   @if ($rem-size == 0rem) {
     @return 0;
   }
 
   @return $rem-size;
+}
+
+@function to-rem-all($sizes-list) {
+  $list-length: length($sizes-list);
+  $rem-sizes-list: ();
+
+  @for $i from 1 through $list-length {
+    $rem-sizes-list: append($rem-sizes-list, to-rem(nth($sizes-list, $i)));
+  }
+  @return $rem-sizes-list;
 }

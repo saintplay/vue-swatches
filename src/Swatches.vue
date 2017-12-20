@@ -66,8 +66,8 @@
 </template>
 
 <script>
-import * as presets from 'src/presets'
-import Swatch from 'src/Swatch'
+import * as presets from './presets'
+import Swatch from './Swatch'
 
 const DEFAULT_BORDER_RADIUS = '10px'
 const DEFAULT_SWATCH_SIZE = 42
