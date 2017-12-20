@@ -1,0 +1,14 @@
+@function no-unit($value) {
+  $no-unit-value: $value / (($value * 0) + 1);
+  @return $no-unit-value;
+}
+
+@function to-rem($size, $base-size: $global-font-size) {
+  $rem-size: ($size / $base-size) * 1rem;
+
+  @if ($rem-size == 0rem) {
+    @return 0;
+  }
+
+  @return $rem-size;
+}

@@ -1,0 +1,18 @@
+$header-line-height: 1.2;
+$header-color: $secondary-color;
+
+body {
+  color: $global-font-color;
+  font-size: $global-font-size;
+}
+
+.typo__h1,
+.typo__h2,
+.typo__h3,
+.typo__h4,
+.typo__h5 {
+  margin-top: 0;
+  margin-bottom: to-rem($global-font-size);
+  line-height: $header-line-height;
+  color: $header-color;
+}
