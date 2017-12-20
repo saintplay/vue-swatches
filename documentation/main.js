@@ -6,7 +6,6 @@ import Swatches from 'vue-swatches'
 import 'prismjs'
 import 'prismjs/themes/prism.css'
 import 'normalize.css'
-import 'milligram'
 
 import './docs.scss'
 

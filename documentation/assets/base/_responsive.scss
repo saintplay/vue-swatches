@@ -1,0 +1,6 @@
+$small: 640px;
+$tablet: 1280px;
+$desktop: 1440px;
+$retina: 1920px;
+
+$small-only: "screen and (max-width: #{$small})";

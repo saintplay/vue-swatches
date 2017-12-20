@@ -19,21 +19,20 @@ html(lang="en")
       include ./_mixins
       include ./_hero
 
-      .container
-        .row
-          .column.column-30
-            include ./_nav
+      .grid__row
+        .grid__column.small--hidden
+          include ./_nav
 
-          .column.column-70
-            include ./_examples/_examples
+        .grid__column
+          include ./_examples/_examples
 
-            include ./_getting-started
+          include ./_getting-started
 
-            include ./_presets/_presets
+          include ./_presets/_presets
 
-            hr.typo__hr
-            include ./_api/_props
-            include ./_api/_events
+          hr.typo__hr
+          include ./_api/_props
+          include ./_api/_events
 
       include ./_footer
 

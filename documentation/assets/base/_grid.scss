@@ -1,0 +1,39 @@
+$grid_columns: $global-grid-columns;
+$grid-gutter-width: $global-gutter;
+$grid-max-width: $global-page-width;
+
+html, body {
+  font-size: 100%;
+  height: 100%;
+}
+
+html {
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit
+}
+
+.grid__row {
+  display: block;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: left;
+  font-size: 0;
+  max-width: $grid-max-width;
+}
+
+.grid__column {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 ($grid-gutter-width / 2);
+  text-align: left;
+  vertical-align: top;
+  font-size: 1rem;
+}
