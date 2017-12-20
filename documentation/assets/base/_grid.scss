@@ -1,6 +1,14 @@
-$grid_columns: $global-grid-columns;
+$grid-columns: $global-grid-columns;
 $grid-gutter-width: $global-gutter;
 $grid-max-width: $global-page-width;
+
+@mixin generate-grid-column-sizes() {
+  @for $i from 1 through $grid-columns {
+    .column--is-#{$i} {
+      width: percentage($i / $grid-columns);
+    }
+  }
+}
 
 html, body {
   font-size: 100%;
@@ -12,11 +20,13 @@ html {
   box-sizing: border-box;
 }
 
-*, *::before, *::after {
+*, *:before, *:after {
   box-sizing: inherit
 }
 
 .grid__row {
+  @include clearfix;
+
   display: block;
   margin: 0 auto;
   padding: 0;
@@ -36,4 +46,10 @@ html {
   text-align: left;
   vertical-align: top;
   font-size: 1rem;
+
+  .grid__row {
+    margin: 0 -($grid-gutter-width / 2);
+  }
 }
+
+@include generate-grid-column-sizes();

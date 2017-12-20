@@ -17,13 +17,13 @@ html(lang="en")
   body
     #app
       include ./_mixins
-      include ./_hero
+      //include ./_hero
 
       .grid__row
         .grid__column.small--hidden
           include ./_nav
 
-        .grid__column
+        .grid__column.column--is-12
           include ./_examples/_examples
 
           include ./_getting-started
@@ -34,7 +34,7 @@ html(lang="en")
           include ./_api/_props
           include ./_api/_events
 
-      include ./_footer
+      //include ./_footer
 
     script.
       WebFontConfig = {

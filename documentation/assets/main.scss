@@ -1,6 +1,8 @@
 @import 'base/global';
+@import 'base/mixins';
 @import 'base/responsive';
 @import 'base/grid';
 
+@import 'components/table';
 
-@import 'utils/utils'
+@import 'utils/utils';
