@@ -50,10 +50,10 @@ mixin example (path, { showJavascript } = {})
     if block
       block
 
-    .grid__column
+    div
       #{hyphenate(path)}
 
-    .grid__column
+    div.is-cleared
       div
         pre(v-pre).language-html
           code=require('!!raw-loader!vue-loader/lib/selector?type=template!examples/' + path + '.vue')
@@ -64,7 +64,7 @@ mixin example (path, { showJavascript } = {})
             code=require('!!raw-loader!vue-loader/lib/selector?type=script!examples/' + path + '.vue').replace(/^[\/\n]*/m,'')
 
 mixin preset (component)
-  .grid__column
+  div
     if block
       block
 

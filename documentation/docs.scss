@@ -5,3 +5,20 @@ body {
   font-family: 'Open Sans', Helvetica, sans-serif;
   text-decoration: none;
 }
+
+.form__field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: {
+    top: 24px;
+    bottom: 24px;
+  };
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+}
+
+  .form__label strong {
+    font-family: $global-font-secondary;
+    font-size: 1.2rem;
+  }

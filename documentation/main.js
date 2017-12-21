@@ -4,6 +4,8 @@ import PresetExample from './_presets/PresetExample'
 import Swatches from 'vue-swatches'
 
 import 'prismjs'
+import 'prismjs/plugins/remove-initial-line-feed/prism-remove-initial-line-feed.min'
+
 import 'prismjs/themes/prism.css'
 import 'normalize.css'
 

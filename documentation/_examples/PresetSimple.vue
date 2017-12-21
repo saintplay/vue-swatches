@@ -1,8 +1,12 @@
 <template>
-<div>
-  <strong>Color:</strong>
-  <swatches v-model="color" colors="text-advanced" />
-</div>
+  <div class="form__field">
+    <div class="form__label">
+      <strong>Please choose a color:</strong>
+    </div>
+    <div class="form__input">
+      <swatches v-model="color" colors="text-advanced" />
+    </div>
+  </div>
 </template>
 
 <script>

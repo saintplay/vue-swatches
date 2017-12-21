@@ -4,7 +4,7 @@ $grid-max-width: $global-page-width;
 
 @mixin generate-grid-column-sizes() {
   @for $i from 1 through $grid-columns {
-    .column--is-#{$i} {
+    .column--#{$i} {
       width: percentage($i / $grid-columns);
     }
   }
