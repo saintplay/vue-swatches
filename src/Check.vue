@@ -20,12 +20,12 @@ export default {
 <style lang="scss">
   .vue-swatches {
     .has-children-centered {
-      position: absolute;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .check-wrapper {
+      position: absolute;
       width: 100%;
       height: 100%;
     }

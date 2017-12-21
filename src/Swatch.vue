@@ -69,6 +69,7 @@ export default {
     .swatch {
       position: relative;
       display: inline-block;
+      font-size: 0;
       cursor: pointer;
 
       &:hover {

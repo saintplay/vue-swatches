@@ -213,6 +213,8 @@ export default {
       return [this.triggerStyle]
     },
     swatchWrapperStyle () {
+      if (this.inline) return {}
+
       return {
         paddingTop: `${this.swatchSpacingSize}px`,
         paddingLeft: `${this.swatchSpacingSize}px`
@@ -253,12 +255,12 @@ export default {
     .swatches-container {
       background-color: #fff;
       box-sizing: content-box;
+      padding: 5px;
 
       &:not(.inline) {
         position: absolute;
         display: block;
         max-height: 272px;
-        padding: 5px;
         overflow: auto;
         border-radius: 5px;
         box-shadow: 0 2px 3px rgba(10, 10, 10, 0.2), 0 0 0 1px rgba(10, 10, 10, 0.2);
