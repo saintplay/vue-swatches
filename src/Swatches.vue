@@ -1,11 +1,11 @@
 <template>
-  <div class="vue-swatches">
+  <div class="vue-swatches" @blur="hidePopup">
     <div v-if="!inline">
       <div
         class="trigger"
         :class="{'is-empty': !value}"
         :style="triggerStyles"
-        @click="toggleSwatches"
+        @click="togglePopup"
       ></div>
     </div>
 
@@ -61,6 +61,12 @@
             />
           </template>
         </div>
+        <input
+          ref="fallbackInput"
+          v-model="internalValue"
+          type="hidden"
+          style="width: 0"
+        >
       </div>
     </transition>
   </div>
@@ -111,7 +117,7 @@ export default {
     },
     value: {
       type: String,
-      default: ''
+      default: null
     }
   },
   data () {
@@ -121,7 +127,7 @@ export default {
       presetShowBorder: null,
       presetSize: null,
       presetSpacingSize: null,
-      internalValue: this.value || null,
+      internalValue: this.value,
       internalIsOpen: false
     }
   },
@@ -182,7 +188,7 @@ export default {
           return Number(this.size)
         }
         // Given size is not a number!
-        throw new Error(`${this.size} is not a Number in size prop. Size must be a Number`)
+        throw new Error(`[vue-swatches] ${this.size} is not a Number in size prop. Size must be a Number`)
       }
       // over preset value
       if (this.presetSize !== null) return this.presetSize
@@ -253,7 +259,7 @@ export default {
       } else if (this.popoverTo === 'left') {
         positionStyle = { right: 0 }
       } else {
-        throw new Error(`${this.popoverTo} is not valid in popover-to prop. Please use 'left' or 'right'`)
+        throw new Error(`[vue-swatches] ${this.popoverTo} is not valid in popover-to prop. Please use 'left' or 'right'`)
       }
 
       return {
@@ -282,8 +288,17 @@ export default {
     }
   },
   methods: {
-    toggleSwatches () {
-      this.internalIsOpen = !this.internalIsOpen
+    hidePopup () {
+      this.internalIsOpen = false
+      this.$el.blur()
+      this.$emit('close', this.internalValue)
+    },
+    showPopup () {
+      this.internalIsOpen = true
+      this.$el.focus()
+    },
+    togglePopup () {
+      this.internalIsOpen ? this.hidePopup() : this.showPopup()
     },
     updateSwatch (swatch) {
       this.internalValue = swatch
@@ -331,7 +346,7 @@ export default {
     }
   }
 
-  // Transition
+  // Transitions
   .swatches-enter-active, .swatches-leave-active {
     transition: all 0.3s ease;
   }
