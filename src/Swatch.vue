@@ -3,6 +3,7 @@
     class="swatch"
     :class="{ 'swatch-border': showBorder, 'swatch-selected': selected }"
     :style="swatchStyles"
+    tabindex="1"
   >
     <check v-show="selected" />
   </div>
