@@ -15,11 +15,12 @@
         v-show="isOpen"
         class="swatches-container"
         :class="{'inline': inline}"
+        :style="containersStyles"
       >
         <!-- The wrapper handles the internal spacing -->
         <div
           class="swatches-wrapper"
-          :style="swatchWrapperStyles"
+          :style="wrapperStyles"
         >
 
           <!-- for nested distribution -->
@@ -70,6 +71,7 @@ import * as presets from './presets'
 import Swatch from './Swatch'
 
 const DEFAULT_BORDER_RADIUS = '10px'
+const DEFAULT_ROW_LENGTH = 5
 const DEFAULT_SWATCH_SIZE = 42
 const DEFAULT_SHOW_BORDER = false
 
@@ -79,10 +81,6 @@ export default {
     Swatch
   },
   props: {
-    showBorder: {
-      type: Boolean,
-      default: null
-    },
     colors: {
       type: Array | String,
       default: 'simple'
@@ -94,6 +92,18 @@ export default {
     shapes: {
       type: String,
       default: 'squares'
+    },
+    popoverTo: {
+      type: String,
+      default: 'left'
+    },
+    rowLength: {
+      type: Number,
+      default: null
+    },
+    showBorder: {
+      type: Boolean,
+      default: null
     },
     size: {
       type: Number | String,
@@ -107,6 +117,7 @@ export default {
   data () {
     return {
       presetBorderRadius: null,
+      presetRowLength: null,
       presetShowBorder: null,
       presetSize: null,
       presetSpacingSize: null,
@@ -125,22 +136,10 @@ export default {
       if (this.inline) return true
       return this.internalIsOpen
     },
-    borderRadius () {
-      if (this.shapes === 'squares') return `${Math.round(this.swatchSize * 0.25)}px`
-      if (this.shapes === 'circles') return `50%`
-      return DEFAULT_BORDER_RADIUS
-    },
-    spacingSize () {
-      return Math.round(this.swatchSize * 0.25)
-    },
-    // Computed value for `borderRadius`
-    swatchBorderRadius () {
-      // Priorize preset value
-      if (this.presetBorderRadius !== null) return this.presetBorderRadius
-      // over computed value
-      return this.borderRadius
-    },
-    // Computed value for `colors`
+
+    /** REAL COMPUTEDS (depends on user's props and preset's values, these have 'swatch' prefix) **/
+
+    // Computed value for `colors`, In these computed preset values will be defined
     swatchColors () {
       if (this.colors instanceof Array) return this.colors
 
@@ -150,13 +149,30 @@ export default {
         case 'text-simple':
           return presets.textSimple
         case 'text-advanced':
+          this.presetBorderRadius = '0'
+          this.presetRowLength = 10
           this.presetSize = 24
           this.presetSpacingSize = 0
-          this.presetBorderRadius = '0'
           return presets.textAdvanced
         default:
           return presets.simple
       }
+    },
+    // Computed value for `borderRadius`
+    swatchBorderRadius () {
+      // Priorize preset value
+      if (this.presetBorderRadius !== null) return this.presetBorderRadius
+      // over computed value
+      return this.borderRadius
+    },
+    // Computed value for `rowLength`
+    swatchRowLength () {
+      // Priorize user value
+      if (this.rowLength !== null) return this.rowLength
+      // Over preset value
+      if (this.presetRowLength !== null) return this.presetRowLength
+      // Use default value if these two are unset!
+      return DEFAULT_ROW_LENGTH
     },
     // Computed value for `size`
     swatchSize () {
@@ -166,7 +182,7 @@ export default {
           return Number(this.size)
         }
         // Given size is not a number!
-        throw new Error(`${this.size} is not a Number. Size must be a Number`)
+        throw new Error(`${this.size} is not a Number in size prop. Size must be a Number`)
       }
       // over preset value
       if (this.presetSize !== null) return this.presetSize
@@ -200,7 +216,23 @@ export default {
           return 'swatch-square'
       }
     },
-    // Styles
+
+    /** DUMB COMPUTEDS (these use others computed) **/
+
+    borderRadius () {
+      if (this.shapes === 'squares') return `${Math.round(this.swatchSize * 0.25)}px`
+      if (this.shapes === 'circles') return `50%`
+      return DEFAULT_BORDER_RADIUS
+    },
+    spacingSize () {
+      return Math.round(this.swatchSize * 0.25)
+    },
+    wrapperWidth () {
+      return this.swatchRowLength * (this.swatchSize + this.swatchSpacingSize)
+    },
+
+    /** COMPUTED STYLES **/
+
     triggerStyle () {
       return {
         width: '42px',
@@ -212,16 +244,36 @@ export default {
     triggerStyles () {
       return [this.triggerStyle]
     },
-    swatchWrapperStyle () {
+    containerStyle () {
+      if (this.inline) return {}
+
+      let positionStyle = {}
+      if (this.popoverTo === 'right') {
+        positionStyle = { right: 0 }
+      } else if (this.popoverTo === 'left') {
+        positionStyle = { left: 0 }
+      } else {
+        throw new Error(`${this.popoverTo} is not valid in popover-to prop. Please use 'left' or 'right'`)
+      }
+
+      return {
+        ...positionStyle
+      }
+    },
+    containersStyles () {
+      return [this.containerStyle]
+    },
+    wrapperStyle () {
       if (this.inline) return {}
 
       return {
+        width: `${this.wrapperWidth}px`,
         paddingTop: `${this.swatchSpacingSize}px`,
         paddingLeft: `${this.swatchSpacingSize}px`
       }
     },
-    swatchWrapperStyles () {
-      return [this.swatchWrapperStyle]
+    wrapperStyles () {
+      return [this.wrapperStyle]
     }
   },
   watch: {
@@ -243,6 +295,8 @@ export default {
 
 <style lang="scss">
   .vue-swatches {
+    position: relative;
+
     .trigger {
       display: inline-block;
       cursor: pointer;

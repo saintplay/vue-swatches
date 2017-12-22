@@ -4,7 +4,7 @@
       <strong>Please choose a color:</strong>
     </div>
     <div class="form__input">
-      <swatches v-model="color" :colors="colors" />
+      <swatches v-model="color" :colors="colors" popover-to="right" />
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
   data () {
     return {
       color: '#F64272',
-      colors: ['#F64272', '#F6648B', '#F493A7', '#F891A6', '#FFCCD5', '#FFFFFF' ]
+      colors: ['#F64272', '#F6648B', '#F493A7', '#F891A6', '#FFCCD5' ]
     }
   }
 }
