@@ -1,12 +1,15 @@
 <template>
   <div class="vue-swatches" @blur="hidePopup">
-    <div v-if="!inline">
-      <div
-        class="trigger"
-        :class="{'is-empty': !value}"
-        :style="triggerStyles"
-        @click="togglePopup"
-      ></div>
+    <div v-if="!inline" @click="togglePopup">
+      <slot
+        name="trigger"
+      >
+        <div
+          class="trigger"
+          :class="{'is-empty': !value}"
+          :style="triggerStyles"
+        ></div>
+      </slot>
     </div>
 
     <transition name="swatches">
@@ -101,7 +104,7 @@ export default {
     },
     popoverTo: {
       type: String,
-      default: 'left'
+      default: 'right'
     },
     rowLength: {
       type: Number,
