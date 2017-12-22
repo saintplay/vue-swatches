@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-swatches" @blur="hidePopup">
+  <div class="vue-swatches" @blur.self="e => onBlur(e.relatedTarget)" tabindex="0">
     <div v-if="!inline" @click="togglePopup">
       <slot
         name="trigger"
@@ -291,12 +291,27 @@ export default {
     }
   },
   methods: {
+    // Called programmatically
     hidePopup () {
       this.internalIsOpen = false
       this.$el.blur()
       this.$emit('close', this.internalValue)
     },
+    // Called by user action
+    onBlur (relatedTarget) {
+      if (!this.internalIsOpen) return /* dont hide */
+
+      // We only close the Popup if the relatedTarget came from outside the component
+      // Check if the relatedTarget is inside the component
+      if (relatedTarget !== null && this.$el.contains(relatedTarget)) return /* dont hide */
+
+      this.internalIsOpen = false
+      this.$emit('close', this.internalValue)
+    },
+    // Called programmatically
     showPopup () {
+      if (this.internalIsOpen) return /* dont show */
+
       this.internalIsOpen = true
       this.$el.focus()
     },
@@ -314,6 +329,7 @@ export default {
 <style lang="scss">
   .vue-swatches {
     position: relative;
+    outline: none;
 
     .trigger {
       display: inline-block;
