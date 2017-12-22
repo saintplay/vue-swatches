@@ -249,9 +249,9 @@ export default {
 
       let positionStyle = {}
       if (this.popoverTo === 'right') {
-        positionStyle = { right: 0 }
-      } else if (this.popoverTo === 'left') {
         positionStyle = { left: 0 }
+      } else if (this.popoverTo === 'left') {
+        positionStyle = { right: 0 }
       } else {
         throw new Error(`${this.popoverTo} is not valid in popover-to prop. Please use 'left' or 'right'`)
       }
