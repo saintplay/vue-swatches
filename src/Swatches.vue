@@ -37,6 +37,8 @@
                 v-for="swatch in swatchRow"
                 :key="swatch"
                 :border-radius="swatchBorderRadius"
+                :exception-mode="swatchExceptionMode"
+                :is-exception="checkException(swatch)"
                 :selected="swatch === internalValue"
                 :size="swatchSize"
                 :spacing-size="swatchSpacingSize"
@@ -54,6 +56,8 @@
               v-for="swatch in swatchColors"
               :key="swatch"
               :border-radius="swatchBorderRadius"
+              :exception-mode="swatchExceptionMode"
+              :is-exception="checkException(swatch)"
               :selected="swatch === internalValue"
               :size="swatchSize"
               :spacing-size="swatchSpacingSize"
@@ -93,6 +97,14 @@ export default {
     colors: {
       type: Array | String,
       default: 'simple'
+    },
+    exceptions: {
+      type: Array,
+      default: () => []
+    },
+    exceptionMode: {
+      type: String,
+      default: 'disabled'
     },
     inline: {
       type: Boolean,
@@ -173,6 +185,12 @@ export default {
       if (this.presetBorderRadius !== null) return this.presetBorderRadius
       // over computed value
       return this.borderRadius
+    },
+    // Computed value for `exceptionMode`
+    swatchExceptionMode () {
+      if (this.exceptionMode === 'hidden') return this.exceptionMode
+      if (this.exceptionMode === 'disabled') return this.exceptionMode
+      throw new Error(`[vue-swatches] ${this.exceptionMode} is not a valid value for 'exception-mode'. Please use 'hidden' or 'disabled'`)
     },
     // Computed value for `rowLength`
     swatchRowLength () {
@@ -262,7 +280,7 @@ export default {
       } else if (this.popoverTo === 'left') {
         positionStyle = { right: 0 }
       } else {
-        throw new Error(`[vue-swatches] ${this.popoverTo} is not valid in popover-to prop. Please use 'left' or 'right'`)
+        throw new Error(`[vue-swatches] ${this.popoverTo} is not a valid value for 'popover-to'. Please use 'left' or 'right'`)
       }
 
       return {
@@ -292,6 +310,15 @@ export default {
   },
   methods: {
     // Called programmatically
+    checkException (swatch) {
+      if (this.isNested) {
+        this.exceptions.forEach(swatchRow => {
+          if (swatchRow.includes(swatch)) return true
+        })
+        return false
+      }
+      return this.exceptions.includes(swatch)
+    },
     hidePopup () {
       this.internalIsOpen = false
       this.$el.blur()
@@ -319,6 +346,8 @@ export default {
       this.internalIsOpen ? this.hidePopup() : this.showPopup()
     },
     updateSwatch (swatch) {
+      if (this.checkException(swatch)) return
+
       this.internalValue = swatch
       this.$emit('input', swatch)
     }

@@ -3,7 +3,6 @@
     class="swatch"
     :class="{ 'swatch-border': showBorder, 'swatch-selected': selected }"
     :style="swatchStyles"
-    tabindex="1"
   >
     <check v-show="selected" />
   </div>
@@ -21,6 +20,14 @@ export default {
     borderRadius: {
       type: String
       // default is calculated in `Swatches.vue`
+    },
+    exceptionMode: {
+      type: String
+      // default is especified in `Swatches.vue`
+    },
+    isException: {
+      tyoe: Boolean,
+      default: false
     },
     selected: {
       type: Boolean,
@@ -50,12 +57,14 @@ export default {
   computed: {
     swatchStyle () {
       return {
+        display: (this.isException && this.exceptionMode === 'hidden') ? 'none' : 'inline-block',
         width: `${this.size}px`,
         height: `${this.size}px`,
         marginBottom: `${this.spacingSize}px`,
         marginRight: `${this.spacingSize}px`,
         borderRadius: this.borderRadius,
-        backgroundColor: this.swatchColor
+        backgroundColor: this.swatchColor,
+        cursor: (this.isException && this.exceptionMode === 'disabled') ? 'not-allowed' : 'pointer'
       }
     },
     swatchStyles () {
@@ -69,9 +78,7 @@ export default {
   .vue-swatches {
     .swatch {
       position: relative;
-      display: inline-block;
       font-size: 0;
-      cursor: pointer;
 
       &:hover, &:focus {
         opacity: 0.90;
