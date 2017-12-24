@@ -99,6 +99,10 @@ export default {
       type: String,
       default: '#ffffff'
     },
+    closeOnSelect: {
+      type: Boolean,
+      default: true
+    },
     colors: {
       type: Array | String,
       default: 'simple'
@@ -135,6 +139,10 @@ export default {
       type: Boolean,
       default: null
     },
+    showCheckbox: {
+      type: Boolean,
+      default: true
+    },
     swatchSize: {
       type: Number | String,
       default: null
@@ -170,7 +178,7 @@ export default {
 
     /** REAL COMPUTEDS (depends on user's props and preset's values, these have 'computed' prefix) **/
 
-    // Computed value for `colors`, In these computed preset values will be defined
+    // Computed value for `colors`
     computedColors () {
       if (this.colors instanceof Array) return this.colors
 
@@ -370,6 +378,10 @@ export default {
 
       this.internalValue = swatch
       this.$emit('input', swatch)
+
+      if (this.closeOnSelect && !this.inline) {
+        this.hidePopup()
+      }
     },
     extractSwatchesFromPreset (presetName) {
       const preset = presets[presetName]
