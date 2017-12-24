@@ -29,22 +29,22 @@
           <!-- for nested distribution -->
           <template v-if="isNested">
             <div
-              v-for="(swatchRow, index) in swatchColors"
+              v-for="(swatchRow, index) in computedColors"
               :key="index"
               class="swatches-row"
             >
               <swatch
                 v-for="swatch in swatchRow"
                 :key="swatch"
-                :border-radius="swatchBorderRadius"
-                :exception-mode="swatchExceptionMode"
+                :border-radius="computedBorderRadius"
+                :exception-mode="computedExceptionMode"
                 :is-exception="checkException(swatch)"
                 :selected="swatch === internalValue"
-                :size="swatchSize"
-                :spacing-size="swatchSpacingSize"
-                :showBorder="swatchShowBorder"
+                :size="computedSwatchSize"
+                :spacing-size="computedSpacingSize"
+                :showBorder="computedShowBorder"
                 :swatchColor="swatch"
-                :swatchClass="swatchClass"
+                :computedClass="computedClass"
                 @click.native="updateSwatch(swatch)"
               />
             </div>
@@ -53,17 +53,17 @@
           <!-- for normal distribution -->
           <template v-else>
             <swatch
-              v-for="swatch in swatchColors"
+              v-for="swatch in computedColors"
               :key="swatch"
-              :border-radius="swatchBorderRadius"
-              :exception-mode="swatchExceptionMode"
+              :border-radius="computedBorderRadius"
+              :exception-mode="computedExceptionMode"
               :is-exception="checkException(swatch)"
               :selected="swatch === internalValue"
-              :size="swatchSize"
-              :spacing-size="swatchSpacingSize"
-              :showBorder="swatchShowBorder"
+              :size="computedSwatchSize"
+              :spacing-size="computedSpacingSize"
+              :showBorder="computedShowBorder"
               :swatchColor="swatch"
-              :swatchClass="swatchClass"
+              :computedClass="computedClass"
               @click.native="updateSwatch(swatch)"
             />
           </template>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import * as presets from './presets'
+import presets from './presets'
 import Swatch from './Swatch'
 
 const DEFAULT_BORDER_RADIUS = '10px'
@@ -119,14 +119,14 @@ export default {
       default: 'right'
     },
     rowLength: {
-      type: Number,
+      type: Number | String,
       default: null
     },
     showBorder: {
       type: Boolean,
       default: null
     },
-    size: {
+    swatchSize: {
       type: Number | String,
       default: null
     },
@@ -140,7 +140,7 @@ export default {
       presetBorderRadius: null,
       presetRowLength: null,
       presetShowBorder: null,
-      presetSize: null,
+      presetSwatchSize: null,
       presetSpacingSize: null,
       internalValue: this.value,
       internalIsOpen: false
@@ -148,7 +148,7 @@ export default {
   },
   computed: {
     isNested () {
-      if (this.swatchColors && this.swatchColors.length > 0 && this.swatchColors[0] instanceof Array) {
+      if (this.computedColors && this.computedColors.length > 0 && this.computedColors[0] instanceof Array) {
         return true
       }
       return false
@@ -158,73 +158,66 @@ export default {
       return this.internalIsOpen
     },
 
-    /** REAL COMPUTEDS (depends on user's props and preset's values, these have 'swatch' prefix) **/
+    /** REAL COMPUTEDS (depends on user's props and preset's values, these have 'computed' prefix) **/
 
     // Computed value for `colors`, In these computed preset values will be defined
-    swatchColors () {
+    computedColors () {
       if (this.colors instanceof Array) return this.colors
 
-      switch (this.colors) {
-        case 'simple':
-          return presets.simple
-        case 'text-simple':
-          return presets.textSimple
-        case 'text-advanced':
-          this.presetBorderRadius = '0'
-          this.presetRowLength = 10
-          this.presetSize = 24
-          this.presetSpacingSize = 0
-          return presets.textAdvanced
-        default:
-          return presets.simple
-      }
+      return this.extractSwatchesFromPreset(this.colors)
     },
     // Computed value for `borderRadius`
-    swatchBorderRadius () {
+    computedBorderRadius () {
       // Priorize preset value
       if (this.presetBorderRadius !== null) return this.presetBorderRadius
       // over computed value
       return this.borderRadius
     },
     // Computed value for `exceptionMode`
-    swatchExceptionMode () {
+    computedExceptionMode () {
       if (this.exceptionMode === 'hidden') return this.exceptionMode
       if (this.exceptionMode === 'disabled') return this.exceptionMode
       throw new Error(`[vue-swatches] ${this.exceptionMode} is not a valid value for 'exception-mode'. Please use 'hidden' or 'disabled'`)
     },
     // Computed value for `rowLength`
-    swatchRowLength () {
+    computedRowLength () {
       // Priorize user value
-      if (this.rowLength !== null) return this.rowLength
+      if (this.rowLength !== null) {
+        if (!isNaN(this.rowLength)) {
+          return Number(this.rowLength)
+        }
+        // Given rowLength is not a number!
+        throw new Error(`[vue-swatches] ${this.rowLength} is not a Number value for 'rowLength'. row-length prop must be a Number`)
+      }
       // Over preset value
       if (this.presetRowLength !== null) return this.presetRowLength
       // Use default value if these two are unset!
       return DEFAULT_ROW_LENGTH
     },
-    // Computed value for `size`
-    swatchSize () {
+    // Computed value for `swatchSize`
+    computedSwatchSize () {
       // Priorize user value
-      if (this.size !== null) {
-        if (!isNaN(this.size)) {
-          return Number(this.size)
+      if (this.swatchSize !== null) {
+        if (!isNaN(this.swatchSize)) {
+          return Number(this.swatchSize)
         }
-        // Given size is not a number!
-        throw new Error(`[vue-swatches] ${this.size} is not a Number in size prop. Size must be a Number`)
+        // Given swatchSize is not a number!
+        throw new Error(`[vue-swatches] ${this.swatchSize} is not a Number value for 'swatchSize'. swatch-size prop must be a Number`)
       }
       // over preset value
-      if (this.presetSize !== null) return this.presetSize
+      if (this.presetSwatchSize !== null) return this.presetSwatchSize
       // Use default value if these two are unset
       return DEFAULT_SWATCH_SIZE
     },
     // Computed value for `spacingSize`
-    swatchSpacingSize () {
+    computedSpacingSize () {
       // Priorize preset value
       if (this.presetSpacingSize !== null) return this.presetSpacingSize
       // over computed value
       return this.spacingSize
     },
     // Computed value for `showBorder`
-    swatchShowBorder () {
+    computedShowBorder () {
       // Priorize user value
       if (this.showBorder !== null) return this.showBorder
       // over preset value
@@ -233,7 +226,7 @@ export default {
       return DEFAULT_SHOW_BORDER
     },
     // Computed value for `shapes`
-    swatchClass () {
+    computedClass () {
       switch (this.shapes) {
         case 'squares':
           return 'swatch-square'
@@ -247,15 +240,15 @@ export default {
     /** DUMB COMPUTEDS (these use others computed) **/
 
     borderRadius () {
-      if (this.shapes === 'squares') return `${Math.round(this.swatchSize * 0.25)}px`
+      if (this.shapes === 'squares') return `${Math.round(this.computedSwatchSize * 0.25)}px`
       if (this.shapes === 'circles') return `50%`
       return DEFAULT_BORDER_RADIUS
     },
     spacingSize () {
-      return Math.round(this.swatchSize * 0.25)
+      return Math.round(this.computedSwatchSize * 0.25)
     },
     wrapperWidth () {
-      return this.swatchRowLength * (this.swatchSize + this.swatchSpacingSize)
+      return this.computedRowLength * (this.computedSwatchSize + this.computedSpacingSize)
     },
 
     /** COMPUTED STYLES **/
@@ -295,8 +288,8 @@ export default {
 
       return {
         width: `${this.wrapperWidth}px`,
-        paddingTop: `${this.swatchSpacingSize}px`,
-        paddingLeft: `${this.swatchSpacingSize}px`
+        paddingTop: `${this.computedSpacingSize}px`,
+        paddingLeft: `${this.computedSpacingSize}px`
       }
     },
     wrapperStyles () {
@@ -350,6 +343,22 @@ export default {
 
       this.internalValue = swatch
       this.$emit('input', swatch)
+    },
+    extractSwatchesFromPreset (presetName) {
+      const preset = presets[presetName]
+
+      if (!preset) {
+        throw new Error(`[vue-swatches] ${presetName} doesn't match any preset. Please refer to the documentation.`)
+      }
+
+      // Applying the styles if present in the preset
+      if (preset.borderRadius) this.presetBorderRadius = preset.borderRadius
+      if (preset.rowLength) this.presetRowLength = preset.rowLength
+      if (preset.swatchSize) this.presetSwatchSize = preset.swatchSize
+      if (preset.spacingSize === 0 || preset.spacingSize) this.presetSpacingSize = preset.spacingSize
+
+      // Must return the swatches from the preset
+      return preset.swatches
     }
   }
 }

@@ -1,11 +1,13 @@
 import {
   simple,
   textSimple,
-  textAdvanced
+  textAdvanced,
+  materialSimple
 } from 'src/presets'
 
 export {
   simple,
   textSimple,
-  textAdvanced
+  textAdvanced,
+  materialSimple
 }
