@@ -304,13 +304,8 @@ export default {
   methods: {
     // Called programmatically
     checkException (swatch) {
-      if (this.isNested) {
-        this.exceptions.forEach(swatchRow => {
-          if (swatchRow.includes(swatch)) return true
-        })
-        return false
-      }
-      return this.exceptions.includes(swatch)
+      const uppercaseExceptions = this.exceptions.map(s => s.toUpperCase())
+      return uppercaseExceptions.includes(swatch.toUpperCase())
     },
     hidePopup () {
       this.internalIsOpen = false
