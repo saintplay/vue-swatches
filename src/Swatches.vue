@@ -18,7 +18,7 @@
         v-show="isOpen"
         class="swatches-container"
         :class="{'inline': inline}"
-        :style="containersStyles"
+        :style="containerStyles"
       >
         <!-- The wrapper handles the internal spacing -->
         <div
@@ -94,6 +94,10 @@ export default {
     Swatch
   },
   props: {
+    backgroundColor: {
+      type: String,
+      default: '#ffffff'
+    },
     colors: {
       type: Array | String,
       default: 'simple'
@@ -277,10 +281,11 @@ export default {
       }
 
       return {
-        ...positionStyle
+        ...positionStyle,
+        backgroundColor: this.backgroundColor
       }
     },
-    containersStyles () {
+    containerStyles () {
       return [this.containerStyle]
     },
     wrapperStyle () {
@@ -289,7 +294,8 @@ export default {
       return {
         width: `${this.wrapperWidth}px`,
         paddingTop: `${this.computedSpacingSize}px`,
-        paddingLeft: `${this.computedSpacingSize}px`
+        paddingLeft: `${this.computedSpacingSize}px`,
+        backgroundColor: this.backgroundColor
       }
     },
     wrapperStyles () {
@@ -374,7 +380,6 @@ export default {
     }
 
     .swatches-container {
-      background-color: #fff;
       box-sizing: content-box;
       padding: 5px;
 
@@ -387,10 +392,6 @@ export default {
         box-shadow: 0 2px 3px rgba(10, 10, 10, 0.2), 0 0 0 1px rgba(10, 10, 10, 0.2);
         z-index: 50;
       }
-    }
-
-    .swatches-wrapper {
-      background-color: #fff;
     }
 
     .swatches-row {
