@@ -84,6 +84,7 @@ import presets from './presets'
 import Swatch from './Swatch'
 
 const DEFAULT_BORDER_RADIUS = '10px'
+const DEFAULT_MAX_HEIGHT = 300
 const DEFAULT_ROW_LENGTH = 5
 const DEFAULT_SWATCH_SIZE = 42
 const DEFAULT_SHOW_BORDER = false
@@ -114,6 +115,10 @@ export default {
       type: Boolean,
       default: false
     },
+    maxHeight: {
+      type: Number | String,
+      default: null
+    },
     shapes: {
       type: String,
       default: 'squares'
@@ -142,6 +147,7 @@ export default {
   data () {
     return {
       presetBorderRadius: null,
+      presetMaxHeight: null,
       presetRowLength: null,
       presetShowBorder: null,
       presetSwatchSize: null,
@@ -182,6 +188,21 @@ export default {
       if (this.exceptionMode === 'hidden') return this.exceptionMode
       if (this.exceptionMode === 'disabled') return this.exceptionMode
       throw new Error(`[vue-swatches] ${this.exceptionMode} is not a valid value for 'exception-mode'. Please use 'hidden' or 'disabled'`)
+    },
+    // Computed value for `maxHeight`
+    computedMaxheight () {
+      // Priorize user value
+      if (this.maxHeight !== null) {
+        if (!isNaN(this.maxHeight)) {
+          return Number(this.maxHeight)
+        }
+        // Given maxHeight is not a number!
+        throw new Error(`[vue-swatches] ${this.maxHeight} is not a Number value for 'maxHeight'. max-height prop must be a Number`)
+      }
+      // Over preset value
+      if (this.presetMaxHeight !== null) return this.presetMaxHeight
+      // Use default value if these two are unset!
+      return DEFAULT_MAX_HEIGHT
     },
     // Computed value for `rowLength`
     computedRowLength () {
@@ -269,9 +290,13 @@ export default {
       return [this.triggerStyle]
     },
     containerStyle () {
-      if (this.inline) return {}
-
+      const baseStyles = {
+        backgroundColor: this.backgroundColor
+      }
       let positionStyle = {}
+
+      if (this.inline) return baseStyles
+
       if (this.popoverTo === 'right') {
         positionStyle = { left: 0 }
       } else if (this.popoverTo === 'left') {
@@ -282,7 +307,8 @@ export default {
 
       return {
         ...positionStyle,
-        backgroundColor: this.backgroundColor
+        ...baseStyles,
+        maxHeight: `${this.computedMaxheight}px`
       }
     },
     containerStyles () {
@@ -354,6 +380,7 @@ export default {
 
       // Applying the styles if present in the preset
       if (preset.borderRadius) this.presetBorderRadius = preset.borderRadius
+      if (preset.maxHeight) this.presetMaxHeight = preset.maxHeight
       if (preset.rowLength) this.presetRowLength = preset.rowLength
       if (preset.swatchSize) this.presetSwatchSize = preset.swatchSize
       if (preset.spacingSize === 0 || preset.spacingSize) this.presetSpacingSize = preset.spacingSize
@@ -386,7 +413,6 @@ export default {
       &:not(.inline) {
         position: absolute;
         display: block;
-        max-height: 272px;
         overflow: auto;
         border-radius: 5px;
         box-shadow: 0 2px 3px rgba(10, 10, 10, 0.2), 0 0 0 1px rgba(10, 10, 10, 0.2);
