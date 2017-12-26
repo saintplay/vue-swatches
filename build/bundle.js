@@ -1,33 +1,37 @@
-// https://github.com/shelljs/shelljs
+'use strict'
 require('./check-versions')()
 
 process.env.NODE_ENV = 'production'
 
-var ora = require('ora')
-var path = require('path')
-var chalk = require('chalk')
-var shell = require('shelljs')
-var webpack = require('webpack')
-var config = require('../config')
-var webpackConfig = require('./webpack.bundle.conf')
+const ora = require('ora')
+const rm = require('rimraf')
+const path = require('path')
+const chalk = require('chalk')
+const webpack = require('webpack')
+const config = require('../config')
+const webpackConfig = require('./webpack.bundle.conf')
 
-var spinner = ora('building bundle...')
+const spinner = ora('building bundles...')
 spinner.start()
 
-var assetsPath = path.join(config.bundle.assetsRoot, config.bundle.assetsSubDirectory)
-shell.rm('-rf', assetsPath)
-shell.mkdir('-p', assetsPath)
-
-webpack(webpackConfig, function (err, stats) {
-  spinner.stop()
+rm(path.join(config.bundle.assetsRoot, config.bundle.assetsSubDirectory), err => {
   if (err) throw err
-  process.stdout.write(stats.toString({
-    colors: true,
-    modules: false,
-    children: false,
-    chunks: false,
-    chunkModules: false
-  }) + '\n\n')
+  webpack(webpackConfig, (err, stats) => {
+    spinner.stop()
+    if (err) throw err
+    process.stdout.write(stats.toString({
+      colors: true,
+      modules: false,
+      children: false, // if you are using ts-loader, setting this to true will make tyescript errors show up during build
+      chunks: false,
+      chunkModules: false
+    }) + '\n\n')
 
-  console.log(chalk.cyan('  Build complete.\n'))
+    if (stats.hasErrors()) {
+      console.log(chalk.red('  Build failed with errors.\n'))
+      process.exit(1)
+    }
+
+    console.log(chalk.cyan('  Build complete.\n'))
+  })
 })

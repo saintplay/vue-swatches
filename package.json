@@ -34,7 +34,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "bundle": "rm -rf dist && node build/bundle.js",
+    "bundle": "node build/bundle.js",
     "docs": "rm -rf docs && mkdir docs && node build/build.js",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "npm run unit",
