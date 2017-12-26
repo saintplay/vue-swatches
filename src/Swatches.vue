@@ -290,7 +290,7 @@ export default {
       return {
         width: '42px',
         height: '42px',
-        backgroundColor: this.value ? this.value : '#fff',
+        backgroundColor: this.value ? this.value : '#ffffff',
         borderRadius: this.shapes === 'circles' ? '50%' : '10px'
       }
     },
@@ -323,13 +323,16 @@ export default {
       return [this.containerStyle]
     },
     wrapperStyle () {
-      if (this.inline) return {}
+      const baseStyles = {
+        paddingTop: `${this.computedSpacingSize}px`,
+        paddingLeft: `${this.computedSpacingSize}px`
+      }
+
+      if (this.inline) return baseStyles
 
       return {
-        width: `${this.wrapperWidth}px`,
-        paddingTop: `${this.computedSpacingSize}px`,
-        paddingLeft: `${this.computedSpacingSize}px`,
-        backgroundColor: this.backgroundColor
+        ...baseStyles,
+        width: `${this.wrapperWidth}px`
       }
     },
     wrapperStyles () {
@@ -345,7 +348,7 @@ export default {
     // Called programmatically
     checkException (swatch) {
       const uppercaseExceptions = this.exceptions.map(s => s.toUpperCase())
-      return uppercaseExceptions.includes(swatch.toUpperCase())
+      return uppercaseExceptions.indexOf(swatch.toUpperCase()) !== -1
     },
     hidePopover () {
       this.internalIsOpen = false
@@ -430,6 +433,10 @@ export default {
         box-shadow: 0 2px 3px rgba(10, 10, 10, 0.2), 0 0 0 1px rgba(10, 10, 10, 0.2);
         z-index: 50;
       }
+    }
+
+    .swatches-wrapper {
+      background-color: inherit;
     }
 
     .swatches-row {

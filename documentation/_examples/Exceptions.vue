@@ -12,7 +12,7 @@
         row-length="4"
         show-border
         popover-to="left"
-      />
+      ></swatches>
     </div>
   </div>
 </template>

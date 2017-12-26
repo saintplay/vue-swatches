@@ -1,6 +1,6 @@
 <template>
   <div>
-    <swatches inline :colors="colors" :shapes="shapes" :show-border="showBorder" />
+    <swatches inline :colors="colors" :shapes="shapes" :show-border="showBorder" ></swatches>
   </div>
 </template>
 

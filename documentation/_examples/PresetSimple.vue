@@ -4,7 +4,7 @@
       <strong>Please choose a color:</strong>
     </div>
     <div class="form__input">
-      <swatches v-model="color" colors="text-advanced" popover-to="left" />
+      <swatches v-model="color" colors="text-advanced" popover-to="left"></swatches>
     </div>
   </div>
 </template>

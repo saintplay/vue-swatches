@@ -2,7 +2,7 @@
   <div class="form__field">
     <div class="form__label">
       <strong>Please choose a color:</strong>
-      <swatches v-model="color" inline />
+      <swatches v-model="color" inline></swatches>
     </div>
   </div>
 </template>
