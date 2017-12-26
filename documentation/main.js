@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'vue/dist/vue'
 import * as examples from './_examples'
 import PresetExample from './_presets/PresetExample'
 import Swatches from 'vue-swatches'

@@ -1,6 +1,6 @@
 <template>
   <div class="vue-swatches" @blur.self="e => onBlur(e.relatedTarget)" tabindex="0">
-    <div v-if="!inline" @click="togglePopup">
+    <div v-if="!inline" @click="togglePopover">
       <slot
         name="trigger"
       >
@@ -347,7 +347,7 @@ export default {
       const uppercaseExceptions = this.exceptions.map(s => s.toUpperCase())
       return uppercaseExceptions.includes(swatch.toUpperCase())
     },
-    hidePopup () {
+    hidePopover () {
       this.internalIsOpen = false
       this.$el.blur()
       this.$emit('close', this.internalValue)
@@ -356,7 +356,7 @@ export default {
     onBlur (relatedTarget) {
       if (!this.internalIsOpen) return /* dont hide */
 
-      // We only close the Popup if the relatedTarget came from outside the component
+      // We only close the Popover if the relatedTarget came from outside the component
       // Check if the relatedTarget is inside the component
       if (relatedTarget !== null && this.$el.contains(relatedTarget)) return /* dont hide */
 
@@ -364,14 +364,14 @@ export default {
       this.$emit('close', this.internalValue)
     },
     // Called programmatically
-    showPopup () {
+    showPopover () {
       if (this.internalIsOpen) return /* dont show */
 
       this.internalIsOpen = true
       this.$el.focus()
     },
-    togglePopup () {
-      this.internalIsOpen ? this.hidePopup() : this.showPopup()
+    togglePopover () {
+      this.internalIsOpen ? this.hidePopover() : this.showPopover()
     },
     updateSwatch (swatch) {
       if (this.checkException(swatch)) return
@@ -380,7 +380,7 @@ export default {
       this.$emit('input', swatch)
 
       if (this.closeOnSelect && !this.inline) {
-        this.hidePopup()
+        this.hidePopover()
       }
     },
     extractSwatchesFromPreset (presetName) {
