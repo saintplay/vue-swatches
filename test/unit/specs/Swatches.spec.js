@@ -7,7 +7,7 @@ const DEFAULT_BACKGROUND_COLOR = '#ffffff'
 
 describe('Props', () => {
   describe('background-color', () => {
-    const testColor = 'rgba(12, 15, 16, 0.4)'
+    const testColor = '#333'
 
     describe('When Popover mode is enabled', () => {
       test('background color should render default background color if not passed a prop', () => {
