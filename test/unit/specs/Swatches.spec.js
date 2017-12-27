@@ -75,7 +75,8 @@ describe('Props', () => {
       test('should close the popover if true', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {
-            closeOnSelect: true
+            closeOnSelect: true,
+            inline: false
           }
         })
         componentWrapper.vm.showPopover()
@@ -88,7 +89,8 @@ describe('Props', () => {
       test('should not close the popover if false', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {
-            closeOnSelect: false
+            closeOnSelect: false,
+            inline: false
           }
         })
         componentWrapper.vm.showPopover()
@@ -607,6 +609,64 @@ describe('Props', () => {
         expect(borderedSwatches.length)
         .toEqual(0)
       })
+    })
+  })
+
+  describe('show-checkbox', () => {
+    test('default show-checkbox is set to true', () => {
+      const defaultComponent = mount(Swatches, {
+        propsData: {
+          inline: false
+        }
+      })
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showCheckbox: true,
+          inline: false
+        }
+      })
+
+      const defaultSwatch = defaultComponent.find('.vue-swatches__swatch')
+      const componentSwatch = componentWrapper.find('.vue-swatches__swatch')
+
+      defaultSwatch.trigger('click')
+      componentSwatch.trigger('click')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentSwatch.html())
+        .toEqual(defaultSwatch.html())
+      })
+    })
+    test('should render the checkbox if true', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showCheckbox: true,
+          inline: false
+        }
+      })
+      const swatch = componentWrapper.find('.vue-swatches__swatch')
+      swatch.trigger('click')
+
+      const check = swatch.find('.vue-swatches__check__wrapper ')
+
+      expect(check.hasStyle('display', 'none'))
+      .not.toBeTruthy()
+    })
+    test('should not render the checkbox if true', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showCheckbox: false,
+          inline: false
+        }
+      })
+      const swatch = componentWrapper.find('.vue-swatches__swatch')
+      swatch.trigger('click')
+
+      const check = swatch.find('.vue-swatches__check__wrapper ')
+
+      expect(check.hasStyle('display', 'none'))
+      .toBeTruthy()
     })
   })
 })

@@ -8,7 +8,7 @@
     }"
     :style="swatchStyles"
   >
-    <check v-show="selected" />
+    <check v-show="showCheckbox && selected" />
   </div>
 </template>
 
@@ -36,6 +36,10 @@ export default {
     selected: {
       type: Boolean,
       default: false
+    },
+    showCheckbox: {
+      type: Boolean
+      // default is calculated in `Swatches.vue`
     },
     showBorder: {
       type: Boolean

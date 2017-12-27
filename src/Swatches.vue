@@ -43,6 +43,7 @@
                 :size="computedSwatchSize"
                 :spacing-size="computedSpacingSize"
                 :showBorder="computedShowBorder"
+                :showCheckbox="showCheckbox"
                 :swatchColor="swatch"
                 @click.native="updateSwatch(swatch)"
               />
@@ -61,6 +62,7 @@
               :size="computedSwatchSize"
               :spacing-size="computedSpacingSize"
               :showBorder="computedShowBorder"
+              :showCheckbox="showCheckbox"
               :swatchColor="swatch"
               @click.native="updateSwatch(swatch)"
             />
