@@ -7,6 +7,7 @@ import presets from 'src/presets'
 
 const DEFAULT_BACKGROUND_COLOR = '#FFFFFF'
 const DEFAULT_MAX_HEIGHT = 300
+const DEFAULT_ROW_LENGTH = 5
 
 const completPresetExample = {
   swatches: ['#cc4125', '#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af', '#6d9eeb', '#6fa8dc', '#8e7cc3', '#c27ba0'],
@@ -358,7 +359,7 @@ describe('Props', () => {
   })
 
   describe('max-height', () => {
-    test('default max-height is set to 300', () => {
+    test(`default max-height is set to ${DEFAULT_MAX_HEIGHT}`, () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
           maxHeight: DEFAULT_MAX_HEIGHT
@@ -368,17 +369,6 @@ describe('Props', () => {
       .then(() => {
         expect(componentWrapper.html())
         .toEqual(defaultComponent.html())
-      })
-    })
-    test('container should have a height greater than zero by default', () => {
-      const componentWrapper = mount(Swatches)
-      const container = componentWrapper.find('.vue-swatches__container')
-      const heightWithUnit = `${container.element.style.height.toString().replace(/px/, '')}px`
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(heightWithUnit)
-        .not.toEqual('0px')
       })
     })
     describe('When Inline mode is enabled', () => {
@@ -501,6 +491,62 @@ describe('Props', () => {
       const container = componentWrapper.find('.vue-swatches__container')
       expect(container.element.style.left)
       .toEqual('0px')
+    })
+  })
+
+  describe('row-length', () => {
+    test(`default row-length is set to ${DEFAULT_ROW_LENGTH}`, () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          rowLength: DEFAULT_ROW_LENGTH
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+    test('should update the row-length if prop is passed', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          rowLength: 8
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.vm.computedRowLength)
+        .toEqual(8)
+      })
+    })
+    test('should update the row-length if preset especify one', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors: completPresetExample
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.vm.computedRowLength)
+        .toEqual(completPresetExample.rowLength)
+      })
+    })
+    test('should priorize the row-length from the prop over the preset one', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors: completPresetExample,
+          rowLength: 10
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.vm.computedRowLength)
+        .toEqual(10)
+      })
     })
   })
 })
