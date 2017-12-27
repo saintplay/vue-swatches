@@ -480,5 +480,27 @@ describe('Props', () => {
         .toEqual(defaultComponent.html())
       })
     })
+    test('container should posisionate at right if prop is left', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          inline: false,
+          popoverTo: 'left'
+        }
+      })
+      const container = componentWrapper.find('.vue-swatches__container')
+      expect(container.element.style.right)
+      .toEqual('0px')
+    })
+    test('container should posisionate at left if prop is right', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          inline: false,
+          popoverTo: 'right'
+        }
+      })
+      const container = componentWrapper.find('.vue-swatches__container')
+      expect(container.element.style.left)
+      .toEqual('0px')
+    })
   })
 })
