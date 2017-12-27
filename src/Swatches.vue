@@ -39,7 +39,7 @@
                 :border-radius="computedBorderRadius"
                 :exception-mode="computedExceptionMode"
                 :is-exception="checkException(swatch)"
-                :selected="swatch === internalValue"
+                :selected="checkEquality(swatch, internalValue)"
                 :size="computedSwatchSize"
                 :spacing-size="computedSpacingSize"
                 :showBorder="computedShowBorder"
@@ -58,7 +58,7 @@
               :border-radius="computedBorderRadius"
               :exception-mode="computedExceptionMode"
               :is-exception="checkException(swatch)"
-              :selected="swatch === internalValue"
+              :selected="checkEquality(swatch, internalValue)"
               :size="computedSwatchSize"
               :spacing-size="computedSpacingSize"
               :showBorder="computedShowBorder"
@@ -336,6 +336,10 @@ export default {
   },
   methods: {
     // Called programmatically
+    checkEquality (color1, color2) {
+      if (!color1 || !color2) return false
+      return (color1.toUpperCase() === color2.toUpperCase())
+    },
     checkException (swatch) {
       const uppercaseExceptions = this.exceptions.map(s => s.toUpperCase())
       return uppercaseExceptions.indexOf(swatch.toUpperCase()) !== -1

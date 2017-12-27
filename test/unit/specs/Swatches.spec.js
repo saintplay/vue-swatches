@@ -3,6 +3,7 @@ import { mount } from 'vue-test-utils'
 import rgb from 'rgb'
 
 import Swatches from 'src/Swatches'
+import Swatch from 'src/Swatch'
 import presets from 'src/presets'
 
 const DEFAULT_BACKGROUND_COLOR = '#FFFFFF'
@@ -750,6 +751,56 @@ describe('Props', () => {
       .then(() => {
         expect(swatchDimensions)
         .toEqual(expectedDimensions)
+      })
+    })
+  })
+
+  describe('value', () => {
+    test('should update value after picking a swatch', () => {
+      const colors = ['#e31432', '#a156e2', '#eca23e']
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          value: '#e31432',
+          colors
+        }
+      })
+      const selectedSwatch = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)[0]
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(selectedSwatch.vm.swatchColor)
+        .toEqual('#e31432')
+      })
+    })
+    test('should not select any swatch when null', () => {
+      const colors = ['#e31432', '#a156e2', '#eca23e']
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors
+        }
+      })
+      const selectedSwatchList = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(selectedSwatchList.length)
+        .toEqual(0)
+      })
+    })
+    test('should select value with diferent case', () => {
+      const colors = ['#e31432', '#a156e2', '#eca23e']
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          value: '#ECa23E',
+          colors
+        }
+      })
+      const selectedSwatch = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)[0]
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(selectedSwatch.vm.swatchColor)
+        .toEqual('#eca23e')
       })
     })
   })
