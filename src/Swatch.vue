@@ -1,7 +1,7 @@
 <template>
   <div
-    class="swatch"
-    :class="{ 'swatch-border': showBorder, 'swatch-selected': selected }"
+    class="vue-swatches__swatch"
+    :class="{ 'vue-swatches__swatch__border': showBorder, 'vue-swatches__swatch--selected': selected }"
     :style="swatchStyles"
   >
     <check v-show="selected" />
@@ -75,24 +75,22 @@ export default {
 </script>
 
 <style lang="scss">
-  .vue-swatches {
-    .swatch {
-      position: relative;
-      font-size: 0;
+  .vue-swatches__swatch {
+    position: relative;
+    font-size: 0;
 
-      &:hover, &:focus {
-        opacity: 0.90;
-        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
-        outline: none;
-      }
+    &:hover, &:focus {
+      opacity: 0.90;
+      box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
+      outline: none;
+    }
 
-      &.swatch-border {
-        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
-      }
+    &.vue-swatches__swatch__border {
+      box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
+    }
 
-      &.swatch-selected {
-        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
-      }
+    &.vue-swatches__swatch--selected {
+      box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
     }
   }
 </style>

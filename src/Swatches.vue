@@ -5,24 +5,24 @@
         name="trigger"
       >
         <div
-          class="trigger"
-          :class="{'is-empty': !value}"
+          class="vue-swatches__trigger"
+          :class="{'vue-swatches--is-empty': !value}"
           :style="triggerStyles"
         ></div>
       </slot>
     </div>
 
-    <transition name="swatches">
+    <transition name="vue-swatches-show-hide">
       <!-- The container handles the padding -->
       <div
         v-show="isOpen"
-        class="swatches-container"
-        :class="{'inline': inline}"
+        class="vue-swatches__container"
+        :class="{'vue-swatches--inline': inline}"
         :style="containerStyles"
       >
         <!-- The wrapper handles the internal spacing -->
         <div
-          class="swatches-wrapper"
+          class="vue-swatches__wrapper"
           :style="wrapperStyles"
         >
 
@@ -31,7 +31,7 @@
             <div
               v-for="(swatchRow, index) in computedColors"
               :key="index"
-              class="swatches-row"
+              class="vue-swatches__row"
             >
               <swatch
                 v-for="swatch in swatchRow"
@@ -408,47 +408,51 @@ export default {
 </script>
 
 <style lang="scss">
+  fieldset[disabled] .vue-swatches {
+    pointer-events: none;
+  }
+
   .vue-swatches {
     position: relative;
     outline: none;
+  }
 
-    .trigger {
-      display: inline-block;
-      cursor: pointer;
+  .vue-swatches__trigger {
+    display: inline-block;
+    cursor: pointer;
 
-      &.is-empty {
-        border: 2px solid #ccc;
-      }
+    &.vue-swatches--is-empty {
+      border: 2px solid #ccc;
     }
+  }
 
-    .swatches-container {
-      box-sizing: content-box;
-      padding: 5px;
+  .vue-swatches__container {
+    box-sizing: content-box;
+    padding: 5px;
 
-      &:not(.inline) {
-        position: absolute;
-        display: block;
-        overflow: auto;
-        border-radius: 5px;
-        box-shadow: 0 2px 3px rgba(10, 10, 10, 0.2), 0 0 0 1px rgba(10, 10, 10, 0.2);
-        z-index: 50;
-      }
+    &:not(.vue-swatches--inline) {
+      position: absolute;
+      display: block;
+      overflow: auto;
+      border-radius: 5px;
+      box-shadow: 0 2px 3px rgba(10, 10, 10, 0.2), 0 0 0 1px rgba(10, 10, 10, 0.2);
+      z-index: 50;
     }
+  }
 
-    .swatches-wrapper {
-      background-color: inherit;
-    }
+  .vue-swatches__wrapper {
+    background-color: inherit;
+  }
 
-    .swatches-row {
-      font-size: 0;
-    }
+  .vue-swatches__row {
+    font-size: 0;
   }
 
   // Transitions
-  .swatches-enter-active, .swatches-leave-active {
+  .vue-swatches-show-hide-enter-active, .vue-swatches-show-hide-leave-active {
     transition: all 0.3s ease;
   }
-  .swatches-enter, .swatches-leave-active {
+  .vue-swatches-show-hide-enter, .vue-swatches-show-hide-leave-active {
     opacity: 0;
   }
 </style>

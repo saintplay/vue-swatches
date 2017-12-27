@@ -13,7 +13,7 @@ describe('Props', () => {
     describe('When Popover mode is enabled', () => {
       test('background color should render default background color if not passed a prop', () => {
         const componentWrapper = mount(Swatches)
-        const container = componentWrapper.find('.swatches-container').element
+        const container = componentWrapper.find('.vue-swatches__container').element
         expect(rgb(container.style.backgroundColor))
         .toEqual(rgb(DEFAULT_BACKGROUND_COLOR))
       })
@@ -23,7 +23,7 @@ describe('Props', () => {
             backgroundColor: testColor
           }
         })
-        const container = componentWrapper.find('.swatches-container').element
+        const container = componentWrapper.find('.vue-swatches__container').element
         expect(rgb(container.style.backgroundColor))
         .toEqual(rgb(testColor))
       })
@@ -36,7 +36,7 @@ describe('Props', () => {
             inline: true
           }
         })
-        const container = componentWrapper.find('.swatches-container').element
+        const container = componentWrapper.find('.vue-swatches__container').element
         expect(rgb(container.style.backgroundColor))
         .toEqual(rgb(DEFAULT_BACKGROUND_COLOR))
       })
@@ -47,7 +47,7 @@ describe('Props', () => {
             backgroundColor: testColor
           }
         })
-        const container = componentWrapper.find('.swatches-container').element
+        const container = componentWrapper.find('.vue-swatches__container').element
         expect(rgb(container.style.backgroundColor))
         .toEqual(rgb(testColor))
       })
@@ -63,8 +63,8 @@ describe('Props', () => {
           }
         })
         componentWrapper.vm.showPopover()
-        const container = componentWrapper.find('.swatches-container')
-        const swatch = componentWrapper.find('.swatch')
+        const container = componentWrapper.find('.vue-swatches__container')
+        const swatch = componentWrapper.find('.vue-swatches__swatch')
         swatch.trigger('click')
         expect(container.hasStyle('display', 'none'))
         .toBeTruthy()
@@ -76,8 +76,8 @@ describe('Props', () => {
           }
         })
         componentWrapper.vm.showPopover()
-        const container = componentWrapper.find('.swatches-container')
-        const swatch = componentWrapper.find('.swatch')
+        const container = componentWrapper.find('.vue-swatches__container')
+        const swatch = componentWrapper.find('.vue-swatches__swatch')
         swatch.trigger('click')
         expect(container.hasStyle('display', 'block'))
         .toBeTruthy()
@@ -86,6 +86,19 @@ describe('Props', () => {
   })
 
   describe('colors', () => {
+    test('default swatches are shown', () => {
+      const defaultPresetName = 'simple'
+      const rgbColors = presets[defaultPresetName].swatches.map(c => rgb(c))
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors: defaultPresetName
+        }
+      })
+      const swatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch'))
+      const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
+      expect(swatchesColors)
+      .toEqual(rgbColors)
+    })
     describe('When custom colors are passed as a prop', () => {
       test('given array colors are shown', () => {
         const colors = ['#e31432', '$a156e2', '#eca23e']
@@ -95,7 +108,7 @@ describe('Props', () => {
             colors
           }
         })
-        const swatches = Array.from(componentWrapper.element.querySelectorAll('.swatch'))
+        const swatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch'))
         const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
         expect(swatchesColors)
         .toEqual(rgbColors)
@@ -114,11 +127,11 @@ describe('Props', () => {
             colors
           }
         })
-        const swatchesRows = componentWrapper.element.querySelectorAll('.swatches-row')
+        const swatchesRows = componentWrapper.element.querySelectorAll('.vue-swatches__row')
         const swatchesColors = []
 
         swatchesRows.forEach(swatchElement => {
-          const swatchesNodeList = Array.from(swatchElement.querySelectorAll('.swatch'))
+          const swatchesNodeList = Array.from(swatchElement.querySelectorAll('.vue-swatches__swatch'))
           const rgbSwatches = swatchesNodeList.map(s => rgb(s.style.backgroundColor))
           swatchesColors.push(rgbSwatches)
         })
@@ -126,19 +139,6 @@ describe('Props', () => {
         expect(swatchesColors)
         .toEqual(rgbColors)
       })
-    })
-    test('default swatches are shown', () => {
-      const defaultPresetName = 'simple'
-      const rgbColors = presets[defaultPresetName].swatches.map(c => rgb(c))
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          colors: defaultPresetName
-        }
-      })
-      const swatches = Array.from(componentWrapper.element.querySelectorAll('.swatch'))
-      const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
-      expect(swatchesColors)
-      .toEqual(rgbColors)
     })
     describe('When preset name is passed as a prop', () => {
       test('preset colors are shown', () => {
@@ -149,7 +149,7 @@ describe('Props', () => {
             colors: presetNameTest
           }
         })
-        const swatches = Array.from(componentWrapper.element.querySelectorAll('.swatch'))
+        const swatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch'))
         const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
         expect(swatchesColors)
         .toEqual(rgbColors)
