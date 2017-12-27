@@ -279,7 +279,7 @@ export default {
         width: '42px',
         height: '42px',
         backgroundColor: this.value ? this.value : '#ffffff',
-        borderRadius: this.shapes === 'circles' ? '50%' : '10px'
+        borderRadius: this.shapes === 'circles' ? '50%' : DEFAULT_BORDER_RADIUS
       }
     },
     triggerStyles () {
