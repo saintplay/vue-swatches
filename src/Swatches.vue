@@ -44,7 +44,6 @@
                 :spacing-size="computedSpacingSize"
                 :showBorder="computedShowBorder"
                 :swatchColor="swatch"
-                :computedClass="computedClass"
                 @click.native="updateSwatch(swatch)"
               />
             </div>
@@ -63,7 +62,6 @@
               :spacing-size="computedSpacingSize"
               :showBorder="computedShowBorder"
               :swatchColor="swatch"
-              :computedClass="computedClass"
               @click.native="updateSwatch(swatch)"
             />
           </template>
@@ -257,17 +255,6 @@ export default {
       if (this.presetShowBorder !== null) return this.presetShowBorder
       // Use default value if these two are unset
       return DEFAULT_SHOW_BORDER
-    },
-    // Computed value for `shapes`
-    computedClass () {
-      switch (this.shapes) {
-        case 'squares':
-          return 'swatch-square'
-        case 'circles':
-          return 'swatch-circle'
-        default:
-          return 'swatch-square'
-      }
     },
 
     /** DUMB COMPUTEDS (these use others computed) **/

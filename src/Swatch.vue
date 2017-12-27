@@ -1,7 +1,11 @@
 <template>
   <div
     class="vue-swatches__swatch"
-    :class="{ 'vue-swatches__swatch__border': showBorder, 'vue-swatches__swatch--selected': selected }"
+    :class="{
+      'vue-swatches__swatch__border': showBorder,
+      'vue-swatches__swatch--selected': selected,
+      'vue-swatches__swatch--is-exception': isException
+    }"
     :style="swatchStyles"
   >
     <check v-show="selected" />
@@ -48,10 +52,6 @@ export default {
     swatchColor: {
       type: String,
       default: ''
-    },
-    swatchClass: {
-      type: String
-      // default is calculated in `Swatches.vue`
     }
   },
   computed: {

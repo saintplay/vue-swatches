@@ -101,7 +101,7 @@ describe('Props', () => {
     })
     describe('When custom colors are passed as a prop', () => {
       test('given array colors are shown', () => {
-        const colors = ['#e31432', '$a156e2', '#eca23e']
+        const colors = ['#e31432', '#a156e2', '#eca23e']
         const rgbColors = colors.map(c => rgb(c))
         const componentWrapper = mount(Swatches, {
           propsData: {
@@ -115,7 +115,7 @@ describe('Props', () => {
       })
       test('given nested array colors are shown', () => {
         const colors = [
-          ['#e31432', '$a156e2', '#eca23e'],
+          ['#e31432', '#a156e2', '#eca23e'],
           ['#a2341e', '$ef86ff', '#eiaea3'],
           ['#eec451', '$3321de', '#166002']
         ]
@@ -153,6 +153,107 @@ describe('Props', () => {
         const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
         expect(swatchesColors)
         .toEqual(rgbColors)
+      })
+    })
+  })
+
+  describe('exceptions && exception-mode', () => {
+    describe('When swatches array is simple', () => {
+      test('exceptions should be hidden if exception-mode is hidden', () => {
+        const colors = ['#a23e41', '#e31432', '#a156e2', '#aeccea', '#5f0f2a', '#eca23e', '#12313a']
+        const rgbColors = colors.map(c => rgb(c))
+        const exceptions = ['#e31432', '#a156e2', '#eca23e']
+        const rgbExceptions = exceptions.map(e => rgb(e))
+        const trueRgbExceptions = rgbColors.filter(c => rgbExceptions.indexOf(c) !== -1)
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            exceptionMode: 'hidden',
+            colors,
+            exceptions
+          }
+        })
+        const exceptionSwatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch--is-exception'))
+        const hiddenSwatches = exceptionSwatches.filter(s => s.style.display === 'none')
+        const hiddenSwatchesColors = hiddenSwatches.map(s => rgb(s.style.backgroundColor))
+
+        expect(hiddenSwatchesColors)
+        .toEqual(trueRgbExceptions)
+      })
+      test('exceptions should be disabled if exception-mode is disabled', () => {
+        const colors = ['#a23e41', '#e31432', '#a156e2', '#aeccea', '#5f0f2a', '#eca23e', '#12313a']
+        const rgbColors = colors.map(c => rgb(c))
+        const exceptions = ['#e31432', '#a156e2', '#eca23e']
+        const rgbExceptions = exceptions.map(e => rgb(e))
+        const trueRgbExceptions = rgbColors.filter(c => rgbExceptions.indexOf(c) !== -1)
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            exceptionMode: 'disabled',
+            colors,
+            exceptions
+          }
+        })
+        const exceptionSwatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch--is-exception'))
+        const disabledSwatches = exceptionSwatches.filter(s => s.style.cursor === 'not-allowed')
+        const disabledSwatchesColors = disabledSwatches.map(s => rgb(s.style.backgroundColor))
+
+        expect(disabledSwatchesColors)
+        .toEqual(trueRgbExceptions)
+      })
+    })
+    describe('When swatches array is nested', () => {
+      test('exceptions should be hidden if exception-mode is hidden', () => {
+        const colors = [
+          ['#e31432', '#ef86ff', '#166002'],
+          ['#a2341e', '$a156e2', '#eiaea3'],
+          ['#eec451', '$3321de', '#eca23e']
+        ]
+        const rgbColors = colors.map(row => {
+          return row.map(s => rgb(s))
+        })
+        const flattenedRgbColors = [].concat(...rgbColors)
+        const exceptions = ['#e31432', '#a156e2', '#eca23e']
+        const rgbExceptions = exceptions.map(e => rgb(e))
+        const trueRgbExceptions = flattenedRgbColors.filter(c => rgbExceptions.indexOf(c) !== -1)
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            exceptionMode: 'hidden',
+            colors,
+            exceptions
+          }
+        })
+        const exceptionSwatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch--is-exception'))
+        const hiddenSwatches = exceptionSwatches.filter(s => s.style.display === 'none')
+        const hiddenSwatchesColors = hiddenSwatches.map(s => rgb(s.style.backgroundColor))
+
+        expect(hiddenSwatchesColors)
+        .toEqual(trueRgbExceptions)
+      })
+      test('exceptions should be disabled if exception-mode is disabled', () => {
+        const colors = [
+          ['#e31432', '#ef86ff', '#166002'],
+          ['#a2341e', '$a156e2', '#eiaea3'],
+          ['#eec451', '$3321de', '#eca23e']
+        ]
+        const rgbColors = colors.map(row => {
+          return row.map(s => rgb(s))
+        })
+        const flattenedRgbColors = [].concat(...rgbColors)
+        const exceptions = ['#e31432', '#a156e2', '#eca23e']
+        const rgbExceptions = exceptions.map(e => rgb(e))
+        const trueRgbExceptions = flattenedRgbColors.filter(c => rgbExceptions.indexOf(c) !== -1)
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            exceptionMode: 'disabled',
+            colors,
+            exceptions
+          }
+        })
+        const exceptionSwatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch--is-exception'))
+        const disabledSwatches = exceptionSwatches.filter(s => s.style.cursor === 'not-allowed')
+        const disabledSwatchesColors = disabledSwatches.map(s => rgb(s.style.backgroundColor))
+
+        expect(disabledSwatchesColors)
+        .toEqual(trueRgbExceptions)
       })
     })
   })
