@@ -2,6 +2,7 @@ import { mount } from 'vue-test-utils'
 import rgb from 'rgb'
 
 import Swatches from 'src/Swatches'
+import presets from 'src/presets'
 
 const DEFAULT_BACKGROUND_COLOR = '#ffffff'
 
@@ -80,6 +81,78 @@ describe('Props', () => {
         swatch.trigger('click')
         expect(container.hasStyle('display', 'block'))
         .toBeTruthy()
+      })
+    })
+  })
+
+  describe('colors', () => {
+    describe('When custom colors are passed as a prop', () => {
+      test('given array colors are shown', () => {
+        const colors = ['#e31432', '$a156e2', '#eca23e']
+        const rgbColors = colors.map(c => rgb(c))
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            colors
+          }
+        })
+        const swatches = Array.from(componentWrapper.element.querySelectorAll('.swatch'))
+        const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
+        expect(swatchesColors)
+        .toEqual(rgbColors)
+      })
+      test('given nested array colors are shown', () => {
+        const colors = [
+          ['#e31432', '$a156e2', '#eca23e'],
+          ['#a2341e', '$ef86ff', '#eiaea3'],
+          ['#eec451', '$3321de', '#166002']
+        ]
+        const rgbColors = colors.map(row => {
+          return row.map(s => rgb(s))
+        })
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            colors
+          }
+        })
+        const swatchesRows = componentWrapper.element.querySelectorAll('.swatches-row')
+        const swatchesColors = []
+
+        swatchesRows.forEach(swatchElement => {
+          const swatchesNodeList = Array.from(swatchElement.querySelectorAll('.swatch'))
+          const rgbSwatches = swatchesNodeList.map(s => rgb(s.style.backgroundColor))
+          swatchesColors.push(rgbSwatches)
+        })
+
+        expect(swatchesColors)
+        .toEqual(rgbColors)
+      })
+    })
+    test('default swatches are shown', () => {
+      const defaultPresetName = 'simple'
+      const rgbColors = presets[defaultPresetName].swatches.map(c => rgb(c))
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors: defaultPresetName
+        }
+      })
+      const swatches = Array.from(componentWrapper.element.querySelectorAll('.swatch'))
+      const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
+      expect(swatchesColors)
+      .toEqual(rgbColors)
+    })
+    describe('When preset name is passed as a prop', () => {
+      test('preset colors are shown', () => {
+        const presetNameTest = 'material-simple'
+        const rgbColors = presets[presetNameTest].swatches.map(c => rgb(c))
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            colors: presetNameTest
+          }
+        })
+        const swatches = Array.from(componentWrapper.element.querySelectorAll('.swatch'))
+        const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
+        expect(swatchesColors)
+        .toEqual(rgbColors)
       })
     })
   })
