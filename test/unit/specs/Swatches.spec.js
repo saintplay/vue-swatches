@@ -106,7 +106,8 @@ describe('Props', () => {
           colors: 'simple'
         }
       })
-      Vue.nextTick(() => {
+      return Vue.nextTick()
+      .then(() => {
         expect(presetComponent.html())
         .toEqual(defaultComponent.html())
       })
@@ -206,7 +207,8 @@ describe('Props', () => {
         const hiddenSwatches = exceptionSwatches.filter(s => s.style.display === 'none')
         const hiddenSwatchesColors = hiddenSwatches.map(s => rgb(s.style.backgroundColor))
 
-        Vue.nextTick(() => {
+        return Vue.nextTick()
+        .then(() => {
           expect(hiddenSwatchesColors)
           .toEqual(trueRgbExceptions)
         })
@@ -228,7 +230,8 @@ describe('Props', () => {
         const disabledSwatches = exceptionSwatches.filter(s => s.style.cursor === 'not-allowed')
         const disabledSwatchesColors = disabledSwatches.map(s => rgb(s.style.backgroundColor))
 
-        Vue.nextTick(() => {
+        return Vue.nextTick()
+        .then(() => {
           expect(disabledSwatchesColors)
           .toEqual(trueRgbExceptions)
         })
@@ -259,7 +262,8 @@ describe('Props', () => {
         const hiddenSwatches = exceptionSwatches.filter(s => s.style.display === 'none')
         const hiddenSwatchesColors = hiddenSwatches.map(s => rgb(s.style.backgroundColor))
 
-        Vue.nextTick(() => {
+        return Vue.nextTick()
+        .then(() => {
           expect(hiddenSwatchesColors)
           .toEqual(trueRgbExceptions)
         })
@@ -288,7 +292,8 @@ describe('Props', () => {
         const disabledSwatches = exceptionSwatches.filter(s => s.style.cursor === 'not-allowed')
         const disabledSwatchesColors = disabledSwatches.map(s => rgb(s.style.backgroundColor))
 
-        Vue.nextTick(() => {
+        return Vue.nextTick()
+        .then(() => {
           expect(disabledSwatchesColors)
           .toEqual(trueRgbExceptions)
         })
@@ -359,7 +364,8 @@ describe('Props', () => {
           maxHeight: DEFAULT_MAX_HEIGHT
         }
       })
-      Vue.nextTick(() => {
+      return Vue.nextTick()
+      .then(() => {
         expect(componentWrapper.html())
         .toEqual(defaultComponent.html())
       })
@@ -369,7 +375,8 @@ describe('Props', () => {
       const container = componentWrapper.find('.vue-swatches__container')
       const heightWithUnit = `${container.element.style.height.toString().replace(/px/, '')}px`
 
-      Vue.nextTick(() => {
+      return Vue.nextTick()
+      .then(() => {
         expect(heightWithUnit)
         .not.toEqual('0px')
       })
@@ -396,7 +403,8 @@ describe('Props', () => {
         })
         const container = componentWrapper.find('.vue-swatches__container')
 
-        Vue.nextTick(() => {
+        return Vue.nextTick()
+        .then(() => {
           expect(container.element.style.maxHeight)
           .toEqual('120px')
         })
@@ -410,7 +418,8 @@ describe('Props', () => {
         })
         const container = componentWrapper.find('.vue-swatches__container')
 
-        Vue.nextTick(() => {
+        return Vue.nextTick()
+        .then(() => {
           expect(container.element.style.maxHeight)
           .toEqual(`${completPresetExample.maxHeight}px`)
         })
@@ -425,7 +434,8 @@ describe('Props', () => {
         })
         const container = componentWrapper.find('.vue-swatches__container')
 
-        Vue.nextTick(() => {
+        return Vue.nextTick()
+        .then(() => {
           expect(container.element.style.maxHeight)
           .toEqual(`250px`)
         })
@@ -454,6 +464,21 @@ describe('Props', () => {
 
       expect(trigger.element.style.borderRadius)
       .toEqual('50%')
+    })
+  })
+
+  describe('popover-to', () => {
+    test('default popover-to is set to right', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          popoverTo: 'right'
+        }
+      })
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
     })
   })
 })
