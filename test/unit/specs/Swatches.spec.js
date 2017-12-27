@@ -809,17 +809,76 @@ describe('Props', () => {
 describe('Events', () => {
   describe('@input', () => {
     test('should be emited whenever user pick a swatch', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          value: '#e31432'
-        }
-      })
-      const swatch = componentWrapper.findAll(Swatch)
+      const componentWrapper = mount(Swatches)
+      const swatch = componentWrapper.find(Swatch)
       swatch.trigger('click')
 
       return Vue.nextTick()
       .then(() => {
-        expect(componentWrapper.emitted().input).toBeTruthy()
+        expect(componentWrapper.emitted().input.length).toEqual(1)
+      })
+    })
+  })
+  describe('@close', () => {
+    test('should not ve emited when Inline mode is activated', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          inline: true,
+          closeOnSelect: true
+        }
+      })
+      const swatch = componentWrapper.find(Swatch)
+      swatch.trigger('click')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.emitted().close)
+        .not.toBeTruthy()
+      })
+    })
+    test('should be emited whenever user close the Popover by clicking outside', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          inline: false
+        }
+      })
+      componentWrapper.vm.showPopover()
+      componentWrapper.vm.onBlur(null)
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.emitted().close.length).toEqual(1)
+      })
+    })
+    test('should be emited whenever user close the Popover by clicking the trigger', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          inline: false
+        }
+      })
+      const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+      trigger.trigger('click')
+      trigger.trigger('click')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.emitted().close.length).toEqual(1)
+      })
+    })
+    test('should be emited whenever user close the Popover by clicking a Swatch', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          inline: false,
+          closeOnSelect: true
+        }
+      })
+      componentWrapper.vm.showPopover()
+      const swatch = componentWrapper.find(Swatch)
+      swatch.trigger('click')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.emitted().close.length).toEqual(1)
       })
     })
   })

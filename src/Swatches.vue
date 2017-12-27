@@ -351,7 +351,7 @@ export default {
     },
     // Called by user action
     onBlur (relatedTarget) {
-      if (!this.internalIsOpen) return /* dont hide */
+      if (!this.isOpen) return /* dont hide */
 
       // We only close the Popover if the relatedTarget came from outside the component
       // Check if the relatedTarget is inside the component
@@ -362,14 +362,13 @@ export default {
     },
     // Called programmatically
     showPopover () {
-      if (this.internalIsOpen) return /* dont show */
+      if (this.isOpen) return /* dont show */
 
       this.internalIsOpen = true
       this.$el.focus()
     },
     togglePopover () {
-      /* istanbul ignore next */
-      this.internalIsOpen ? this.hidePopover() : this.showPopover()
+      this.isOpen ? this.hidePopover() : this.showPopover()
     },
     updateSwatch (swatch) {
       if (this.checkException(swatch)) return
