@@ -103,7 +103,7 @@ export default {
       default: true
     },
     colors: {
-      type: Array | String,
+      type: Array | String | Object,
       default: 'simple'
     },
     exceptions: {
@@ -197,7 +197,7 @@ export default {
       throw new Error(`[vue-swatches] ${this.exceptionMode} is not a valid value for 'exception-mode'. Please use 'hidden' or 'disabled'`)
     },
     // Computed value for `maxHeight`
-    computedMaxheight () {
+    computedMaxHeight () {
       // Priorize user value
       if (this.maxHeight !== null) {
         if (!isNaN(this.maxHeight)) {
@@ -304,7 +304,7 @@ export default {
       return {
         ...positionStyle,
         ...baseStyles,
-        maxHeight: `${this.computedMaxheight}px`
+        maxHeight: `${this.computedMaxHeight}px`
       }
     },
     containerStyles () {
@@ -375,10 +375,17 @@ export default {
       }
     },
     extractSwatchesFromPreset (presetName) {
-      const preset = presets[presetName]
-
-      if (!preset) {
-        throw new Error(`[vue-swatches] ${presetName} doesn't match any preset. Please refer to the documentation.`)
+      let preset = null
+      if (presetName instanceof Object) {
+        preset = presetName
+        if (!preset.swatches || !(preset.swatches instanceof Array)) {
+          throw new Error(`[vue-swatches] The given preset doesn't have a valid swatches Array. Please refer to the documentation.`)
+        }
+      } else {
+        preset = presets[presetName]
+        if (!preset) {
+          throw new Error(`[vue-swatches] ${presetName} doesn't match any preset. Please refer to the documentation.`)
+        }
       }
 
       // Applying the styles if present in the preset
