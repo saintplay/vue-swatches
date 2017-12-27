@@ -6,6 +6,7 @@ import Swatches from 'src/Swatches'
 import presets from 'src/presets'
 
 const DEFAULT_BACKGROUND_COLOR = '#FFFFFF'
+const DEFAULT_MAX_HEIGHT = 300
 
 const completPresetExample = {
   swatches: ['#cc4125', '#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af', '#6d9eeb', '#6fa8dc', '#8e7cc3', '#c27ba0'],
@@ -16,17 +17,21 @@ const completPresetExample = {
   maxHeight: 80
 }
 
+const defaultComponent = mount(Swatches)
+
 describe('Props', () => {
   describe('background-color', () => {
     const testColor = '#333'
-
-    describe('When Popover mode is enabled', () => {
-      test('background color should render default background color if not passed a prop', () => {
-        const componentWrapper = mount(Swatches)
-        const container = componentWrapper.find('.vue-swatches__container').element
-        expect(rgb(container.style.backgroundColor))
-        .toEqual(rgb(DEFAULT_BACKGROUND_COLOR))
+    test('default background-color are shown', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          backgroundColor: DEFAULT_BACKGROUND_COLOR
+        }
       })
+      expect(componentWrapper.html())
+      .toEqual(defaultComponent.html())
+    })
+    describe('When Popover mode is enabled', () => {
       test('background color should render color passed as a prop', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {
@@ -40,16 +45,6 @@ describe('Props', () => {
     })
 
     describe('When Inline mode is enabled', () => {
-      test('background color should render default background color if not passed a prop', () => {
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: true
-          }
-        })
-        const container = componentWrapper.find('.vue-swatches__container').element
-        expect(rgb(container.style.backgroundColor))
-        .toEqual(rgb(DEFAULT_BACKGROUND_COLOR))
-      })
       test('background color should render color passed as a prop', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {
@@ -65,6 +60,15 @@ describe('Props', () => {
   })
 
   describe('close-on-select', () => {
+    test('default close-on-select is set to true', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          closeOnSelect: true
+        }
+      })
+      expect(componentWrapper.html())
+      .toEqual(defaultComponent.html())
+    })
     describe('When Popover mode is enabled', () => {
       test('should close the popover if true', () => {
         const componentWrapper = mount(Swatches, {
@@ -97,19 +101,14 @@ describe('Props', () => {
 
   describe('colors', () => {
     test('default swatches are shown', () => {
-      const defaultPresetName = 'simple'
-      const rgbColors = presets[defaultPresetName].swatches.map(c => rgb(c))
-      const componentWrapper = mount(Swatches, {
+      const presetComponent = mount(Swatches, {
         propsData: {
-          colors: defaultPresetName
+          colors: 'simple'
         }
       })
-      const swatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch'))
-      const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
-
       Vue.nextTick(() => {
-        expect(swatchesColors)
-        .toEqual(rgbColors)
+        expect(presetComponent.html())
+        .toEqual(defaultComponent.html())
       })
     })
     describe('When custom colors are passed as a prop', () => {
@@ -171,6 +170,24 @@ describe('Props', () => {
   })
 
   describe('exceptions && exception-mode', () => {
+    test('default exceptions are set to []', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          exceptions: []
+        }
+      })
+      expect(componentWrapper.html())
+      .toEqual(defaultComponent.html())
+    })
+    test('default exception-mode are set to disabled', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          exceptionMode: 'disabled'
+        }
+      })
+      expect(componentWrapper.html())
+      .toEqual(defaultComponent.html())
+    })
     describe('When swatches array is simple', () => {
       test('exceptions should be hidden if exception-mode is hidden', () => {
         const colors = ['#a23e41', '#e31432', '#a156e2', '#aeccea', '#5f0f2a', '#eca23e', '#12313a']
@@ -280,6 +297,15 @@ describe('Props', () => {
   })
 
   describe('inline', () => {
+    test('inline default is set to false', () => {
+      const noInlineComponent = mount(Swatches, {
+        propsData: {
+          inline: false
+        }
+      })
+      expect(noInlineComponent.html())
+      .toEqual(defaultComponent.html())
+    })
     describe('When inline prop is true', () => {
       test('should not render the trigger', () => {
         const componentWrapper = mount(Swatches, {
@@ -327,6 +353,17 @@ describe('Props', () => {
   })
 
   describe('max-height', () => {
+    test('default max-height is set to 300', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          maxHeight: DEFAULT_MAX_HEIGHT
+        }
+      })
+      Vue.nextTick(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
     test('container should have a height greater than zero by default', () => {
       const componentWrapper = mount(Swatches)
       const container = componentWrapper.find('.vue-swatches__container')
