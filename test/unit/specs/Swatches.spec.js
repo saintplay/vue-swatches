@@ -8,6 +8,7 @@ import presets from 'src/presets'
 const DEFAULT_BACKGROUND_COLOR = '#FFFFFF'
 const DEFAULT_MAX_HEIGHT = 300
 const DEFAULT_ROW_LENGTH = 5
+const DEFAULT_SWATCH_SIZE = 42
 
 const completPresetExample = {
   swatches: ['#cc4125', '#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af', '#6d9eeb', '#6fa8dc', '#8e7cc3', '#c27ba0'],
@@ -667,6 +668,89 @@ describe('Props', () => {
 
       expect(check.hasStyle('display', 'none'))
       .toBeTruthy()
+    })
+  })
+
+  describe('swatch-size', () => {
+    test(`default swatch-size is set to ${DEFAULT_SWATCH_SIZE}`, () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          swatchSize: DEFAULT_SWATCH_SIZE
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+    test('should update the swatch-size if prop is passed', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          swatchSize: 24
+        }
+      })
+      const expectedDimensions = {
+        width: '24px',
+        height: '24px'
+      }
+      const swatch = componentWrapper.find('.vue-swatches__swatch')
+      const swatchDimensions = {
+        width: swatch.element.style.width,
+        height: swatch.element.style.height
+      }
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(swatchDimensions)
+        .toEqual(expectedDimensions)
+      })
+    })
+    test('should update the swatch-size if preset especify one', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors: completPresetExample
+        }
+      })
+      const expectedDimensions = {
+        width: `${completPresetExample.swatchSize}px`,
+        height: `${completPresetExample.swatchSize}px`
+      }
+      const swatch = componentWrapper.find('.vue-swatches__swatch')
+      const swatchDimensions = {
+        width: swatch.element.style.width,
+        height: swatch.element.style.height
+      }
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(swatchDimensions)
+        .toEqual(expectedDimensions)
+      })
+    })
+    test('should priorize the swatch-size from the prop over the preset one', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors: completPresetExample,
+          swatchSize: 34
+        }
+      })
+      const expectedDimensions = {
+        width: '34px',
+        height: '34px'
+      }
+      const swatch = componentWrapper.find('.vue-swatches__swatch')
+      const swatchDimensions = {
+        width: swatch.element.style.width,
+        height: swatch.element.style.height
+      }
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(swatchDimensions)
+        .toEqual(expectedDimensions)
+      })
     })
   })
 })
