@@ -392,6 +392,7 @@ export default {
       if (preset.borderRadius) this.presetBorderRadius = preset.borderRadius
       if (preset.maxHeight) this.presetMaxHeight = preset.maxHeight
       if (preset.rowLength) this.presetRowLength = preset.rowLength
+      if (preset.showBorder) this.presetShowBorder = preset.showBorder
       if (preset.swatchSize) this.presetSwatchSize = preset.swatchSize
       if (preset.spacingSize === 0 || preset.spacingSize) this.presetSpacingSize = preset.spacingSize
 

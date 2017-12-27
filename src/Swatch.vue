@@ -2,7 +2,7 @@
   <div
     class="vue-swatches__swatch"
     :class="{
-      'vue-swatches__swatch__border': showBorder,
+      'vue-swatches__swatch--border': showBorder,
       'vue-swatches__swatch--selected': selected,
       'vue-swatches__swatch--is-exception': isException
     }"
@@ -85,7 +85,7 @@ export default {
       outline: none;
     }
 
-    &.vue-swatches__swatch__border {
+    &.vue-swatches__swatch--border {
       box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
     }
 
