@@ -368,6 +368,7 @@ export default {
       this.$el.focus()
     },
     togglePopover () {
+      /* istanbul ignore next */
       this.internalIsOpen ? this.hidePopover() : this.showPopover()
     },
     updateSwatch (swatch) {

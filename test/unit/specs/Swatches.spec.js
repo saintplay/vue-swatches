@@ -805,3 +805,22 @@ describe('Props', () => {
     })
   })
 })
+
+describe('Events', () => {
+  describe('@input', () => {
+    test('should be emited whenever user pick a swatch', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          value: '#e31432'
+        }
+      })
+      const swatch = componentWrapper.findAll(Swatch)
+      swatch.trigger('click')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.emitted().input).toBeTruthy()
+      })
+    })
+  })
+})
