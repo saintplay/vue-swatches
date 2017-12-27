@@ -432,4 +432,28 @@ describe('Props', () => {
       })
     })
   })
+
+  describe('shapes', () => {
+    test('default shape is set to squares', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          shape: 'squares'
+        }
+      })
+      expect(componentWrapper.html())
+      .toEqual(defaultComponent.html())
+    })
+    test('trigger should render as circle if prop is circles', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          shapes: 'circles',
+          inline: false
+        }
+      })
+      const trigger = componentWrapper.find('.vue-swatches__trigger')
+
+      expect(trigger.element.style.borderRadius)
+      .toEqual('50%')
+    })
+  })
 })
