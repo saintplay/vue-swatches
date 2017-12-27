@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { mount } from 'vue-test-utils'
 import rgb from 'rgb'
 
@@ -5,6 +6,15 @@ import Swatches from 'src/Swatches'
 import presets from 'src/presets'
 
 const DEFAULT_BACKGROUND_COLOR = '#FFFFFF'
+
+const completPresetExample = {
+  swatches: ['#cc4125', '#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af', '#6d9eeb', '#6fa8dc', '#8e7cc3', '#c27ba0'],
+  borderRadius: '0',
+  rowLength: 6,
+  swatchSize: 18,
+  spacingSize: 90,
+  maxHeight: 80
+}
 
 describe('Props', () => {
   describe('background-color', () => {
@@ -14,7 +24,6 @@ describe('Props', () => {
       test('background color should render default background color if not passed a prop', () => {
         const componentWrapper = mount(Swatches)
         const container = componentWrapper.find('.vue-swatches__container').element
-        console.log(`BG DEFAULT ${DEFAULT_BACKGROUND_COLOR}`)
         expect(rgb(container.style.backgroundColor))
         .toEqual(rgb(DEFAULT_BACKGROUND_COLOR))
       })
@@ -97,8 +106,11 @@ describe('Props', () => {
       })
       const swatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch'))
       const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
-      expect(swatchesColors)
-      .toEqual(rgbColors)
+
+      Vue.nextTick(() => {
+        expect(swatchesColors)
+        .toEqual(rgbColors)
+      })
     })
     describe('When custom colors are passed as a prop', () => {
       test('given array colors are shown', () => {
@@ -177,8 +189,10 @@ describe('Props', () => {
         const hiddenSwatches = exceptionSwatches.filter(s => s.style.display === 'none')
         const hiddenSwatchesColors = hiddenSwatches.map(s => rgb(s.style.backgroundColor))
 
-        expect(hiddenSwatchesColors)
-        .toEqual(trueRgbExceptions)
+        Vue.nextTick(() => {
+          expect(hiddenSwatchesColors)
+          .toEqual(trueRgbExceptions)
+        })
       })
       test('exceptions should be disabled if exception-mode is disabled', () => {
         const colors = ['#a23e41', '#e31432', '#a156e2', '#aeccea', '#5f0f2a', '#eca23e', '#12313a']
@@ -197,8 +211,10 @@ describe('Props', () => {
         const disabledSwatches = exceptionSwatches.filter(s => s.style.cursor === 'not-allowed')
         const disabledSwatchesColors = disabledSwatches.map(s => rgb(s.style.backgroundColor))
 
-        expect(disabledSwatchesColors)
-        .toEqual(trueRgbExceptions)
+        Vue.nextTick(() => {
+          expect(disabledSwatchesColors)
+          .toEqual(trueRgbExceptions)
+        })
       })
     })
     describe('When swatches array is nested', () => {
@@ -226,8 +242,10 @@ describe('Props', () => {
         const hiddenSwatches = exceptionSwatches.filter(s => s.style.display === 'none')
         const hiddenSwatchesColors = hiddenSwatches.map(s => rgb(s.style.backgroundColor))
 
-        expect(hiddenSwatchesColors)
-        .toEqual(trueRgbExceptions)
+        Vue.nextTick(() => {
+          expect(hiddenSwatchesColors)
+          .toEqual(trueRgbExceptions)
+        })
       })
       test('exceptions should be disabled if exception-mode is disabled', () => {
         const colors = [
@@ -253,8 +271,10 @@ describe('Props', () => {
         const disabledSwatches = exceptionSwatches.filter(s => s.style.cursor === 'not-allowed')
         const disabledSwatchesColors = disabledSwatches.map(s => rgb(s.style.backgroundColor))
 
-        expect(disabledSwatchesColors)
-        .toEqual(trueRgbExceptions)
+        Vue.nextTick(() => {
+          expect(disabledSwatchesColors)
+          .toEqual(trueRgbExceptions)
+        })
       })
     })
   })
@@ -302,6 +322,76 @@ describe('Props', () => {
         const container = componentWrapper.find('.vue-swatches__container')
         expect(container.hasStyle('display', 'none'))
         .toBeTruthy()
+      })
+    })
+  })
+
+  describe('max-height', () => {
+    test('container should have a height greater than zero by default', () => {
+      const componentWrapper = mount(Swatches)
+      const container = componentWrapper.find('.vue-swatches__container')
+      const heightWithUnit = `${container.element.style.height.toString().replace(/px/, '')}px`
+
+      Vue.nextTick(() => {
+        expect(heightWithUnit)
+        .not.toEqual('0px')
+      })
+    })
+    describe('When Inline mode is enabled', () => {
+      test('should not have a max-height value especified', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: true
+          }
+        })
+        const container = componentWrapper.find('.vue-swatches__container')
+        expect(container.element.style.maxHeight)
+        .toEqual('')
+      })
+    })
+    describe('When Popover mode is enabled', () => {
+      test('should update the max-height if prop is passed', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false,
+            maxHeight: 120
+          }
+        })
+        const container = componentWrapper.find('.vue-swatches__container')
+
+        Vue.nextTick(() => {
+          expect(container.element.style.maxHeight)
+          .toEqual('120px')
+        })
+      })
+      test('should update the max-height if preset specify one', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false,
+            colors: completPresetExample
+          }
+        })
+        const container = componentWrapper.find('.vue-swatches__container')
+
+        Vue.nextTick(() => {
+          expect(container.element.style.maxHeight)
+          .toEqual(`${completPresetExample.maxHeight}px`)
+        })
+      })
+      test('should priorize the max-height from the prop over the preset one', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false,
+            colors: completPresetExample,
+            maxHeight: 250
+          }
+        })
+        const container = componentWrapper.find('.vue-swatches__container')
+
+        Vue.nextTick(() => {
+          expect(container.element.style.maxHeight)
+          .toEqual(`250px`)
+        })
       })
     })
   })
