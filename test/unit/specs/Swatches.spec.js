@@ -15,7 +15,8 @@ const completPresetExample = {
   rowLength: 6,
   swatchSize: 18,
   spacingSize: 90,
-  maxHeight: 80
+  maxHeight: 80,
+  showBorder: true
 }
 
 const defaultComponent = mount(Swatches)
@@ -546,6 +547,65 @@ describe('Props', () => {
       .then(() => {
         expect(componentWrapper.vm.computedRowLength)
         .toEqual(10)
+      })
+    })
+  })
+
+  describe('show-border', () => {
+    test('default show-border is set to false', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showBorder: false
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+    test('should update the show-border if prop is passed', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showBorder: true
+        }
+      })
+      const borderedSwatches = componentWrapper.findAll('.vue-swatches__swatch--border')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(borderedSwatches.length)
+        .toEqual(componentWrapper.vm.computedColors.length)
+      })
+    })
+    test('should update the show-border if preset especify one', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors: completPresetExample
+        }
+      })
+      const borderedSwatches = componentWrapper.findAll('.vue-swatches__swatch--border')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(borderedSwatches.length)
+        .toEqual(componentWrapper.vm.computedColors.length)
+      })
+    })
+    test('should priorize the show-border from the prop over the preset one', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors: completPresetExample,
+          showBorder: false
+        }
+      })
+      const borderedSwatches = componentWrapper.findAll('.vue-swatches__swatch--border')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(borderedSwatches.length)
+        .toEqual(0)
       })
     })
   })
