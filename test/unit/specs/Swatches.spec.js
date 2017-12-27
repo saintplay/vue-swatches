@@ -4,7 +4,7 @@ import rgb from 'rgb'
 import Swatches from 'src/Swatches'
 import presets from 'src/presets'
 
-const DEFAULT_BACKGROUND_COLOR = '#ffffff'
+const DEFAULT_BACKGROUND_COLOR = '#FFFFFF'
 
 describe('Props', () => {
   describe('background-color', () => {
@@ -14,6 +14,7 @@ describe('Props', () => {
       test('background color should render default background color if not passed a prop', () => {
         const componentWrapper = mount(Swatches)
         const container = componentWrapper.find('.vue-swatches__container').element
+        console.log(`BG DEFAULT ${DEFAULT_BACKGROUND_COLOR}`)
         expect(rgb(container.style.backgroundColor))
         .toEqual(rgb(DEFAULT_BACKGROUND_COLOR))
       })
@@ -79,8 +80,8 @@ describe('Props', () => {
         const container = componentWrapper.find('.vue-swatches__container')
         const swatch = componentWrapper.find('.vue-swatches__swatch')
         swatch.trigger('click')
-        expect(container.hasStyle('display', 'block'))
-        .toBeTruthy()
+        expect(container.hasStyle('display', 'none'))
+        .not.toBeTruthy()
       })
     })
   })
@@ -162,7 +163,7 @@ describe('Props', () => {
       test('exceptions should be hidden if exception-mode is hidden', () => {
         const colors = ['#a23e41', '#e31432', '#a156e2', '#aeccea', '#5f0f2a', '#eca23e', '#12313a']
         const rgbColors = colors.map(c => rgb(c))
-        const exceptions = ['#e31432', '#a156e2', '#eca23e']
+        const exceptions = ['#E31432', '#A156E2', '#ECA23E'] // Also the case shouldn't matter
         const rgbExceptions = exceptions.map(e => rgb(e))
         const trueRgbExceptions = rgbColors.filter(c => rgbExceptions.indexOf(c) !== -1)
         const componentWrapper = mount(Swatches, {
@@ -254,6 +255,53 @@ describe('Props', () => {
 
         expect(disabledSwatchesColors)
         .toEqual(trueRgbExceptions)
+      })
+    })
+  })
+
+  describe('inline', () => {
+    describe('When inline prop is true', () => {
+      test('should not render the trigger', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: true
+          }
+        })
+        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        expect(trigger.exists())
+        .not.toBeTruthy()
+      })
+      test('should render swatches visible', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: true
+          }
+        })
+        const container = componentWrapper.find('.vue-swatches__container')
+        expect(container.hasStyle('display', 'none'))
+        .not.toBeTruthy()
+      })
+    })
+    describe('When inline prop is fale (Popover)', () => {
+      test('should render the trigger', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false
+          }
+        })
+        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        expect(trigger.exists())
+        .toBeTruthy()
+      })
+      test('shoukd render swatches not visible', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false
+          }
+        })
+        const container = componentWrapper.find('.vue-swatches__container')
+        expect(container.hasStyle('display', 'none'))
+        .toBeTruthy()
       })
     })
   })

@@ -1,6 +1,6 @@
 <template>
   <div class="vue-swatches" @blur.self="e => onBlur(e.relatedTarget)" tabindex="0">
-    <div v-if="!inline" @click="togglePopover">
+    <div v-if="!inline" ref="trigger-wrapper" @click="togglePopover">
       <slot
         name="trigger"
       >
@@ -81,11 +81,12 @@
 import presets from './presets'
 import Swatch from './Swatch'
 
-const DEFAULT_BORDER_RADIUS = '10px'
-const DEFAULT_MAX_HEIGHT = 300
-const DEFAULT_ROW_LENGTH = 5
-const DEFAULT_SWATCH_SIZE = 42
-const DEFAULT_SHOW_BORDER = false
+export const DEFAULT_BACKGROUND_COLOR = '#ffffff'
+export const DEFAULT_BORDER_RADIUS = '10px'
+export const DEFAULT_MAX_HEIGHT = 300
+export const DEFAULT_ROW_LENGTH = 5
+export const DEFAULT_SWATCH_SIZE = 42
+export const DEFAULT_SHOW_BORDER = false
 
 export default {
   name: 'swatches',
@@ -95,7 +96,7 @@ export default {
   props: {
     backgroundColor: {
       type: String,
-      default: '#ffffff'
+      default: DEFAULT_BACKGROUND_COLOR
     },
     closeOnSelect: {
       type: Boolean,
