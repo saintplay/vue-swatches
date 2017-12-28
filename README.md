@@ -6,8 +6,8 @@
 </h1>
 
 <p align="center">
-  <a href="https://circleci.com/gh/saintplay/vue-swatches">
-    <img src="https://img.shields.io/circleci/project/github/saintplay/vue-swatches.svg" alt="CircleCI">
+  <a href="https://travis-ci.org/saintplay/vue-swatches">
+    <img src="https://travis-ci.org/saintplay/vue-swatches.svg?branch=master" alt="Travis CI">
   </a>
   <a href="https://www.npmjs.org/package/vue-swatches">
     <img src="https://img.shields.io/npm/v/vue-swatches.svg" alt="npm version">
