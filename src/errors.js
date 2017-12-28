@@ -13,8 +13,11 @@ export const stringNotANumber = (propName, value) => {
 export const presetArray = value => `[vue-swatches] The given preset doesn't have a valid swatches Array. Please refer to the documentation.`
 export const presetName = value => `[vue-swatches] "${value}" doesn't match any preset. Please refer to the documentation.`
 
-/* Exception Mode */
+/* ExceptionMode Prop */
 export const exceptionModeValue = value => `[vue-swatches] "${value}" is not a valid value for "exception-mode". Please use "hidden" or "disabled"`
 
-/* Popover-to */
+/* Shapes Prop */
+export const shapesValue = value => `[vue-swatches] ${value} is not a valid value for "shapes". Please use "squares" or "circles"`
+
+/* PopoverTo Prop */
 export const popoverToValue = value => `[vue-swatches] ${value} is not a valid value for "popover-to". Please use "left" or "right"`

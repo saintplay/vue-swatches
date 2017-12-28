@@ -1132,6 +1132,26 @@ describe('Exceptions', () => {
       .toThrow(errorsMessages.typeCheckError('max-height', ['Number', 'String'], { data: 'Hello' }))
     })
   })
+  describe('shapes Prop', () => {
+    test('should throw if prop doesn\'t match any valid value', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          shapes: 'value-that-doesnt-match'
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.shapesValue('value-that-doesnt-match'))
+    })
+    test('should throw if prop is not a valid type', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          shapes: ['fancy', 'array']
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.typeCheckError('shapes', ['String'], ['fancy', 'array']))
+    })
+  })
   describe('popover-to Prop', () => {
     test('should throw if prop doesn\'t match any valid value', () => {
       const mountComponent = () => mount(Swatches, {

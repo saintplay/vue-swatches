@@ -155,8 +155,14 @@ export default {
       }
     },
     shapes: {
-      type: String,
-      default: 'squares'
+      default: 'squares',
+      validator (value) {
+        if (typeof value === 'string') {
+          if (value === 'squares' || value === 'circles') return true
+          throw new Error(errorsMessages.shapesValue(value))
+        }
+        throw new Error(errorsMessages.typeCheckError('shapes', ['String'], value))
+      }
     },
     popoverTo: {
       default: 'right',
