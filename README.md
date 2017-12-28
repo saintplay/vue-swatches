@@ -1,6 +1,4 @@
-# vue-swatches #
-
-Help the uer picking beautiful colors
+![Vue-Swatches Promo](https://raw.githubusercontent.com/saintplay/vue-swatches/blob/master/.github/promo.png)
 
 ## Contributing ##
 

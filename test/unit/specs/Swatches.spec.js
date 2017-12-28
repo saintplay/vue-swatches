@@ -883,12 +883,11 @@ describe('Props', () => {
           colors
         }
       })
-
       componentWrapper.setProps({ value: '#a156e2' })
-      const selectedSwatch = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)[0]
 
       return Vue.nextTick()
       .then(() => {
+        const selectedSwatch = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)[0]
         expect(selectedSwatch.vm.swatchColor)
         .toEqual('#a156e2')
       })
