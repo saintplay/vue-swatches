@@ -2,3 +2,6 @@ sudo: false
 language: node_js
 node_js:
   - "8"
+
+script: "npm test"
+after_script: "cat test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
