@@ -847,49 +847,109 @@ describe('Events', () => {
         .not.toBeTruthy()
       })
     })
-    test('should be emited whenever user close the Popover by clicking outside', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          inline: false
-        }
-      })
-      componentWrapper.vm.showPopover()
-      componentWrapper.vm.onBlur(null)
+    describe('When legacy trigger is used', () => {
+      test('should be emited whenever user close the Popover by clicking outside', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false
+          }
+        })
+        componentWrapper.vm.showPopover()
+        componentWrapper.vm.onBlur(null)
 
-      return Vue.nextTick()
-      .then(() => {
-        expect(componentWrapper.emitted().close.length).toEqual(1)
+        return Vue.nextTick()
+        .then(() => {
+          expect(componentWrapper.emitted().close.length).toEqual(1)
+        })
+      })
+      test('should be emited whenever user close the Popover by clicking the trigger', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false
+          }
+        })
+        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        trigger.trigger('click')
+        trigger.trigger('click')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(componentWrapper.emitted().close.length).toEqual(1)
+        })
+      })
+      test('should be emited whenever user close the Popover by clicking a Swatch', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false,
+            closeOnSelect: true
+          }
+        })
+        componentWrapper.vm.showPopover()
+        const swatch = componentWrapper.find(Swatch)
+        swatch.trigger('click')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(componentWrapper.emitted().close.length).toEqual(1)
+        })
       })
     })
-    test('should be emited whenever user close the Popover by clicking the trigger', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          inline: false
-        }
-      })
-      const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
-      trigger.trigger('click')
-      trigger.trigger('click')
+    describe('When trigger slot is used', () => {
+      test('should be emited whenever user close the Popover by clicking outside', () => {
+        const buttonTest = '<button id="button-test">Hello World</button>'
+        const componentWrapper = mount(Swatches, {
+          slots: {
+            trigger: buttonTest
+          },
+          propsData: {
+            inline: false
+          }
+        })
+        componentWrapper.vm.showPopover()
+        componentWrapper.vm.onBlur(null)
 
-      return Vue.nextTick()
-      .then(() => {
-        expect(componentWrapper.emitted().close.length).toEqual(1)
+        return Vue.nextTick()
+        .then(() => {
+          expect(componentWrapper.emitted().close.length).toEqual(1)
+        })
       })
-    })
-    test('should be emited whenever user close the Popover by clicking a Swatch', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          inline: false,
-          closeOnSelect: true
-        }
-      })
-      componentWrapper.vm.showPopover()
-      const swatch = componentWrapper.find(Swatch)
-      swatch.trigger('click')
+      test('should be emited whenever user close the Popover by clicking the trigger', () => {
+        const buttonTest = '<button id="button-test">Hello World</button>'
+        const componentWrapper = mount(Swatches, {
+          slots: {
+            trigger: buttonTest
+          },
+          propsData: {
+            inline: false
+          }
+        })
+        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        trigger.trigger('click')
+        trigger.trigger('click')
 
-      return Vue.nextTick()
-      .then(() => {
-        expect(componentWrapper.emitted().close.length).toEqual(1)
+        return Vue.nextTick()
+        .then(() => {
+          expect(componentWrapper.emitted().close.length).toEqual(1)
+        })
+      })
+      test('should be emited whenever user close the Popover by clicking a Swatch', () => {
+        const buttonTest = '<button id="button-test">Hello World</button>'
+        const componentWrapper = mount(Swatches, {
+          slots: {
+            trigger: buttonTest
+          },
+          propsData: {
+            inline: false
+          }
+        })
+        componentWrapper.vm.showPopover()
+        const swatch = componentWrapper.find(Swatch)
+        swatch.trigger('click')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(componentWrapper.emitted().close.length).toEqual(1)
+        })
       })
     })
     test('should payload the value', () => {
@@ -908,6 +968,29 @@ describe('Events', () => {
       .then(() => {
         expect(componentWrapper.emitted().close[0][0])
         .toEqual(color)
+      })
+    })
+  })
+})
+
+describe('Slots', () => {
+  describe('trigger', () => {
+    test('should replace the trigger node', () => {
+      const spanTest = '<span id="span-test">Hello World</span>'
+      const componentWrapper = mount(Swatches, {
+        slots: {
+          trigger: spanTest
+        },
+        propsData: {
+          inline: false
+        }
+      })
+      const trigger = componentWrapper.find('#span-test')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(trigger.html())
+        .toEqual(spanTest)
       })
     })
   })
