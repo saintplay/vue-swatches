@@ -336,11 +336,8 @@ export default {
 
       if (this.inline) return baseStyles
 
-      if (this.popoverTo === 'right') {
-        positionStyle = { left: 0 }
-      } else if (this.popoverTo === 'left') {
-        positionStyle = { right: 0 }
-      }
+      if (this.popoverTo === 'right') positionStyle = { left: 0 }
+      else if (this.popoverTo === 'left') positionStyle = { right: 0 }
 
       return {
         ...positionStyle,
@@ -390,7 +387,7 @@ export default {
     },
     // Called by user action
     onBlur (relatedTarget) {
-      /* istanbul-ignore-next */
+      /* istanbul ignore if */
       if (!this.isOpen) return /* dont hide */
 
       // We only close the Popover if the relatedTarget came from outside the component
@@ -402,7 +399,7 @@ export default {
     },
     // Called programmatically
     showPopover () {
-      /* istanbul-ignore-next */
+      /* istanbul ignore if */
       if (this.isOpen) return /* dont show */
 
       this.internalIsOpen = true
