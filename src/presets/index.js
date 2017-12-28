@@ -1,15 +1,15 @@
-import simple from './simple'
-import textSimple from './text-simple'
+import basic from './basic'
+import textBasic from './text-basic'
 import textAdvanced from './text-advanced'
-import materialSimple from './material-simple'
+import materialBasic from './material-basic'
 import materialLight from './material-light'
 import materialDark from './material-dark'
 
 export default {
-  'simple': simple,
-  'text-simple': textSimple,
+  'basic': basic,
+  'text-basic': textBasic,
   'text-advanced': textAdvanced,
-  'material-simple': materialSimple,
+  'material-basic': materialBasic,
   'material-light': materialLight,
   'material-dark': materialDark
 }

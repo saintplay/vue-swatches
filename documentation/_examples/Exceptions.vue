@@ -6,7 +6,7 @@
     <div class="form__input">
       <swatches
         v-model="color"
-        colors="text-simple"
+        colors="text-basic"
         :exceptions="exceptions"
         exception-mode="disabled"
         row-length="4"

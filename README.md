@@ -34,7 +34,17 @@
   <a href="#license">License</a>
 </p>
 
+## Table of Contents ##
 
+- [Introduction](#introduction)
+- [Features](#features)
+- [Install](#install)
+- [Basic Usage](#basic-usage)
+- [Props](#props)
+- [Events](#events)
+- [Slots](#slots)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Contributing ##
 

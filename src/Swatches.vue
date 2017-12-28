@@ -106,7 +106,7 @@ export default {
       default: true
     },
     colors: {
-      default: 'simple',
+      default: 'basic',
       validator (value) {
         if (value instanceof Array) return true
         else if (value instanceof Object && !(value instanceof RegExp)) {

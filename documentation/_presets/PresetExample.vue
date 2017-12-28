@@ -14,7 +14,7 @@ export default {
   props: {
     colors: {
       type: String,
-      default: 'simple'
+      default: 'basic'
     },
     shapes: {
       type: String,

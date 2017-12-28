@@ -111,7 +111,7 @@ describe('Props', () => {
     test('default swatches are shown', () => {
       const presetComponent = mount(Swatches, {
         propsData: {
-          colors: 'simple'
+          colors: 'basic'
         }
       })
       return Vue.nextTick()
@@ -168,7 +168,7 @@ describe('Props', () => {
     })
     describe('When preset name is passed as a prop', () => {
       test('preset colors are shown', () => {
-        const presetNameTest = 'material-simple'
+        const presetNameTest = 'material-basic'
         const rgbColors = presets[presetNameTest].swatches.map(c => rgb(c))
         const componentWrapper = mount(Swatches, {
           propsData: {
