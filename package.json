@@ -1,9 +1,9 @@
 {
   "name": "vue-swatches",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.1",
   "description": "Vue component to pick beautiful colors",
   "author": "Diego Jara <saintplay96@gmail.com>",
-  "private": false,
+  "private": true,
   "license": "MIT",
   "keywords": [
     "vuejs",
