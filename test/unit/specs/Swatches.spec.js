@@ -818,6 +818,18 @@ describe('Events', () => {
         expect(componentWrapper.emitted().input.length).toEqual(1)
       })
     })
+    test('should payload the value', () => {
+      const componentWrapper = mount(Swatches)
+      const swatch = componentWrapper.find(Swatch)
+      swatch.trigger('click')
+      const color = swatch.vm.swatchColor
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.emitted().input[0][0])
+        .toEqual(color)
+      })
+    })
   })
   describe('@close', () => {
     test('should not be emited when Inline mode is activated', () => {
@@ -878,6 +890,24 @@ describe('Events', () => {
       return Vue.nextTick()
       .then(() => {
         expect(componentWrapper.emitted().close.length).toEqual(1)
+      })
+    })
+    test('should payload the value', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          inline: false,
+          closeOnSelect: true
+        }
+      })
+      componentWrapper.vm.showPopover()
+      const swatch = componentWrapper.find(Swatch)
+      swatch.trigger('click')
+      const color = swatch.vm.swatchColor
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.emitted().close[0][0])
+        .toEqual(color)
       })
     })
   })
