@@ -15,7 +15,7 @@
     <transition name="vue-swatches-show-hide">
       <!-- The container handles the padding -->
       <div
-        v-show="isOpen"
+        v-show="inline || isOpen"
         class="vue-swatches__container"
         :class="{'vue-swatches--inline': inline}"
         :style="containerStyles"
@@ -173,7 +173,7 @@ export default {
       return false
     },
     isOpen () {
-      if (this.inline) return true
+      if (this.inline) return false
       return this.internalIsOpen
     },
 

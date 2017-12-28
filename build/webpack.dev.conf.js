@@ -49,7 +49,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: './documentation/index.pug',
       inject: true
-    }),
+    })
   ]
 })
 

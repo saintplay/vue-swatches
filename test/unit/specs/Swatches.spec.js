@@ -756,7 +756,7 @@ describe('Props', () => {
   })
 
   describe('value', () => {
-    test('should update value after picking a swatch', () => {
+    test('should select value', () => {
       const colors = ['#e31432', '#a156e2', '#eca23e']
       const componentWrapper = mount(Swatches, {
         propsData: {
@@ -770,21 +770,6 @@ describe('Props', () => {
       .then(() => {
         expect(selectedSwatch.vm.swatchColor)
         .toEqual('#e31432')
-      })
-    })
-    test('should not select any swatch when null', () => {
-      const colors = ['#e31432', '#a156e2', '#eca23e']
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          colors
-        }
-      })
-      const selectedSwatchList = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(selectedSwatchList.length)
-        .toEqual(0)
       })
     })
     test('should select value with diferent case', () => {
@@ -801,6 +786,21 @@ describe('Props', () => {
       .then(() => {
         expect(selectedSwatch.vm.swatchColor)
         .toEqual('#eca23e')
+      })
+    })
+    test('should not select any swatch when null', () => {
+      const colors = ['#e31432', '#a156e2', '#eca23e']
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors
+        }
+      })
+      const selectedSwatchList = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(selectedSwatchList.length)
+        .toEqual(0)
       })
     })
   })
@@ -820,15 +820,14 @@ describe('Events', () => {
     })
   })
   describe('@close', () => {
-    test('should not ve emited when Inline mode is activated', () => {
+    test('should not be emited when Inline mode is activated', () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
           inline: true,
           closeOnSelect: true
         }
       })
-      const swatch = componentWrapper.find(Swatch)
-      swatch.trigger('click')
+      componentWrapper.vm.onBlur(null)
 
       return Vue.nextTick()
       .then(() => {
