@@ -1096,11 +1096,11 @@ describe('Exceptios', () => {
     test('should throw if prop doesn\'t match any valid value', () => {
       const mountComponent = () => mount(Swatches, {
         propsData: {
-          exceptionMode: 'mode-that-doesnt-exists'
+          exceptionMode: 'value-that-doesnt-match'
         }
       })
       expect(mountComponent)
-      .toThrow(errorsMessages.exceptionModeValue('mode-that-doesnt-exists'))
+      .toThrow(errorsMessages.exceptionModeValue('value-that-doesnt-match'))
     })
     test('should throw if prop is not a valid type', () => {
       const mountComponent = () => mount(Swatches, {
@@ -1130,6 +1130,26 @@ describe('Exceptios', () => {
       })
       expect(mountComponent)
       .toThrow(errorsMessages.typeCheckError('max-height', ['Number', 'String'], { data: 'Hello' }))
+    })
+  })
+  describe('popover-to Prop', () => {
+    test('should throw if prop doesn\'t match any valid value', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          popoverTo: 'value-that-doesnt-match'
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.popoverToValue('value-that-doesnt-match'))
+    })
+    test('should throw if prop is not a valid type', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          popoverTo: 158.18
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.typeCheckError('popover-to', ['String'], 158.18))
     })
   })
 })
