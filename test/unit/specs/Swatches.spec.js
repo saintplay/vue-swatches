@@ -1092,4 +1092,24 @@ describe('Exceptios', () => {
       .toThrow(errorsMessages.typeCheckError('colors', ['Array', 'Object', 'String'], /regular-expression/))
     })
   })
+  describe('exception-mode Prop', () => {
+    test('should throw if preset name doesn\'t match any preset', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          exceptionMode: 'mode-that-doesnt-exists'
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.exceptionModeValue('mode-that-doesnt-exists'))
+    })
+    test('should throw if prop is not a valid type', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          exceptionMode: 158.18
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.typeCheckError('exception-mode', ['String'], 158.18))
+    })
+  })
 })

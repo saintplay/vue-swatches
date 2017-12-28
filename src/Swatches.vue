@@ -136,7 +136,7 @@ export default {
           if (value === 'disabled' || value === 'hidden') return true
           throw new Error(errorsMessages.exceptionModeValue(value))
         }
-        throw new Error(errorsMessages.typeCheckError('colors', ['String'], value))
+        throw new Error(errorsMessages.typeCheckError('exception-mode', ['String'], value))
       }
     },
     inline: {
