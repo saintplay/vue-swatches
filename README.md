@@ -6,11 +6,17 @@
 </h1>
 
 <p align="center">
-  <a href="https://github.com/facebook/jest">
-    <img src="https://img.shields.io/badge/tested_with-jest-99424f.svg" alt="Jest">
+  <a href="https://circleci.com/gh/saintplay/vue-swatches">
+    <img src="https://img.shields.io/circleci/project/github/saintplay/vue-swatches.svg" alt="CircleCI">
+  </a>
+  <a href="https://www.npmjs.org/package/vue-swatches">
+    <img src="https://img.shields.io/npm/v/vue-swatches.svg" alt="npm version">
   </a>
   <a href="https://www.npmjs.org/package/vue-swatches">
     <img src="https://img.shields.io/github/license/saintplay/vue-swatches.svg" alt="license">
+  </a>
+  <a href="https://github.com/facebook/jest">
+    <img src="https://img.shields.io/badge/tested_with-jest-99424f.svg" alt="Jest">
   </a>
 </p>
 
@@ -21,7 +27,7 @@
   <a href="#credits">Props</a> •
   <a href="#credits">Events</a> •
   <a href="#related">Slots</a> •
-  <a href="#license">Contributing</a>
+  <a href="#license">Contributing</a> •
   <a href="#license">License</a>
 </p>
 
