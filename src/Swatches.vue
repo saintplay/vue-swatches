@@ -302,7 +302,6 @@ export default {
     borderRadius () {
       if (this.shapes === 'squares') return `${Math.round(this.computedSwatchSize * 0.25)}px`
       if (this.shapes === 'circles') return `50%`
-      return DEFAULT_BORDER_RADIUS
     },
     spacingSize () {
       return Math.round(this.computedSwatchSize * 0.25)
