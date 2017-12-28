@@ -6,6 +6,8 @@ import Swatches from 'src/Swatches'
 import Swatch from 'src/Swatch'
 import presets from 'src/presets'
 
+import * as errorsMessages from 'src/errors'
+
 const DEFAULT_BACKGROUND_COLOR = '#FFFFFF'
 const DEFAULT_MAX_HEIGHT = 300
 const DEFAULT_ROW_LENGTH = 5
@@ -129,8 +131,11 @@ describe('Props', () => {
         })
         const swatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch'))
         const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
-        expect(swatchesColors)
-        .toEqual(rgbColors)
+        return Vue.nextTick()
+        .then(() => {
+          expect(swatchesColors)
+          .toEqual(rgbColors)
+        })
       })
       test('given nested array colors are shown', () => {
         const colors = [
@@ -154,9 +159,11 @@ describe('Props', () => {
           const rgbSwatches = swatchesNodeList.map(s => rgb(s.style.backgroundColor))
           swatchesColors.push(rgbSwatches)
         })
-
-        expect(swatchesColors)
-        .toEqual(rgbColors)
+        return Vue.nextTick()
+        .then(() => {
+          expect(swatchesColors)
+          .toEqual(rgbColors)
+        })
       })
     })
     describe('When preset name is passed as a prop', () => {
@@ -170,8 +177,31 @@ describe('Props', () => {
         })
         const swatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch'))
         const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
-        expect(swatchesColors)
-        .toEqual(rgbColors)
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(swatchesColors)
+          .toEqual(rgbColors)
+        })
+      })
+    })
+    describe('When preset object is passed as a pop', () => {
+      test('preset colors are shown', () => {
+        const rgbColors = completPresetExample.swatches.map(c => rgb(c))
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false,
+            colors: completPresetExample
+          }
+        })
+        const swatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch'))
+        const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(swatchesColors)
+          .toEqual(rgbColors)
+        })
       })
     })
   })
@@ -772,6 +802,24 @@ describe('Props', () => {
         .toEqual('#e31432')
       })
     })
+    test('should update the value', () => {
+      const colors = ['#e31432', '#a156e2', '#eca23e']
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          value: '#eca23e',
+          colors
+        }
+      })
+
+      componentWrapper.setProps({ value: '#a156e2' })
+      const selectedSwatch = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)[0]
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(selectedSwatch.vm.swatchColor)
+        .toEqual('#a156e2')
+      })
+    })
     test('should select value with diferent case', () => {
       const colors = ['#e31432', '#a156e2', '#eca23e']
       const componentWrapper = mount(Swatches, {
@@ -992,6 +1040,47 @@ describe('Slots', () => {
         expect(trigger.html())
         .toEqual(spanTest)
       })
+    })
+  })
+})
+
+describe('Exceptios', () => {
+  describe('colors Prop', () => {
+    test('should throw if swatches property is not present on preset', () => {
+      const incorrectPreset = {
+        borderRadius: '15%',
+        spacingSize: 20
+      }
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          colors: incorrectPreset
+        }
+      })
+      expect(mountComponent)
+      .toThrow()
+    })
+    test('should throw if swatches property is not an array on preset', () => {
+      const incorrectPreset = {
+        swatches: 189,
+        borderRadius: '15%',
+        spacingSize: 20
+      }
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          colors: incorrectPreset
+        }
+      })
+      expect(mountComponent)
+      .toThrow()
+    })
+    test('should throw if preset name doesn\'t match any preset', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          colors: 'fancy-preset-name-that-doesnt-exists'
+        }
+      })
+      expect(mountComponent)
+      .toThrow()
     })
   })
 })

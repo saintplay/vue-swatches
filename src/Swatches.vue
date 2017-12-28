@@ -82,6 +82,7 @@
 <script>
 import presets from './presets'
 import Swatch from './Swatch'
+import * as errorsMessages from './errors'
 
 export const DEFAULT_BACKGROUND_COLOR = '#ffffff'
 export const DEFAULT_BORDER_RADIUS = '10px'
@@ -105,36 +106,78 @@ export default {
       default: true
     },
     colors: {
-      type: Array | String | Object,
-      default: 'simple'
+      default: 'simple',
+      validator (value) {
+        if (value instanceof Array) return true
+        if (value instanceof Object) {
+          if (!value.swatches || !(value.swatches instanceof Array)) {
+            throw new Error(errorsMessages.presetArray(value))
+          }
+          return true
+        }
+        if (typeof value === 'string') {
+          const preset = presets[value]
+          if (!preset) {
+            throw new Error(errorsMessages.presetName(value))
+          }
+          return true
+        }
+        throw new Error(errorsMessages.typeCheckError('colors', ['Array', 'Object', 'String'], value))
+      }
     },
     exceptions: {
       type: Array,
       default: () => []
     },
     exceptionMode: {
-      type: String,
-      default: 'disabled'
+      default: 'disabled',
+      validator (value) {
+        if (typeof value === 'string') {
+          if (value === 'disabled' || value === 'hidden') return true
+          throw new Error(errorsMessages.exceptionModeValue(value))
+        }
+        throw new Error(errorsMessages.typeCheckError('colors', ['String'], value))
+      }
     },
     inline: {
       type: Boolean,
       default: false
     },
     maxHeight: {
-      type: Number | String,
-      default: null
+      default: null,
+      validator (value) {
+        if (typeof value === 'number') return true
+        if (typeof value === 'string') {
+          if (!isNaN(value)) return true
+          throw new Error(errorsMessages.stringNotIsNumber('max-height', value))
+        }
+        throw new Error(errorsMessages.typeCheckError('max-height', ['Number', 'String'], value))
+      }
     },
     shapes: {
       type: String,
       default: 'squares'
     },
     popoverTo: {
-      type: String,
-      default: 'right'
+      default: 'right',
+      validator (value) {
+        if (typeof value === 'string') {
+          if (value === 'left' || value === 'right') return true
+          throw new Error(errorsMessages.popoverToValue(value))
+        }
+        throw new Error(errorsMessages.typeCheckError('popover-to', ['String'], value))
+      }
     },
     rowLength: {
-      type: Number | String,
-      default: null
+      default: null,
+      validator (value) {
+        if (typeof value === 'number') return true
+        if (typeof value === 'string') {
+          if (!isNaN(value)) return true
+          throw new Error(errorsMessages.stringNotIsNumber('row-length', value))
+        }
+        throw new Error(errorsMessages.typeCheckError('row-length', ['Number', 'String'], value))
+      }
     },
     showBorder: {
       type: Boolean,
@@ -145,8 +188,15 @@ export default {
       default: true
     },
     swatchSize: {
-      type: Number | String,
-      default: null
+      default: null,
+      validator (value) {
+        if (typeof value === 'number') return true
+        if (typeof value === 'string') {
+          if (!isNaN(value)) return true
+          throw new Error(errorsMessages.stringNotIsNumber('swatch-size', value))
+        }
+        throw new Error(errorsMessages.typeCheckError('swatch-size', ['Number', 'String'], value))
+      }
     },
     value: {
       type: String,
@@ -196,18 +246,11 @@ export default {
     computedExceptionMode () {
       if (this.exceptionMode === 'hidden') return this.exceptionMode
       if (this.exceptionMode === 'disabled') return this.exceptionMode
-      throw new Error(`[vue-swatches] ${this.exceptionMode} is not a valid value for 'exception-mode'. Please use 'hidden' or 'disabled'`)
     },
     // Computed value for `maxHeight`
     computedMaxHeight () {
       // Priorize user value
-      if (this.maxHeight !== null) {
-        if (!isNaN(this.maxHeight)) {
-          return Number(this.maxHeight)
-        }
-        // Given maxHeight is not a number!
-        throw new Error(`[vue-swatches] ${this.maxHeight} is not a Number value for 'maxHeight'. max-height prop must be a Number`)
-      }
+      if (this.maxHeight !== null) return Number(this.maxHeight)
       // Over preset value
       if (this.presetMaxHeight !== null) return this.presetMaxHeight
       // Use default value if these two are unset!
@@ -216,13 +259,7 @@ export default {
     // Computed value for `rowLength`
     computedRowLength () {
       // Priorize user value
-      if (this.rowLength !== null) {
-        if (!isNaN(this.rowLength)) {
-          return Number(this.rowLength)
-        }
-        // Given rowLength is not a number!
-        throw new Error(`[vue-swatches] ${this.rowLength} is not a Number value for 'rowLength'. row-length prop must be a Number`)
-      }
+      if (this.rowLength !== null) return Number(this.rowLength)
       // Over preset value
       if (this.presetRowLength !== null) return this.presetRowLength
       // Use default value if these two are unset!
@@ -231,13 +268,7 @@ export default {
     // Computed value for `swatchSize`
     computedSwatchSize () {
       // Priorize user value
-      if (this.swatchSize !== null) {
-        if (!isNaN(this.swatchSize)) {
-          return Number(this.swatchSize)
-        }
-        // Given swatchSize is not a number!
-        throw new Error(`[vue-swatches] ${this.swatchSize} is not a Number value for 'swatchSize'. swatch-size prop must be a Number`)
-      }
+      if (this.swatchSize !== null) return Number(this.swatchSize)
       // over preset value
       if (this.presetSwatchSize !== null) return this.presetSwatchSize
       // Use default value if these two are unset
@@ -299,8 +330,6 @@ export default {
         positionStyle = { left: 0 }
       } else if (this.popoverTo === 'left') {
         positionStyle = { right: 0 }
-      } else {
-        throw new Error(`[vue-swatches] ${this.popoverTo} is not a valid value for 'popover-to'. Please use 'left' or 'right'`)
       }
 
       return {
@@ -382,17 +411,8 @@ export default {
     },
     extractSwatchesFromPreset (presetName) {
       let preset = null
-      if (presetName instanceof Object) {
-        preset = presetName
-        if (!preset.swatches || !(preset.swatches instanceof Array)) {
-          throw new Error(`[vue-swatches] The given preset doesn't have a valid swatches Array. Please refer to the documentation.`)
-        }
-      } else {
-        preset = presets[presetName]
-        if (!preset) {
-          throw new Error(`[vue-swatches] ${presetName} doesn't match any preset. Please refer to the documentation.`)
-        }
-      }
+      if (presetName instanceof Object) preset = presetName
+      else preset = presets[presetName]
 
       // Applying the styles if present in the preset
       if (preset.borderRadius) this.presetBorderRadius = preset.borderRadius
