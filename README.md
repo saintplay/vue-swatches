@@ -9,6 +9,9 @@
   <a href="https://travis-ci.org/saintplay/vue-swatches">
     <img src="https://travis-ci.org/saintplay/vue-swatches.svg?branch=master" alt="Travis CI">
   </a>
+  <a href="https://coveralls.io/github/saintplay/vue-swatches?branch=master">
+    <img src="https://coveralls.io/repos/github/saintplay/vue-swatches/badge.svg?branch=master" alt="Coveralls">
+  </a>
   <a href="https://www.npmjs.org/package/vue-swatches">
     <img src="https://img.shields.io/npm/v/vue-swatches.svg" alt="npm version">
   </a>
@@ -47,9 +50,6 @@ npm run docs
 
 # run unit tests
 npm run test
-
-# run unit tests watch
-npm run unit-watch
 
 ```
 
