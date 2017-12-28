@@ -1044,7 +1044,7 @@ describe('Slots', () => {
   })
 })
 
-describe('Exceptios', () => {
+describe('Exceptions', () => {
   describe('colors Prop', () => {
     test('should throw if swatches property is not present on preset', () => {
       const incorrectPreset = {
@@ -1165,11 +1165,31 @@ describe('Exceptios', () => {
     test('should throw if prop is not a valid type', () => {
       const mountComponent = () => mount(Swatches, {
         propsData: {
-          rowLength: { data: 'Hello' }
+          rowLength: ['fancy', 'array']
         }
       })
       expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('row-length', ['Number', 'String'], { data: 'Hello' }))
+      .toThrow(errorsMessages.typeCheckError('row-length', ['Number', 'String'], ['fancy', 'array']))
+    })
+  })
+  describe('swatch-size Prop', () => {
+    test('should throw if prop is a String but can\'t be parsed as Number', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          swatchSize: 'not-a-number'
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.stringNotANumber('swatch-size'))
+    })
+    test('should throw if prop is not a valid type', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          swatchSize: /regular-expression/
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.typeCheckError('swatch-size', ['Number', 'String'], /regular-expression/))
     })
   })
 })
