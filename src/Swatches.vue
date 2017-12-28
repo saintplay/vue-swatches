@@ -149,7 +149,7 @@ export default {
         if (typeof value === 'number') return true
         if (typeof value === 'string') {
           if (!isNaN(value)) return true
-          throw new Error(errorsMessages.stringNotIsNumber('max-height', value))
+          throw new Error(errorsMessages.stringNotANumber('max-height', value))
         }
         throw new Error(errorsMessages.typeCheckError('max-height', ['Number', 'String'], value))
       }
@@ -174,7 +174,7 @@ export default {
         if (typeof value === 'number') return true
         if (typeof value === 'string') {
           if (!isNaN(value)) return true
-          throw new Error(errorsMessages.stringNotIsNumber('row-length', value))
+          throw new Error(errorsMessages.stringNotANumber('row-length', value))
         }
         throw new Error(errorsMessages.typeCheckError('row-length', ['Number', 'String'], value))
       }
@@ -193,7 +193,7 @@ export default {
         if (typeof value === 'number') return true
         if (typeof value === 'string') {
           if (!isNaN(value)) return true
-          throw new Error(errorsMessages.stringNotIsNumber('swatch-size', value))
+          throw new Error(errorsMessages.stringNotANumber('swatch-size', value))
         }
         throw new Error(errorsMessages.typeCheckError('swatch-size', ['Number', 'String'], value))
       }

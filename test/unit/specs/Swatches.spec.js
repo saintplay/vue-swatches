@@ -1093,7 +1093,7 @@ describe('Exceptios', () => {
     })
   })
   describe('exception-mode Prop', () => {
-    test('should throw if preset name doesn\'t match any preset', () => {
+    test('should throw if prop doesn\'t match any valid value', () => {
       const mountComponent = () => mount(Swatches, {
         propsData: {
           exceptionMode: 'mode-that-doesnt-exists'
@@ -1110,6 +1110,26 @@ describe('Exceptios', () => {
       })
       expect(mountComponent)
       .toThrow(errorsMessages.typeCheckError('exception-mode', ['String'], 158.18))
+    })
+  })
+  describe('max-height Prop', () => {
+    test('should throw if prop is a String but can\'t be parsed as Number', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          maxHeight: 'not-a-number'
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.stringNotANumber('max-height'))
+    })
+    test('should throw if prop is not a valid type', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          maxHeight: { data: 'Hello' }
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.typeCheckError('max-height', ['Number', 'String'], { data: 'Hello' }))
     })
   })
 })

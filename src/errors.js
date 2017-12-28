@@ -5,7 +5,7 @@ export const typeCheckError = (propName, validTypes, value) => {
   return `[vue-swatches] type check failed for prop "${propName}". Expected ${validTypesString}. got ${upperCaseType}.`
 }
 
-export const stringNotIsNumber = (propName, value) => {
+export const stringNotANumber = (propName, value) => {
   return `[vue-swatches] "${propName}" prop must be a Number. Got a String  but not parsable to a Number`
 }
 
