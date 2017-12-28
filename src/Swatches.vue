@@ -385,6 +385,7 @@ export default {
     },
     // Called by user action
     onBlur (relatedTarget) {
+      /* istanbul-ignore-next */
       if (!this.isOpen) return /* dont hide */
 
       // We only close the Popover if the relatedTarget came from outside the component
@@ -396,6 +397,7 @@ export default {
     },
     // Called programmatically
     showPopover () {
+      /* istanbul-ignore-next */
       if (this.isOpen) return /* dont show */
 
       this.internalIsOpen = true

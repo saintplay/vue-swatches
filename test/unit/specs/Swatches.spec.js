@@ -225,6 +225,26 @@ describe('Props', () => {
       expect(componentWrapper.html())
       .toEqual(defaultComponent.html())
     })
+    test('should not update value if clicked', () => {
+      const colors = ['#e31432', '#a156e2', '#eca23e']
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          value: '#eca23e',
+          colors,
+          exceptions: ['#e31432']
+        }
+      })
+
+      const swatch = componentWrapper.find('.vue-swatches__swatch')
+      swatch.trigger('click')
+      const selectedSwatch = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)[0]
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(selectedSwatch.vm.swatchColor)
+        .toEqual('#eca23e')
+      })
+    })
     describe('When swatches array is simple', () => {
       test('exceptions should be hidden if exception-mode is hidden', () => {
         const colors = ['#a23e41', '#e31432', '#a156e2', '#aeccea', '#5f0f2a', '#eca23e', '#12313a']
