@@ -1152,4 +1152,24 @@ describe('Exceptios', () => {
       .toThrow(errorsMessages.typeCheckError('popover-to', ['String'], 158.18))
     })
   })
+  describe('row-length Prop', () => {
+    test('should throw if prop is a String but can\'t be parsed as Number', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          rowLength: 'not-a-number'
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.stringNotANumber('row-length'))
+    })
+    test('should throw if prop is not a valid type', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          rowLength: { data: 'Hello' }
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.typeCheckError('row-length', ['Number', 'String'], { data: 'Hello' }))
+    })
+  })
 })
