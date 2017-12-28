@@ -109,13 +109,12 @@ export default {
       default: 'simple',
       validator (value) {
         if (value instanceof Array) return true
-        if (value instanceof Object && !(value instanceof RegExp)) {
+        else if (value instanceof Object && !(value instanceof RegExp)) {
           if (!value.swatches || !(value.swatches instanceof Array)) {
             throw new Error(errorsMessages.presetArray(value))
           }
           return true
-        }
-        if (typeof value === 'string') {
+        } else if (typeof value === 'string') {
           const preset = presets[value]
           if (!preset) {
             throw new Error(errorsMessages.presetName(value))
@@ -147,9 +146,11 @@ export default {
       default: null,
       validator (value) {
         if (typeof value === 'number') return true
-        if (typeof value === 'string') {
-          if (!isNaN(value)) return true
-          throw new Error(errorsMessages.stringNotANumber('max-height', value))
+        else if (typeof value === 'string') {
+          if (isNaN(value)) {
+            throw new Error(errorsMessages.stringNotANumber('max-height', value))
+          }
+          return true
         }
         throw new Error(errorsMessages.typeCheckError('max-height', ['Number', 'String'], value))
       }
@@ -178,9 +179,11 @@ export default {
       default: null,
       validator (value) {
         if (typeof value === 'number') return true
-        if (typeof value === 'string') {
-          if (!isNaN(value)) return true
-          throw new Error(errorsMessages.stringNotANumber('row-length', value))
+        else if (typeof value === 'string') {
+          if (isNaN(value)) {
+            throw new Error(errorsMessages.stringNotANumber('row-length', value))
+          }
+          return true
         }
         throw new Error(errorsMessages.typeCheckError('row-length', ['Number', 'String'], value))
       }
@@ -197,9 +200,11 @@ export default {
       default: null,
       validator (value) {
         if (typeof value === 'number') return true
-        if (typeof value === 'string') {
-          if (!isNaN(value)) return true
-          throw new Error(errorsMessages.stringNotANumber('swatch-size', value))
+        else if (typeof value === 'string') {
+          if (isNaN(value)) {
+            throw new Error(errorsMessages.stringNotANumber('swatch-size', value))
+          }
+          return true
         }
         throw new Error(errorsMessages.typeCheckError('swatch-size', ['Number', 'String'], value))
       }
@@ -251,14 +256,14 @@ export default {
     // Computed value for `exceptionMode`
     computedExceptionMode () {
       if (this.exceptionMode === 'hidden') return this.exceptionMode
-      if (this.exceptionMode === 'disabled') return this.exceptionMode
+      else if (this.exceptionMode === 'disabled') return this.exceptionMode
     },
     // Computed value for `maxHeight`
     computedMaxHeight () {
       // Priorize user value
       if (this.maxHeight !== null) return Number(this.maxHeight)
       // Over preset value
-      if (this.presetMaxHeight !== null) return this.presetMaxHeight
+      else if (this.presetMaxHeight !== null) return this.presetMaxHeight
       // Use default value if these two are unset!
       return DEFAULT_MAX_HEIGHT
     },
@@ -267,7 +272,7 @@ export default {
       // Priorize user value
       if (this.rowLength !== null) return Number(this.rowLength)
       // Over preset value
-      if (this.presetRowLength !== null) return this.presetRowLength
+      else if (this.presetRowLength !== null) return this.presetRowLength
       // Use default value if these two are unset!
       return DEFAULT_ROW_LENGTH
     },
@@ -276,7 +281,7 @@ export default {
       // Priorize user value
       if (this.swatchSize !== null) return Number(this.swatchSize)
       // over preset value
-      if (this.presetSwatchSize !== null) return this.presetSwatchSize
+      else if (this.presetSwatchSize !== null) return this.presetSwatchSize
       // Use default value if these two are unset
       return DEFAULT_SWATCH_SIZE
     },
@@ -301,7 +306,7 @@ export default {
 
     borderRadius () {
       if (this.shapes === 'squares') return `${Math.round(this.computedSwatchSize * 0.25)}px`
-      if (this.shapes === 'circles') return `50%`
+      else if (this.shapes === 'circles') return `50%`
     },
     spacingSize () {
       return Math.round(this.computedSwatchSize * 0.25)

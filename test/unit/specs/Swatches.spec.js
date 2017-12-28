@@ -454,6 +454,21 @@ describe('Props', () => {
           .toEqual('120px')
         })
       })
+      test('should accept string number', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false,
+            maxHeight: '110'
+          }
+        })
+        const container = componentWrapper.find('.vue-swatches__container')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.element.style.maxHeight)
+          .toEqual('110px')
+        })
+      })
       test('should update the max-height if preset specify one', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {
@@ -507,8 +522,11 @@ describe('Props', () => {
       })
       const trigger = componentWrapper.find('.vue-swatches__trigger')
 
-      expect(trigger.element.style.borderRadius)
-      .toEqual('50%')
+      return Vue.nextTick()
+      .then(() => {
+        expect(trigger.element.style.borderRadius)
+        .toEqual('50%')
+      })
     })
   })
 
@@ -574,6 +592,19 @@ describe('Props', () => {
       .then(() => {
         expect(componentWrapper.vm.computedRowLength)
         .toEqual(8)
+      })
+    })
+    test('should accept string number', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          rowLength: '6'
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.vm.computedRowLength)
+        .toEqual(6)
       })
     })
     test('should update the row-length if preset especify one', () => {
@@ -734,6 +765,28 @@ describe('Props', () => {
       .then(() => {
         expect(componentWrapper.html())
         .toEqual(defaultComponent.html())
+      })
+    })
+    test('should accept string number', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          swatchSize: '16'
+        }
+      })
+      const expectedDimensions = {
+        width: '16px',
+        height: '16px'
+      }
+      const swatch = componentWrapper.find('.vue-swatches__swatch')
+      const swatchDimensions = {
+        width: swatch.element.style.width,
+        height: swatch.element.style.height
+      }
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(swatchDimensions)
+        .toEqual(expectedDimensions)
       })
     })
     test('should update the swatch-size if prop is passed', () => {
