@@ -36,6 +36,8 @@ module.exports = {
   docs: {
     index: path.resolve(__dirname, '../docs/index.html'),
     assetsRoot: path.resolve(__dirname, '../docs'),
-    assetsPublicPath: ''
+    assetsPublicPath: '',
+    devtool: '#source-map',
+    productionSourceMap: false
   }
 }

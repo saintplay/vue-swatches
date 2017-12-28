@@ -35,7 +35,7 @@
     "start": "npm run dev",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "bundle": "node build/bundle.js",
-    "docs": "rm -rf docs && mkdir docs && node build/build.js",
+    "docs": "node build/build-docs.js",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
