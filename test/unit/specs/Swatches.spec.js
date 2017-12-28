@@ -1057,7 +1057,7 @@ describe('Exceptios', () => {
         }
       })
       expect(mountComponent)
-      .toThrow()
+      .toThrow(errorsMessages.presetArray())
     })
     test('should throw if swatches property is not an array on preset', () => {
       const incorrectPreset = {
@@ -1071,7 +1071,7 @@ describe('Exceptios', () => {
         }
       })
       expect(mountComponent)
-      .toThrow()
+      .toThrow(errorsMessages.presetArray())
     })
     test('should throw if preset name doesn\'t match any preset', () => {
       const mountComponent = () => mount(Swatches, {
@@ -1080,7 +1080,16 @@ describe('Exceptios', () => {
         }
       })
       expect(mountComponent)
-      .toThrow()
+      .toThrow(errorsMessages.presetName('fancy-preset-name-that-doesnt-exists'))
+    })
+    test('should throw if prop is not a valid type', () => {
+      const mountComponent = () => mount(Swatches, {
+        propsData: {
+          colors: /regular-expression/
+        }
+      })
+      expect(mountComponent)
+      .toThrow(errorsMessages.typeCheckError('colors', ['Array', 'Object', 'String'], /regular-expression/))
     })
   })
 })

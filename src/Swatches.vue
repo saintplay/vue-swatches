@@ -109,7 +109,7 @@ export default {
       default: 'simple',
       validator (value) {
         if (value instanceof Array) return true
-        if (value instanceof Object) {
+        if (value instanceof Object && !(value instanceof RegExp)) {
           if (!value.swatches || !(value.swatches instanceof Array)) {
             throw new Error(errorsMessages.presetArray(value))
           }
