@@ -37,6 +37,7 @@
 ## Table of Contents ##
 
 - [Introduction](#introduction)
+- [Browser Compatibility](#browser-compatibility)
 - [Features](#features)
 - [Install](#install)
 - [Basic Usage](#basic-usage)
@@ -45,6 +46,14 @@
 - [Slots](#slots)
 - [Contributing](#contributing)
 - [License](#license)
+
+## Browser Compatibility ##
+
+This component have the same support than Vue itself
+
+> Vue does not support IE8 and below, because it uses ECMAScript 5 features that are un-shimmable in IE8. However it supports all [ECMAScript 5 compliant browsers](https://caniuse.com/#feat=es5).
+
+However if you want to use this in IE9, you probably will have to fix the CSS styles
 
 ## Contributing ##
 
