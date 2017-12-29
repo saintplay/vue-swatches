@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify">
+  <a href="https://saintplay.github.io/vue-swatches/">
     <img src="https://github.com/saintplay/vue-swatches/blob/master/.github/promo.png?raw=true" alt="Vue Swatches">
   </a>
 </h1>
@@ -23,27 +23,73 @@
   </a>
 </p>
 
+## Demo And Documentation ##
+
+<https://saintplay.github.io/vue-swatches/>
+
+
 ## Table of Contents ##
 
 - [Introduction](#introduction)
-- [Browser Compatibility](#browser-compatibility)
 - [Features](#features)
 - [Install](#install)
 - [Basic Usage](#basic-usage)
-- [Presets](#presets)
-- [Props](#props)
-- [Events](#events)
-- [Slots](#slots)
 - [Contributing](#contributing)
+- [Browser Compatibility](#browser-compatibility)
 - [License](#license)
 
-## Browser Compatibility ##
+## Introduction ##
 
-This component have the same support than Vue itself
+Vue Swatches is a UI Component for Vue that allows the user to choose colors.
 
-> Vue does not support IE8 and below, because it uses ECMAScript 5 features that are un-shimmable in IE8. However it supports all [ECMAScript 5 compliant browsers](https://caniuse.com/#feat=es5).
+Unlike classic color pickers, where all colors are available (167 77 216 colors),
+Vue Swatches only shows a bunch of predefined colors.
 
-However if you want to use this in IE9, you probably will have to fix the CSS styles
+> More decisions require more effort
+
+With fewer options, the user experience will be improved
+
+## Features ##
+
+- Presets ready to use
+- Popover Mode
+- Inline Mode
+- Custom Colors
+- Nested Colors Array
+- Easily Customizable
+- Custom Trigger
+
+## Install ##
+
+`npm install --save vue-swatches`
+
+or
+
+`yarn add vue-swatches`
+
+## Basic Usage ##
+
+```html
+<!-- Vue component -->
+<template>
+  <div>
+    <swatches v-model="color" />
+  </div>
+</template>
+
+<script>
+  import Swatches from 'vue-swatches'
+
+  export default {
+    components: { Swatches },
+    data () {
+      return {
+        color: '#1CA085'
+      }
+    }
+  }
+</script>
+```
 
 ## Contributing ##
 
@@ -61,6 +107,16 @@ npm run docs
 npm run test
 
 ```
+
+## Browser Compatibility ##
+
+This component has the same support than Vue itself
+
+> Vue does not support IE8 and below, because it uses ECMAScript 5 features that are un-shimmable in IE8. However it supports all [ECMAScript 5 compliant browsers](https://caniuse.com/#feat=es5).
+
+However if you want to use this with IE9, you will probably need to work on the CSS styles.
+IE10 should be fine
+
 
 ## License
 
