@@ -72,6 +72,7 @@
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "is-hex-color": "0.0.1",
     "jest": "^21.2.0",
     "jest-serializer-vue": "^0.3.0",
     "jstransformer-escape-html": "^1.0.0",
