@@ -12,5 +12,5 @@ export default {
   borderRadius: '0',
   rowLength: 10,
   swatchSize: 24,
-  spacingSize: 10
+  spacingSize: 0
 }
