@@ -23,17 +23,6 @@
   </a>
 </p>
 
-<p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">Install</a> •
-  <a href="#download">Basic Usage</a> •
-  <a href="#credits">Props</a> •
-  <a href="#credits">Events</a> •
-  <a href="#related">Slots</a> •
-  <a href="#license">Contributing</a> •
-  <a href="#license">License</a>
-</p>
-
 ## Table of Contents ##
 
 - [Introduction](#introduction)
@@ -41,6 +30,7 @@
 - [Features](#features)
 - [Install](#install)
 - [Basic Usage](#basic-usage)
+- [Presets](#presets)
 - [Props](#props)
 - [Events](#events)
 - [Slots](#slots)

@@ -5,3 +5,19 @@ node_js:
 
 script: "npm test"
 after_script: "cat test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+
+build-docs:
+  skip_cleanup: true
+  script: "npm run docs"
+  on:
+    branch: master
+
+deploy-docs:
+  skip_cleanup: true
+  provider: pages
+  local_dir: docs
+  github_token: $GITHUB_TOKEN
+  email: saintplay@gmail.com
+  name: Diego Jara
+  on:
+    branch: master
