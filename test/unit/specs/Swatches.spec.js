@@ -1351,7 +1351,7 @@ describe('Presets', () => {
         const preset = presets[presetName]
         const spacingSize = preset.spacingSize
         if (typeof spacingSize === 'undefined') valid = true // spacingSize is not required
-        if (typeof spacingSize === 'number' && spacingSize > 0) valid = true
+        if (typeof spacingSize === 'number' && spacingSize >= 0) valid = true
 
         expect(valid)
         .toBeTruthy()
