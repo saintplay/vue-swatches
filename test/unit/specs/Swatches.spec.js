@@ -1298,7 +1298,7 @@ describe('Presets', () => {
         expect(swatches)
         .toBeTruthy()
       })
-      test('preset should have a valid colors', () => {
+      test('preset should have valid colors', () => {
         let isNested = false
         let validSwatches = 0
         let swatchesCount = 0

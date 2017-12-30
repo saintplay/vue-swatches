@@ -21,7 +21,7 @@ h2.typo__h2#sub-props(data-section) Props
                 li #[kbd '#ffffff']
                 li #[kbd '#cccccc']
             td.table__td
-              | Sets the selected color.
+              | Sets the background color.
 
           tr.table__tr
             td.table__td: strong close-on-select
@@ -32,7 +32,7 @@ h2.typo__h2#sub-props(data-section) Props
                 li #[kbd true]
                 li #[kbd false]
             td.table__td
-              | Hide Popover after selection a color.
+              | Hides the popover after select a color.
 
           tr.table__tr
             td.table__td: strong colors
@@ -44,14 +44,15 @@ h2.typo__h2#sub-props(data-section) Props
                 li #[kbd 'text-advanced']
             td.table__td
               | The colors that will be shown in the swatches.
-              | You should always use #[strong hex] values.
-              ul
+              br
+              | You should always use #[strong 6-digits hex] colors.
+              ul.list__description
                 li Use an #[kbd Array] for custom colors or custom nested colors.
                 li Use an #[kbd String] for preset names.
                 li Use an #[kbd Object] for preset Objects.
 
           tr.table__tr
-            td.table__td: strong Exceptions
+            td.table__td: strong exceptions
             td.table__td #[kbd Array]
             td.table__td: kbd []
             td.table__td
@@ -59,8 +60,123 @@ h2.typo__h2#sub-props(data-section) Props
                 li: kbd ['#ffffff', '#000000']
                 li: kbd ['#f102a3', '#1b22ee', '#fc2343']
             td.table__td
-              | The colors that will be shown in the swatches.
-              ul
+              | Colors that will be excluded.
+              br
+              | You should always use #[strong 6-digits hex] colors.
+              ul.list__description
                 li Use an #[kbd Array] for custom colors or custom nested colors.
-                li Use an #[kbd String] for preset names.
+                li Use a #[kbd String] for preset names.
                 li Use an #[kbd Object] for preset Objects.
+
+          tr.table__tr
+            td.table__td: strong exception-mode
+            td.table__td #[kbd String]
+            td.table__td: kbd 'disabled'
+            td.table__td
+              ul
+                li: kbd 'disabled'
+                li: kbd 'hidden'
+            td.table__td
+              | The behaviour of the exceptions. Use #[kbd 'disabled'] or #[kbd 'hidden']
+              ul.list__description
+                li Use #[kbd 'disabled'] to disable the exceptions. User won't be able to pick the color.
+                li Use #[kbd 'hidden'] to hide the exceptions. User won't be able to see the color.
+
+          tr.table__tr
+            td.table__td: strong inline
+            td.table__td #[kbd Boolean]
+            td.table__td: kbd false
+            td.table__td
+              ul
+                li: kbd true
+                li: kbd false
+            td.table__td
+              | Wheter the swatches should be shown in a popover or not (inline).
+              ul.list__description
+                li Use #[strong Inline] to hide the trigger and show the swatches right away.
+                li Use #[strong Popover] to show the swatches in a Popover after clicking the trigger.
+
+          tr.table__tr
+            td.table__td: strong max-height
+            td.table__td #[kbd Number] or #[kbd String]
+            td.table__td: kbd false
+            td.table__td
+              ul
+                li: kbd '300'
+                li: kbd 400
+                li: kbd '600'
+            td.table__td
+              | The maximum height for the popover.#[br]
+              | This don't affect inline mode.
+
+          tr.table__tr
+            td.table__td: strong shapes
+            td.table__td #[kbd String]
+            td.table__td: kbd 'squares'
+            td.table__td
+              ul
+                li: kbd 'squares'
+                li: kbd 'circles'
+            td.table__td
+              | The shape that will be used for the swatches and the trigger. Use #[kbd 'circles'] or #[kbd 'squares']
+
+          tr.table__tr
+            td.table__td: strong popover-to
+            td.table__td #[kbd String]
+            td.table__td: kbd 'right'
+            td.table__td
+              ul
+                li: kbd 'right'
+                li: kbd 'left'
+            td.table__td
+              | Set the position of the popover. Use #[kbd 'right'] or #[kbd 'left']#[br]
+              | This don't affect inline mode.
+
+          tr.table__tr
+            td.table__td: strong row-length
+            td.table__td #[kbd Number] or #[kbd String]
+            td.table__td: kbd 5
+            td.table__td
+              ul
+                li: kbd 10
+                li: kbd 6
+                li: kbd '8'
+            td.table__td
+              | The number of swatches to show in a row.#[br]
+              | This don't affect inline mode.
+
+          tr.table__tr
+            td.table__td: strong show-border
+            td.table__td #[kbd Boolean]
+            td.table__td: kbd false
+            td.table__td
+              ul
+                li: kbd true
+                li: kbd false
+            td.table__td
+              | Whether the swatches should be showing borders or not.#[br]
+              | Useful for making lighter colors more noticeable.
+
+          tr.table__tr
+            td.table__td: strong swatch-size
+            td.table__td #[kbd Number] or #[kbd String]
+            td.table__td: kbd 42
+            td.table__td
+              ul
+                li: kbd 30
+                li: kbd '24'
+                li: kbd '36'
+            td.table__td
+              | Sets the swatches size.
+
+          tr.table__tr
+            td.table__td: strong value
+            td.table__td #[kbd String]
+            td.table__td: kbd null
+            td.table__td
+              ul
+                li: kbd 30
+                li: kbd '24'
+                li: kbd '36'
+            td.table__td
+              | Sets the selected color.

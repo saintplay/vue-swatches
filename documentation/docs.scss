@@ -16,6 +16,21 @@ ul {
   }
 }
 
+table {
+  border-spacing: 0 0;
+  ul {
+    padding: {
+      left: 0;
+      right: 0;
+    }
+  }
+}
+
+.table .list__description {
+  padding-left: 18px;
+  padding-top: 18px;
+}
+
 .form__field {
   display: flex;
   justify-content: space-between;
