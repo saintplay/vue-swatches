@@ -18,6 +18,7 @@ $table-secondary-color: #fafafa;
   }
   border-collapse: collapse;
   line-height: 1.4;
+  margin-bottom: to-rem(40px);
 }
 
 .table__tr {
@@ -30,6 +31,9 @@ $table-secondary-color: #fafafa;
   }
 }
 
+.table--full-width {
+  width: 100%;
+}
 
 .table__td, .table__th {
   padding: to-rem-all($table-padding);
