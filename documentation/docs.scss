@@ -1,9 +1,19 @@
 @import 'assets/main';
 
+$th-medium-width: 180px;
+$th-large-width: 320px;
+
 body {
   background: #fff;
   font-family: 'Open Sans', Helvetica, sans-serif;
   text-decoration: none;
+}
+
+ul {
+  margin: {
+    top: 0;
+    bottom: 0;
+  }
 }
 
 .form__field {
@@ -36,3 +46,11 @@ body {
     color: #363636;
     box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
   }
+
+
+.table__th__medium {
+  min-width: $th-medium-width;
+}
+.table__th__large {
+  min-width: $th-large-width;
+}

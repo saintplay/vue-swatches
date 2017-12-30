@@ -1,5 +1,35 @@
 @import '../base/global';
+@import '../base/functions';
+
+$table-padding: 14px 16px;
+$table-font-size: 16px;
+$table-border-color: $tertiary-color;
 
 .table__container {
   overflow-x: auto;
+}
+
+.table {
+  font: {
+    family: $global-font;
+    size: to-rem($table-font-size);
+    weight: $global-font-weight;
+  }
+  line-height: 1.4;
+}
+
+.table__tr {
+  border-bottom: 1px solid $table-border-color;
+}
+
+.table__td, .table__th {
+  padding: to-rem-all($table-padding);
+}
+
+.table__td {
+  vertical-align: top;
+}
+
+.table__th {
+  border-bottom: 1px solid $table-border-color;
 }

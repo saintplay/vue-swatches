@@ -6,14 +6,61 @@ h2.typo__h2#sub-props(data-section) Props
       table.table.table--full-size.table--fixed
         thead
           tr.table__tr
-            th.table__th(width="100") Name
-            th.table__th(width="80") Type
-            th.table__th(width="180") Default
-            th.table__th(width="200") Description
+            th.table__th.table__th__medium(width="100") Name
+            th.table__th.table__th__medium(width="80") Type
+            th.table__th.table__th__medium(width="180") Default
+            th.table__th.table__th__medium(width="180") Examples
+            th.table__th.table__th__large(width="200") Description
         tbody
           tr.table__tr
-            td.table__td: strong value
-            td.table__td String
+            td.table__td: strong background-color
+            td.table__td: kbd String
+            td.table__td: kbd '#ffffff'
             td.table__td
+              ul
+                li #[kbd '#ffffff']
+                li #[kbd '#cccccc']
             td.table__td
               | Sets the selected color.
+
+          tr.table__tr
+            td.table__td: strong close-on-select
+            td.table__td: kbd Boolean
+            td.table__td: kbd true
+            td.table__td
+              ul
+                li #[kbd true]
+                li #[kbd false]
+            td.table__td
+              | Hide Popover after selection a color.
+
+          tr.table__tr
+            td.table__td: strong colors
+            td.table__td #[kbd Array], #[kbd Object] or #[kbd String]
+            td.table__td: kbd '#basic'
+            td.table__td
+              ul
+                li #[kbd 'material-light']
+                li #[kbd 'text-advanced']
+            td.table__td
+              | The colors that will be shown in the swatches.
+              | You should always use #[strong hex] values.
+              ul
+                li Use an #[kbd Array] for custom colors or custom nested colors.
+                li Use an #[kbd String] for preset names.
+                li Use an #[kbd Object] for preset Objects.
+
+          tr.table__tr
+            td.table__td: strong Exceptions
+            td.table__td #[kbd Array]
+            td.table__td: kbd []
+            td.table__td
+              ul
+                li: kbd ['#ffffff', '#000000']
+                li: kbd ['#f102a3', '#1b22ee', '#fc2343']
+            td.table__td
+              | The colors that will be shown in the swatches.
+              ul
+                li Use an #[kbd Array] for custom colors or custom nested colors.
+                li Use an #[kbd String] for preset names.
+                li Use an #[kbd Object] for preset Objects.
