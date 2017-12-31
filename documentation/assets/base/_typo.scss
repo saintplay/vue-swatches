@@ -1,4 +1,5 @@
 $header-line-height: 1.2;
+$font-color: $global-font-color;
 $header-font-family: $global-font-secondary;
 $header-font-weight: $global-font-weight-bold;
 $header-color: $secondary-color;
@@ -35,7 +36,7 @@ h1,
 h2,
 .typo__h2 {
   font-size: to-rem($header-h2-size-ratio * $global-font-size);
-  padding-top: to-rem-all(20px);
+  padding-top: to-rem(20px);
 }
 
 h3,
@@ -45,8 +46,15 @@ h3,
 
 h4,
 .typo__h4 {
+  color: $font-color;
   font-size: to-rem($header-h4-size-ratio * $global-font-size);
-  padding-top: to-rem-all(10px 0 0);
+  padding: to-rem(10px);
+}
+
+.typo__link {
+  color: $secondary-color;
+  text-decoration: none;
+  font-weight: 700;
 }
 
 kbd, code:not([class*="language-"]) {
