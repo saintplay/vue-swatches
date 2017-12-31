@@ -84,7 +84,7 @@
     "ora": "^1.2.0",
     "portfinder": "^1.0.13",
     "postcss-import": "^11.0.0",
-    "postcss-loader": "^2.0.8",
+    "postcss-loader": "^2.0.9",
     "prismjs": "^1.9.0",
     "pug": "^2.0.0-rc.4",
     "pug-loader": "^2.3.0",

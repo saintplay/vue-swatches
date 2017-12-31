@@ -49,7 +49,7 @@ h4,
   padding-top: to-rem-all(10px 0 0);
 }
 
-kbd {
+kbd, code:not([class*="language-"]) {
   color: $secondary-color;
   padding: 3px 4px;
   border-radius: 4px;
