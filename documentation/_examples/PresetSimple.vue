@@ -18,7 +18,7 @@ export default {
   },
   data () {
     return {
-      color: null,
+      color: '#000000',
     }
   }
 }
