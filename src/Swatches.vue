@@ -87,7 +87,7 @@ import * as errorsMessages from './errors'
 export const DEFAULT_BACKGROUND_COLOR = '#ffffff'
 export const DEFAULT_BORDER_RADIUS = '10px'
 export const DEFAULT_MAX_HEIGHT = 300
-export const DEFAULT_ROW_LENGTH = 5
+export const DEFAULT_ROW_LENGTH = 4
 export const DEFAULT_SWATCH_SIZE = 42
 export const DEFAULT_SHOW_BORDER = false
 

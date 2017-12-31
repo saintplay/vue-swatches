@@ -11,7 +11,7 @@ import * as errorsMessages from 'src/errors'
 
 const DEFAULT_BACKGROUND_COLOR = '#FFFFFF'
 const DEFAULT_MAX_HEIGHT = 300
-const DEFAULT_ROW_LENGTH = 5
+const DEFAULT_ROW_LENGTH = 4
 const DEFAULT_SWATCH_SIZE = 42
 
 const completPresetExample = {
@@ -35,8 +35,12 @@ describe('Props', () => {
           backgroundColor: DEFAULT_BACKGROUND_COLOR
         }
       })
-      expect(componentWrapper.html())
-      .toEqual(defaultComponent.html())
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
     })
     describe('When Popover mode is enabled', () => {
       test('background color should render color passed as a prop', () => {
@@ -46,8 +50,12 @@ describe('Props', () => {
           }
         })
         const container = componentWrapper.find('.vue-swatches__container').element
-        expect(rgb(container.style.backgroundColor))
-        .toEqual(rgb(testColor))
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(rgb(container.style.backgroundColor))
+          .toEqual(rgb(testColor))
+        })
       })
     })
 
@@ -60,8 +68,12 @@ describe('Props', () => {
           }
         })
         const container = componentWrapper.find('.vue-swatches__container').element
-        expect(rgb(container.style.backgroundColor))
-        .toEqual(rgb(testColor))
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(rgb(container.style.backgroundColor))
+          .toEqual(rgb(testColor))
+        })
       })
     })
   })
@@ -73,8 +85,12 @@ describe('Props', () => {
           closeOnSelect: true
         }
       })
-      expect(componentWrapper.html())
-      .toEqual(defaultComponent.html())
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
     })
     describe('When Popover mode is enabled', () => {
       test('should close the popover if true', () => {
@@ -214,8 +230,12 @@ describe('Props', () => {
           exceptions: []
         }
       })
-      expect(componentWrapper.html())
-      .toEqual(defaultComponent.html())
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
     })
     test('default exception-mode are set to disabled', () => {
       const componentWrapper = mount(Swatches, {
@@ -223,8 +243,12 @@ describe('Props', () => {
           exceptionMode: 'disabled'
         }
       })
-      expect(componentWrapper.html())
-      .toEqual(defaultComponent.html())
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
     })
     test('should not update value if clicked', () => {
       const colors = ['#e31432', '#a156e2', '#eca23e']
@@ -365,8 +389,12 @@ describe('Props', () => {
           inline: false
         }
       })
-      expect(noInlineComponent.html())
-      .toEqual(defaultComponent.html())
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(noInlineComponent.html())
+        .toEqual(defaultComponent.html())
+      })
     })
     describe('When inline prop is true', () => {
       test('should not render the trigger', () => {
@@ -421,6 +449,7 @@ describe('Props', () => {
           maxHeight: DEFAULT_MAX_HEIGHT
         }
       })
+
       return Vue.nextTick()
       .then(() => {
         expect(componentWrapper.html())
@@ -435,8 +464,12 @@ describe('Props', () => {
           }
         })
         const container = componentWrapper.find('.vue-swatches__container')
-        expect(container.element.style.maxHeight)
-        .toEqual('')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.element.style.maxHeight)
+          .toEqual('')
+        })
       })
     })
     describe('When Popover mode is enabled', () => {
@@ -511,8 +544,12 @@ describe('Props', () => {
           shape: 'squares'
         }
       })
-      expect(componentWrapper.html())
-      .toEqual(defaultComponent.html())
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
     })
     test('trigger should render as circle if prop is circles', () => {
       const componentWrapper = mount(Swatches, {
@@ -538,6 +575,7 @@ describe('Props', () => {
           popoverTo: 'right'
         }
       })
+
       return Vue.nextTick()
       .then(() => {
         expect(componentWrapper.html())
@@ -1129,8 +1167,12 @@ describe('Exceptions', () => {
           colors: incorrectPreset
         }
       })
-      expect(mountComponent)
-      .toThrow(errorsMessages.presetArray())
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(mountComponent)
+        .toThrow(errorsMessages.presetArray())
+      })
     })
     test('should throw if swatches property is not an array on preset', () => {
       const incorrectPreset = {
