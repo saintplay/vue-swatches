@@ -12,12 +12,16 @@ const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : require('../config/bundle.env')
 
+baseWebpackConfig.entry = {
+  'VueSwatches': './src/index.js'
+}
+
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.bundle.productionSourceMap,
-      extract: true,
-      usePostCSS: true
+      usePostCSS: true,
+      extract: true
     })
   },
   devtool: config.bundle.productionSourceMap ? config.bundle.devtool : false,
@@ -81,11 +85,6 @@ if (config.bundle.productionGzip) {
       minRatio: 0.8
     })
   )
-}
-
-if (config.bundle.bundleAnalyzerReport) {
-  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
 module.exports = webpackConfig

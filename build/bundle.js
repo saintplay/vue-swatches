@@ -14,7 +14,7 @@ const webpackConfig = require('./webpack.bundle.conf')
 const spinner = ora('building bundles...')
 spinner.start()
 
-rm(path.join(config.bundle.assetsRoot, config.bundle.assetsSubDirectory), err => {
+rm(path.join(config.bundle.assetsRoot), err => {
   if (err) throw err
   webpack(webpackConfig, (err, stats) => {
     spinner.stop()
