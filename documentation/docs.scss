@@ -3,11 +3,54 @@
 $th-medium-width: 180px;
 $th-large-width: 320px;
 
+$brand-container-spacing: 48px 30px 24px;
+$subtitle-color: $global-font-color;
+
 body {
   background: #fff;
   font-family: 'Open Sans', Helvetica, sans-serif;
   text-decoration: none;
 }
+
+.hero {
+  margin-bottom: to-rem(42px);
+}
+
+.brand__container {
+  display: flex;
+  justify-content: space-between;
+  padding: to-rem-all($brand-container-spacing);
+}
+  .brand__logo {
+    height: 80px;
+  }
+  
+  .brand__name {
+    position: relative;
+  }
+
+  .brand__swatches {
+    padding-bottom: 0;
+  }
+  
+  .brand__version {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-bottom: 24px;
+    color: $subtitle-color;
+    font-weight: bold;
+  }
+  
+  .brand__colors__container {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .hero__subtitle {
+    text-align: center;
+    color: $subtitle-color;
+  }
 
 .table ul {
   margin: {

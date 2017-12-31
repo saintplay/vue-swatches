@@ -34,10 +34,22 @@ new Vue({
   },
   data () {
     return {
-      currentPosition: ''
+      currentPosition: '',
+      brandColor: '#f26556',
+      brandColors: ['#f26556', '#f6a820', '#4ccb7c', '#9874db']
     }
   },
+  mounted () {
+    this.adjustNav()
+    window.addEventListener('scroll', this.adjustNav)
+    setTimeout(function () {
+      calculateNavPositions()
+    }, 1000)
+  },
   methods: {
+    changeBrandColor (value) {
+      console.log(value)
+    },
     adjustNav () {
       this.isNavSticky = window.scrollY > window.innerHeight
       if (!sections) calculateNavPositions()
@@ -48,12 +60,5 @@ new Vue({
         }
       }
     }
-  },
-  mounted () {
-    this.adjustNav()
-    window.addEventListener('scroll', this.adjustNav)
-    setTimeout(function () {
-      calculateNavPositions()
-    }, 1000)
   }
 })

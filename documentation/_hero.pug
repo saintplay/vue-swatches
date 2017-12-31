@@ -1,8 +1,18 @@
 section.hero
-  .center-vertically
-    h1.typo__h1
-      img.logo(src=require('assets/vue-logo.png'))
-      | Vue-swatches
-      small.version
+  .brand__container
+    img.brand__logo(src=require('assets/vue-logo.png'))
+    span.brand__name
+      h1.typo__h1
+        span.brand__vue Vue
+        | 
+        span.brand__swatches swatches
+      small.brand__version
         =`v${require('../package.json').version}`
-    h3.typo__h3 Help the user picking beautiful colors!
+
+  .grid__row
+    .grid__column
+
+      h3.typo__h3.hero__subtitle Help the user picking beautiful colors!
+
+    .brand__colors__container
+      swatches(:colors="brandColors" :inline="true" v-model="brandColor")
