@@ -2,6 +2,7 @@ import Vue from 'vue'
 import * as examples from './_examples'
 import PresetExample from './_presets/PresetExample'
 import Swatches from 'vue-swatches'
+import Modal from 'vue-js-modal'
 
 import 'prismjs'
 import 'prismjs/plugins/remove-initial-line-feed/prism-remove-initial-line-feed.min'
@@ -10,6 +11,8 @@ import 'prismjs/themes/prism.css'
 import 'normalize.css'
 
 import './docs.scss'
+
+Vue.use(Modal, { componentName: 'modal' })
 
 let sections = null
 
