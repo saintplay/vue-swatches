@@ -1,5 +1,11 @@
-@media #{$small-only} {
-  .small--hidden {
+@media #{$mobile-only} {
+  .mobile--hidden {
+    display: none !important;
+  }
+}
+
+@media #{$tablet-down} {
+  .tablet--down--hidden {
     display: none !important;
   }
 }

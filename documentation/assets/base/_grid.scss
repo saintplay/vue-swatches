@@ -2,9 +2,17 @@ $grid-columns: $global-grid-columns;
 $grid-gutter-width: $global-gutter;
 $grid-max-width: $global-page-width;
 
-@mixin generate-grid-column-sizes() {
+@mixin generate-grid-column() {
   @for $i from 1 through $grid-columns {
-    .column--#{$i} {
+    .column--is-#{$i} {
+      width: percentage($i / $grid-columns);
+    }
+  }
+}
+
+@mixin generate-grid-breakpoint-column($class-name) {
+  @for $i from 1 through $grid-columns {
+    .column--is-#{$class-name}-#{$i} {
       width: percentage($i / $grid-columns);
     }
   }
@@ -55,4 +63,10 @@ html {
   }
 }
 
-@include generate-grid-column-sizes();
+@include generate-grid-column(); // default mobile (mobile first)
+@media #{$tablet-up} {
+  @include generate-grid-breakpoint-column('tablet');
+}
+@media #{$desktop-up} {
+  @include generate-grid-breakpoint-column('desktop');
+}

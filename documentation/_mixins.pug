@@ -18,13 +18,13 @@ mixin renderToc ()
   - pug_html = tocSwapBuffer.replace('%%_TOC_%%', pug_html);
 
 mixin tocSection (name)
-  li.list__heading
+  li.nav__heading
     a.link.blank__link(href="#" + hyphenate(name))=name
 
 mixin tocSubsection (name)
-  - var customClass = "{ 'list__link--active': currentPosition === 'sub-" + hyphenate(name) + "' }"
-  li.list__element
-    a.link.list__link(:class=customClass, href="#sub-" + hyphenate(name))=name
+  - var customClass = "{ 'nav__link--active': currentPosition === 'sub-" + hyphenate(name) + "' }"
+  li.nav__element
+    a.link.nav__link(:class=customClass, href="#sub-" + hyphenate(name))=name
 
 mixin section (name)
   - toc.push({name: name, subs: []})

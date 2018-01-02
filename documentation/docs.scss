@@ -4,6 +4,7 @@ $th-medium-width: 180px;
 $th-large-width: 320px;
 
 $brand-container-spacing: 48px 30px 24px;
+$brand-container-spacing-tablet: 80px 30px 46px;
 $subtitle-color: $global-font-color;
 
 body {
@@ -20,9 +21,18 @@ body {
   display: flex;
   justify-content: space-between;
   padding: to-rem-all($brand-container-spacing);
+  @media #{$tablet-up} {
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: to-rem-all($brand-container-spacing-tablet)
+  }
 }
   .brand__logo {
     height: 80px;
+    @media #{$mobile-s-only} {
+      height: 60px;
+    }
   }
   
   .brand__name {
@@ -45,12 +55,23 @@ body {
   .brand__colors__container {
     display: flex;
     justify-content: space-around;
+    @media #{$tablet-up} {
+      padding: {
+        top: 54px;
+        bottom: 36px;
+      }
+    }
   }
 
   .hero__subtitle {
     text-align: center;
     color: $subtitle-color;
   }
+
+.blank__link {
+  color: inherit;
+  text-decoration: none;
+}
 
 .table ul {
   margin: {

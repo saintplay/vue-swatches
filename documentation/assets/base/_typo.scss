@@ -31,6 +31,9 @@ h1,
 .typo__h1 {
   font-size: to-rem($header-h1-size-ratio * $global-font-size);
   margin: to-rem-all(10px 0 40px);
+  @media #{$mobile-m-down} {
+    font-size: to-rem($header-h1-size-ratio * $global-font-size * 0.85);
+  }
 }
 
 h2,
