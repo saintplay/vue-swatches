@@ -30,7 +30,7 @@ export default {
       // default is especified in `Swatches.vue`
     },
     isException: {
-      tyoe: Boolean,
+      type: Boolean,
       default: false
     },
     selected: {
