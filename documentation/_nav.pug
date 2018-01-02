@@ -1,4 +1,4 @@
-ul.nav
+ul.nav(:class="{ 'nav--sticky': isNavSticky }")
   li.nav__heading Setup
   +tocSubsection('Getting Started')
 

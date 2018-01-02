@@ -13,3 +13,5 @@ $tablet-only: "screen and (min-width: #{$mobile-l + 1}) and (max-width: #{$table
 $tablet-down: "screen and (max-width: #{$tablet})";
 $tablet-up: "screen and (min-width: #{$mobile-l + 1})";
 $desktop-up: "screen and (min-width: #{$tablet + 1})";
+$desktop-l-up: "screen and (min-width: #{$desktop-m + 1})";
+$retina-up: "screen and (min-width: #{$desktop-l + 1})";

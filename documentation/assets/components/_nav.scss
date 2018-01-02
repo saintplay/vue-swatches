@@ -4,6 +4,18 @@ ul.nav {
   letter-spacing: 0.4px;
   line-height: 32px;
   list-style: none;
+  @media #{$desktop-l-up} {
+    margin-left: 72px;
+  }
+  @media #{$retina-up} {
+    margin-left: 140px;
+  }
+}
+
+.nav--sticky {
+  position: fixed;
+  top: 0;
+  width: 25%;
 }
 
 .nav__heading {

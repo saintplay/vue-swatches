@@ -5,6 +5,7 @@ $th-large-width: 320px;
 
 $brand-container-spacing: 48px 30px 24px;
 $brand-container-spacing-tablet: 80px 30px 46px;
+$brand-container-spacing-desktop: 120px 30px 80px;
 $subtitle-color: $global-font-color;
 
 body {
@@ -27,11 +28,18 @@ body {
     margin-right: auto;
     padding: to-rem-all($brand-container-spacing-tablet)
   }
+  @media #{$desktop-up} {
+    max-width: 480px;
+    padding: to-rem-all($brand-container-spacing-desktop);    
+  }
 }
   .brand__logo {
     height: 80px;
     @media #{$mobile-s-only} {
       height: 60px;
+    }
+    @media #{$desktop-up} {
+      height: 120px;
     }
   }
   
@@ -50,6 +58,9 @@ body {
     padding-bottom: 24px;
     color: $subtitle-color;
     font-weight: bold;
+    @media #{$desktop-up} {
+      padding-bottom: 48px;
+    }
   }
   
   .brand__colors__container {
@@ -79,6 +90,8 @@ body {
     bottom: 0;
   }
 }
+
+@import 'floating-scroll/src/jquery.floatingscroll.css';
 
 .table .list__description {
   padding-left: 18px;

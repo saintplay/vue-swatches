@@ -3,14 +3,18 @@ import * as examples from './_examples'
 import PresetExample from './_presets/PresetExample'
 import Swatches from 'vue-swatches'
 import Modal from 'vue-js-modal'
-
 import 'prismjs'
 import 'prismjs/plugins/remove-initial-line-feed/prism-remove-initial-line-feed.min'
+import $ from 'jquery'
 
 import 'prismjs/themes/prism.css'
 import 'normalize.css'
 
 import './docs.scss'
+
+window.$ = $
+window.jQuery = $
+require('floating-scroll')
 
 Vue.use(Modal, { componentName: 'modal' })
 
@@ -38,6 +42,7 @@ new Vue({
   data () {
     return {
       currentPosition: '',
+      isNavSticky: false,
       brandColor: '#f26556',
       brandColors: ['#f26556', '#f6a820', '#4ccb7c', '#9874db']
     }
@@ -48,6 +53,7 @@ new Vue({
     setTimeout(function () {
       calculateNavPositions()
     }, 1000)
+    $('#table__container__props').floatingScroll()
   },
   methods: {
     changeBrandColor (value) {
