@@ -1,11 +1,11 @@
 ul.nav(:class="{ 'nav--sticky': isNavSticky }")
-  li.nav__heading Setup
+  li.nav__heading(:class="`color--${color}`") Setup
   +tocSubsection('Getting Started')
 
   //- replaced later in _mixins.pug:renderToc()
   ='%%_TOC_%%'
 
-  li.nav__heading API
+  li.nav__heading(:class="`color--${color}`") API
   +tocSubsection('Props')
   +tocSubsection('Events')
   +tocSubsection('Slots')

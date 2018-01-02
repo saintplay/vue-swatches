@@ -5,10 +5,10 @@ ul.nav {
   line-height: 32px;
   list-style: none;
   @media #{$desktop-l-up} {
-    margin-left: 72px;
+    padding-left: 112px;
   }
   @media #{$retina-up} {
-    margin-left: 140px;
+    padding-left: 180px;
   }
 }
 
@@ -31,17 +31,17 @@ ul.nav {
 
 .nav__item {
   color: $global-font-color;
-  
-  &--active {
-    background-color: $background-light-color;
-  }
 }
 
 .nav__link {
-  margin-left: left(-10px);
+  margin-left: to-rem(-10px);
   color: $global-font-color;
   text-decoration: none;
   display: block;
   padding: to-rem-all(7px 10px);
   line-height: 1.3;
+
+  &--active {
+    background-color: $background-light-color;
+  }
 }

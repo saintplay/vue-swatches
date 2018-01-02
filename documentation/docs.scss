@@ -7,6 +7,7 @@ $brand-container-spacing: 48px 30px 24px;
 $brand-container-spacing-tablet: 80px 30px 46px;
 $brand-container-spacing-desktop: 120px 30px 80px;
 $subtitle-color: $global-font-color;
+$transition-duration: 0.8s;
 
 body {
   background: #fff;
@@ -140,4 +141,21 @@ body {
 
 .footer {
   margin-top: 30px; 
+}
+
+.color--red {
+  color: #f26556;
+  transition: color $transition-duration;
+}
+.color--orange {
+  color: #f6a820;
+  transition: color $transition-duration;
+}
+.color--green {
+  color: #4ccb7c;
+  transition: color $transition-duration;
+}
+.color--purple {
+  color: #9874db;
+  transition: color $transition-duration;
 }

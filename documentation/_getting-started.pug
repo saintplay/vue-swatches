@@ -1,24 +1,24 @@
 .grid__row
   .grid__column
     section#sub-getting-started(data-section)
-      h1.typo__h1 Getting started
+      h1.typo__h1(:class="`color--${color}`") Getting started
       hr.typo__hr
 
       .grid__row
         .grid__column
-          h2.typo__h2 Installation
+          h2.typo__h2(:class="`color--${color}`") Installation
 
-          h3.typo__h3 via npm
+          h3.typo__h3(:class="`color--${color}`") via npm
           pre.language-bash
             code.
               npm install vue-swatches --save
 
-          h3.typo__h3 via yarn
+          h3.typo__h3(:class="`color--${color}`") via yarn
           pre.language-bash
             code.
               yarn add vue-swatches
 
-          h3.typo__h3 via CDN
+          h3.typo__h3(:class="`color--${color}`") via CDN
           pre.language-html
             code
               :escape-html
@@ -27,7 +27,7 @@
 
       .grid__row
         .grid__column
-          h2.typo__h2 Basic usage
+          h2.typo__h2(:class="`color--${color}`") Basic usage
           pre.language-html
             code
               :escape-html

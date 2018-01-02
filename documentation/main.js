@@ -44,7 +44,21 @@ new Vue({
       currentPosition: '',
       isNavSticky: false,
       brandColor: '#f26556',
-      brandColors: ['#f26556', '#f6a820', '#4ccb7c', '#9874db']
+      brandColors: ['#f26556', '#4ccb7c', '#f6a820', '#9874db']
+    }
+  },
+  computed: {
+    color () {
+      switch (this.brandColor) {
+        case '#f26556':
+          return 'red'
+        case '#f6a820':
+          return 'orange'
+        case '#4ccb7c':
+          return 'green'
+        case '#9874db':
+          return 'purple'
+      }
     }
   },
   mounted () {

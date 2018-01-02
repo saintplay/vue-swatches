@@ -18,7 +18,7 @@ mixin renderToc ()
   - pug_html = tocSwapBuffer.replace('%%_TOC_%%', pug_html);
 
 mixin tocSection (name)
-  li.nav__heading
+  li.nav__heading(:class="`color--${color}`")
     a.link.blank__link(href="#" + hyphenate(name))=name
 
 mixin tocSubsection (name)
@@ -31,7 +31,7 @@ mixin section (name)
   .grid__row
     .grid__column
       section(id=hyphenate(name))
-        h1.typo__h1=name
+        h1.typo__h1(:class="`color--${color}`")=name
         hr.typo__hr
         if block
           block
@@ -41,7 +41,7 @@ mixin subsection (name)
 
   .grid__row
     .grid__column
-      h2.typo__h2(id='sub-' + hyphenate(name) data-section)=name
+      h2.typo__h2(:class="`color--${color}`" id='sub-' + hyphenate(name) data-section)=name
       if block
         block
 
