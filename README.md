@@ -51,13 +51,29 @@ With fewer options, the user experience will be improved
 
 ## Features ##
 
-- Presets ready to use
-- Popover Mode
-- Inline Mode
-- Custom Colors
-- Nested Colors Array
-- Easily Customizable
-- Custom Trigger
+<ul>
+  <li>
+    <a href="https://saintplay.github.io/vue-swatches/#presets">Presets ready to use</a>
+  </li>
+  <li>
+    <a href="https://saintplay.github.io/vue-swatches/#sub-simple">Popover Mode</a>
+  </li>
+  <li>
+    <a href="https://saintplay.github.io/vue-swatches/#sub-inline-mode">Inline Mode</a>
+  </li>
+  <li>
+    <a href="https://saintplay.github.io/vue-swatches/#sub-custom-colors">Custom Colors</a>
+  </li>
+  <li>
+    <a href="https://saintplay.github.io/vue-swatches/#sub-nested-colors">Nested Colors Array</a>
+  </li>
+  <li>
+    <a href="https://saintplay.github.io/vue-swatches/#sub-props">Easily Customizable</a>
+  </li>
+  <li>
+    <a href="https://saintplay.github.io/vue-swatches/#sub-using-a-custom-trigger">Custom Trigger</a>
+  </li>
+</ul>
 
 ## Install ##
 
