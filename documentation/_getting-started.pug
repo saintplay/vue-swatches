@@ -22,6 +22,7 @@
           pre.language-html
             code
               :escape-html
+                <link rel="stylesheet" href="https://unpkg.com/vue-swatches/dist/vue-swatches.min.css">
                 <script src="https://unpkg.com/vue-swatches"></script>
 
       .grid__row
@@ -40,8 +41,11 @@
                 <script>
                   import Swatches from 'vue-swatches'
 
+                  // Import the styles too, globally
+                  import "vue-multiselect/dist/vue-multiselect.min.css"
+
                   export default {
-                    components: { Swatches },
+                    components: { Swatches }, // window.VueSwatches.default - from CDN
                     data () {
                       return {
                         color: '#1CA085'
@@ -49,3 +53,5 @@
                     }
                   }
                 </script>
+
+                <style src=""></style>

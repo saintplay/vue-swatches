@@ -80,8 +80,11 @@ or
 <script>
   import Swatches from 'vue-swatches'
 
+  // Import the styles too, globally
+  import "vue-multiselect/dist/vue-multiselect.min.css"
+
   export default {
-    components: { Swatches },
+    components: { Swatches }, // window.VueSwatches.default - from CDN
     data () {
       return {
         color: '#1CA085'
