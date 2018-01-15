@@ -51,15 +51,19 @@ export default {
     },
     spacingSize: {
       type: Number
-      // this prop comes from computed propertie and always should have a value
+      // this prop comes from computed property and always should have a value
     },
     swatchColor: {
       type: String,
       default: ''
+    },
+    swatchStyle: {
+      type: Object
+      // default is especified in `Swatches.vue`
     }
   },
   computed: {
-    swatchStyle () {
+    computedSwatchStyle () {
       return {
         display: (this.isException && this.exceptionMode === 'hidden') ? 'none' : 'inline-block',
         width: `${this.size}px`,
@@ -72,7 +76,7 @@ export default {
       }
     },
     swatchStyles () {
-      return [this.swatchStyle]
+      return [this.computedSwatchStyle, this.swatchStyle]
     }
   }
 }

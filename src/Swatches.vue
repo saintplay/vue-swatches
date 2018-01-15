@@ -42,9 +42,10 @@
                 :selected="checkEquality(swatch, internalValue)"
                 :size="computedSwatchSize"
                 :spacing-size="computedSpacingSize"
-                :showBorder="computedShowBorder"
-                :showCheckbox="showCheckbox"
-                :swatchColor="swatch"
+                :show-border="computedShowBorder"
+                :show-checkbox="showCheckbox"
+                :swatch-color="swatch"
+                :swatch-style="swatchStyle"
                 @click.native="updateSwatch(swatch)"
               />
             </div>
@@ -61,9 +62,10 @@
               :selected="checkEquality(swatch, internalValue)"
               :size="computedSwatchSize"
               :spacing-size="computedSpacingSize"
-              :showBorder="computedShowBorder"
-              :showCheckbox="showCheckbox"
-              :swatchColor="swatch"
+              :show-border="computedShowBorder"
+              :show-checkbox="showCheckbox"
+              :swatch-color="swatch"
+              :swatch-style="swatchStyle"
               @click.native="updateSwatch(swatch)"
             />
           </template>
@@ -209,6 +211,18 @@ export default {
         throw new Error(errorsMessages.typeCheckError('swatch-size', ['Number', 'String'], value))
       }
     },
+    swatchStyle: {
+      type: Object,
+      default: () => {}
+    },
+    triggerStyle: {
+      type: Object,
+      default: () => {}
+    },
+    wrapperStyle: {
+      type: Object,
+      default: () => {}
+    },
     value: {
       type: String,
       default: null
@@ -317,7 +331,7 @@ export default {
 
     /** COMPUTED STYLES **/
 
-    triggerStyle () {
+    computedtriggerStyle () {
       return {
         width: '42px',
         height: '42px',
@@ -326,7 +340,7 @@ export default {
       }
     },
     triggerStyles () {
-      return [this.triggerStyle]
+      return [this.computedtriggerStyle, this.triggerStyle]
     },
     containerStyle () {
       const baseStyles = {
@@ -348,7 +362,7 @@ export default {
     containerStyles () {
       return [this.containerStyle]
     },
-    wrapperStyle () {
+    computedWrapperStyle () {
       const baseStyles = {
         paddingTop: `${this.computedSpacingSize}px`,
         paddingLeft: `${this.computedSpacingSize}px`
@@ -362,7 +376,7 @@ export default {
       }
     },
     wrapperStyles () {
-      return [this.wrapperStyle]
+      return [this.computedWrapperStyle, this.wrapperStyle]
     }
   },
   watch: {

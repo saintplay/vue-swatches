@@ -1,6 +1,6 @@
 {
   "name": "vue-swatches",
-  "version": "1.0.0-rc.5",
+  "version": "1.0.0-rc.6",
   "description": "Help the user picking beautiful colors!",
   "author": "Diego Jara <saintplay96@gmail.com>",
   "private": false,
@@ -37,6 +37,7 @@
     "bundle": "node build/bundle.js",
     "docs": "node build/build-docs.js",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
+    "unit:watch": "jest --config test/unit/jest.conf.js --watchAll",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "finish": "npm run lint && npm test && npm run bundle"
@@ -104,7 +105,7 @@
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
-    "vue-test-utils": "^1.0.0-beta.8",
+    "vue-test-utils": "^1.0.0-beta.11",
     "vue2-simplert": "^0.7.1",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
