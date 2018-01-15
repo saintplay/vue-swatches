@@ -897,6 +897,104 @@ describe('Props', () => {
     })
   })
 
+  describe('swatch-style', () => {
+    test('default swatch-style is applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          swatchStyle: {}
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+    test('swatch-style should be applied over presets and swatch-size props', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          colors: completPresetExample,
+          swatchSize: 20,
+          swatchStyle: {
+            width: '24px'
+          }
+        }
+      })
+      const swatch = componentWrapper.find('.vue-swatches__swatch')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(swatch.element.style.width)
+        .toEqual('24px')
+      })
+    })
+  })
+
+  describe('trigger-style', () => {
+    test('default trigger-style is applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          triggerStyle: {}
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+    test('trigger-style should be applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          triggerStyle: {
+            width: '26px'
+          }
+        }
+      })
+      const trigger = componentWrapper.find('.vue-swatches__trigger')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(trigger.element.style.width)
+        .toEqual('26px')
+      })
+    })
+  })
+
+  describe('wrapper-style', () => {
+    test('default wrapper-style is applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          wrapperStyle: {}
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+    test('wrapper-style should be applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          wrapperStyle: {
+            paddingLeft: '60px'
+          }
+        }
+      })
+      const wrapper = componentWrapper.find('.vue-swatches__wrapper')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(wrapper.element.style.paddingLeft)
+        .toEqual('60px')
+      })
+    })
+  })
+
   describe('value', () => {
     test('should select value', () => {
       const colors = ['#e31432', '#a156e2', '#eca23e']

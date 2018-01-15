@@ -9,7 +9,7 @@ h2.typo__h2#sub-props(data-section) Props
             th.table__th.table__th__medium Name
             th.table__th.table__th__medium Type
             th.table__th.table__th__medium Default
-            th.table__th.table__th__medium Examples
+            th.table__th.table__th__large Examples
             th.table__th.table__th__large Description
         tbody
           tr.table__tr
@@ -168,6 +168,48 @@ h2.typo__h2#sub-props(data-section) Props
                 li: kbd '36'
             td.table__td
               | Sets the swatches size.
+
+          tr.table__tr
+            td.table__td: strong swatch-style
+            td.table__td #[kbd Object]
+            td.table__td: kbd {}
+            td.table__td
+              ul
+                li: kbd { width: '32px', height: '32px' }
+                li: kbd { borderRadius: '10px' }
+                li: kbd { padding: '16px 12px' }
+            td.table__td
+              | Sets the
+              a.typo__link(href="https://vuejs.org/v2/guide/class-and-style.html#Object-Syntax-1")  inline style
+              |  for every swatch
+
+          tr.table__tr
+            td.table__td: strong trigger-style
+            td.table__td #[kbd Object]
+            td.table__td: kbd {}
+            td.table__td
+              ul
+                li: kbd { width: '32px', height: '32px' }
+                li: kbd { borderRadius: '10px' }
+                li: kbd { padding: '16px 12px' }
+            td.table__td
+              | Sets the
+              a.typo__link(href="https://vuejs.org/v2/guide/class-and-style.html#Object-Syntax-1")  inline style
+              |  for the trigger
+
+          tr.table__tr
+            td.table__td: strong wrapper-style
+            td.table__td #[kbd Object]
+            td.table__td: kbd {}
+            td.table__td
+              ul
+                li: kbd { paddingLeft: '32px' }
+                li: kbd { backgroundColor: '#ccc' }
+                li: kbd { paddingRight: '12px' }
+            td.table__td
+              | Sets the
+              a.typo__link(href="https://vuejs.org/v2/guide/class-and-style.html#Object-Syntax-1")  inline style
+              |  for the wrapper
 
           tr.table__tr
             td.table__td: strong value
