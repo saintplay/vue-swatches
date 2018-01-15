@@ -13,9 +13,6 @@ jobs:
         - cat test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 
     - stage: deploy artifacts
-      script: "npm run bundle"
-
-    - stage: deploy artifacts
       script: "npm run docs"
       deploy:
         skip_cleanup: true
