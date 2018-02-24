@@ -1088,6 +1088,71 @@ describe('Events', () => {
       })
     })
   })
+  describe('@open', () => {
+    test('should not be emited when Inline mode is activated', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          inline: true
+        }
+      })
+      componentWrapper.vm.showPopover()
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.emitted().open)
+        .not.toBeTruthy()
+      })
+    })
+    test('should be emited when Inline mode is not activated', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          inline: false
+        }
+      })
+      componentWrapper.vm.showPopover()
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.emitted().open.length).toEqual(1)
+      })
+    })
+    describe('When legacy trigger is used', () => {
+      test('should be emited whenever user clicks the trigger', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            inline: false
+          }
+        })
+        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        trigger.trigger('click')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(componentWrapper.emitted().open.length).toEqual(1)
+        })
+      })
+    })
+    describe('When trigger slot is used', () => {
+      test('should be emited whenever user clicks the trigger', () => {
+        const buttonTest = '<button id="button-test">Hello World</button>'
+        const componentWrapper = mount(Swatches, {
+          slots: {
+            trigger: buttonTest
+          },
+          propsData: {
+            inline: false
+          }
+        })
+        const trigger = componentWrapper.find('#button-test')
+        trigger.trigger('click')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(componentWrapper.emitted().open.length).toEqual(1)
+        })
+      })
+    })
+  })
   describe('@close', () => {
     test('should not be emited when Inline mode is activated', () => {
       const componentWrapper = mount(Swatches, {
@@ -1126,8 +1191,8 @@ describe('Events', () => {
           }
         })
         const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
-        trigger.trigger('click')
-        trigger.trigger('click')
+        trigger.trigger('click') // one click to open the Popover
+        trigger.trigger('click') // and another to close the Popover
 
         return Vue.nextTick()
         .then(() => {

@@ -414,10 +414,11 @@ export default {
     // Called programmatically
     showPopover () {
       /* istanbul ignore if */
-      if (this.isOpen) return /* dont show */
+      if (this.isOpen || this.inline) return /* dont show */
 
       this.internalIsOpen = true
       this.$el.focus()
+      this.$emit('open')
     },
     togglePopover () {
       this.isOpen ? this.hidePopover() : this.showPopover()
