@@ -1,4 +1,5 @@
 <template>
+  
   <div class="vue-swatches" @blur.self="e => onBlur(e.relatedTarget)" tabindex="0">
     <div v-if="!inline" ref="trigger-wrapper" @click="togglePopover">
       <slot
@@ -37,6 +38,7 @@
                 v-for="swatch in swatchRow"
                 :key="swatch"
                 :border-radius="computedBorderRadius"
+                :disabled="disabled"
                 :exception-mode="computedExceptionMode"
                 :is-exception="checkException(swatch)"
                 :selected="checkEquality(swatch, internalValue)"
@@ -57,6 +59,7 @@
               v-for="swatch in computedColors"
               :key="swatch"
               :border-radius="computedBorderRadius"
+              :disabled="disabled"
               :exception-mode="computedExceptionMode"
               :is-exception="checkException(swatch)"
               :selected="checkEquality(swatch, internalValue)"
@@ -226,6 +229,10 @@ export default {
     value: {
       type: String,
       default: null
+    },
+    disabled: {
+      Boolean: Boolean,
+      default: false
     }
   },
   data () {
@@ -424,7 +431,7 @@ export default {
       this.isOpen ? this.hidePopover() : this.showPopover()
     },
     updateSwatch (swatch) {
-      if (this.checkException(swatch)) return
+      if (this.checkException(swatch) || this.disabled) return
 
       this.internalValue = swatch
       this.$emit('input', swatch)
