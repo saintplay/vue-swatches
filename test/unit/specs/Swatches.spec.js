@@ -382,6 +382,66 @@ describe('Props', () => {
     })
   })
 
+  describe('disabled', () => {
+    test('disabled is set to false', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          disabled: false
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+
+    test('disabled is set to true with inline-mode: true', () => {
+      const colors = ['#e31432', '#a156e2', '#eca23e']
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          value: '#eca23e',
+          colors,
+          disabled: true,
+          inline: true
+        }
+      })
+
+      const swatch = componentWrapper.find('.vue-swatches__swatch')
+      swatch.trigger('click')
+      const selectedSwatch = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)[0]
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(selectedSwatch.vm.swatchColor)
+        .toEqual('#eca23e')
+      })
+    })
+
+    test('disabled is set to true with inline-mode: false', () => {
+      const colors = ['#e31432', '#a156e2', '#eca23e']
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          value: '#eca23e',
+          colors,
+          disabled: true,
+          inline: false
+        }
+      })
+
+      const swatch = componentWrapper.find('.vue-swatches__swatch')
+      swatch.trigger('click')
+      const selectedSwatch = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)[0]
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(selectedSwatch.vm.swatchColor)
+        .toEqual('#eca23e')
+      })
+    })
+  })
+
   describe('inline', () => {
     test('inline default is set to false', () => {
       const noInlineComponent = mount(Swatches, {
