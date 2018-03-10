@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import rgb from 'rgb'
 import isHexColor from 'is-hex-color'
 
@@ -382,6 +382,87 @@ describe('Props', () => {
     })
   })
 
+  describe('disabled', () => {
+    test('disabled default is set to false', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          disabled: false
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+
+    describe('When Inline mode is enabled', () => {
+      test('value won\'t change when cliking a swatch', () => {
+        const colors = ['#e31432', '#a156e2', '#eca23e']
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            value: '#eca23e',
+            colors,
+            disabled: true,
+            inline: true
+          }
+        })
+
+        const swatch = componentWrapper.find('.vue-swatches__swatch')
+        swatch.trigger('click')
+        const selectedSwatch = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)[0]
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(selectedSwatch.vm.swatchColor)
+          .toEqual('#eca23e')
+        })
+      })
+    })
+
+    describe('When Inline mode is not enabled', () => {
+      test('default trigger won\'t open the Popover', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            disabled: true,
+            inline: false
+          }
+        })
+        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        const container = componentWrapper.find('.vue-swatches__container')
+        trigger.trigger('click')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(false)
+        })
+      })
+      test('custom trigger won\'t open the Popover', () => {
+        const buttonTest = '<button id="button-test">Hello World</button>'
+        const componentWrapper = mount(Swatches, {
+          slots: {
+            trigger: buttonTest
+          },
+          propsData: {
+            disabled: true,
+            inline: false
+          }
+        })
+        const trigger = componentWrapper.find('#button-test')
+        const container = componentWrapper.find('.vue-swatches__container')
+        trigger.trigger('click')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(false)
+        })
+      })
+    })
+  })
+
   describe('inline', () => {
     test('inline default is set to false', () => {
       const noInlineComponent = mount(Swatches, {
@@ -418,7 +499,7 @@ describe('Props', () => {
         .not.toBeTruthy()
       })
     })
-    describe('When inline prop is fale (Popover)', () => {
+    describe('When inline prop is false (Popover)', () => {
       test('should render the trigger', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {
@@ -429,7 +510,7 @@ describe('Props', () => {
         expect(trigger.exists())
         .toBeTruthy()
       })
-      test('shoukd render swatches not visible', () => {
+      test('should render swatches not visible', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {
             inline: false
@@ -1116,7 +1197,7 @@ describe('Events', () => {
         expect(componentWrapper.emitted().open.length).toEqual(1)
       })
     })
-    describe('When legacy trigger is used', () => {
+    describe('When default trigger is used', () => {
       test('should be emited whenever user clicks the trigger', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {
@@ -1169,7 +1250,7 @@ describe('Events', () => {
         .not.toBeTruthy()
       })
     })
-    describe('When legacy trigger is used', () => {
+    describe('When default trigger is used', () => {
       test('should be emited whenever user close the Popover by clicking outside', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {

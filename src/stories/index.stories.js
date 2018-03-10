@@ -1,9 +1,44 @@
 import { storiesOf } from '@storybook/vue'
 
-import VueSwatches from '../Swatches.vue'
+import Swatches from '../Swatches.vue'
 
-storiesOf('Vue Swatches', module)
+storiesOf('Ideal State', module)
   .add('normal', () => ({
-    components: { VueSwatches },
-    template: '<vue-swatches></vue-swatches>'
+    components: { Swatches },
+    template: '<swatches></swatches>'
+  }))
+
+  .add('input trigger', () => ({
+    components: { Swatches },
+    data: () => ({
+      color: '#2ECC70'
+    }),
+    template: `
+      <swatches v-model="color">
+        <input slot="trigger" :value="color" readonly>
+      </swatches>
+      `
+  }))
+
+storiesOf('Disabled State', module)
+  .add('inline', () => ({
+    components: { Swatches },
+    template: '<swatches inline disabled></swatches>'
+  }))
+
+  .add('not inline', () => ({
+    components: { Swatches },
+    template: '<swatches disabled></swatches>'
+  }))
+
+  .add('custom trigger', () => ({
+    components: { Swatches },
+    data: () => ({
+      color: '#2ECC70'
+    }),
+    template: `
+      <swatches v-model="color" disabled>
+        <input slot="trigger" :value="color" readonly>
+      </swatches>
+      `
   }))

@@ -4,7 +4,7 @@
     :class="{
       'vue-swatches__swatch--border': showBorder,
       'vue-swatches__swatch--selected': selected,
-      'vue-swatches__swatch--is-exception': isException
+      'vue-swatches__swatch--is-exception': isException || disabled
     }"
     :style="swatchStyles"
   >
@@ -24,6 +24,10 @@ export default {
     borderRadius: {
       type: String
       // default is calculated in `Swatches.vue`
+    },
+    disabled: {
+      type: Boolean
+      // default is especified in `Swatches.vue`
     },
     exceptionMode: {
       type: String
@@ -72,8 +76,13 @@ export default {
         marginRight: `${this.spacingSize}px`,
         borderRadius: this.borderRadius,
         backgroundColor: this.swatchColor,
-        cursor: (this.isException && this.exceptionMode === 'disabled') ? 'not-allowed' : 'pointer'
+        cursor: this.cursorStyle
       }
+    },
+    cursorStyle () {
+      if (this.disabled) return 'not-allowed'
+      if (this.isException && this.exceptionMode === 'disabled') return 'not-allowed'
+      return 'pointer'
     },
     swatchStyles () {
       return [this.computedSwatchStyle, this.swatchStyle]

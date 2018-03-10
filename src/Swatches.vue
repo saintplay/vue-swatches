@@ -1,4 +1,5 @@
 <template>
+
   <div class="vue-swatches" @blur.self="e => onBlur(e.relatedTarget)" tabindex="0">
     <div v-if="!inline" ref="trigger-wrapper" @click="togglePopover">
       <slot
@@ -6,7 +7,7 @@
       >
         <div
           class="vue-swatches__trigger"
-          :class="{'vue-swatches--is-empty': !value}"
+          :class="{ 'vue-swatches--is-empty': !value, 'vue-swatches--is-disabled': disabled }"
           :style="triggerStyles"
         ></div>
       </slot>
@@ -37,6 +38,7 @@
                 v-for="swatch in swatchRow"
                 :key="swatch"
                 :border-radius="computedBorderRadius"
+                :disabled="disabled"
                 :exception-mode="computedExceptionMode"
                 :is-exception="checkException(swatch)"
                 :selected="checkEquality(swatch, internalValue)"
@@ -57,6 +59,7 @@
               v-for="swatch in computedColors"
               :key="swatch"
               :border-radius="computedBorderRadius"
+              :disabled="disabled"
               :exception-mode="computedExceptionMode"
               :is-exception="checkException(swatch)"
               :selected="checkEquality(swatch, internalValue)"
@@ -226,6 +229,10 @@ export default {
     value: {
       type: String,
       default: null
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -316,7 +323,7 @@ export default {
       return DEFAULT_SHOW_BORDER
     },
 
-    /** DUMB COMPUTEDS (these use others computed) **/
+    /** DUMB COMPUTEDS (these use other computed) **/
 
     borderRadius () {
       if (this.shapes === 'squares') return `${Math.round(this.computedSwatchSize * 0.25)}px`
@@ -414,7 +421,7 @@ export default {
     // Called programmatically
     showPopover () {
       /* istanbul ignore if */
-      if (this.isOpen || this.inline) return /* dont show */
+      if (this.isOpen || this.inline || this.disabled) return /* dont show */
 
       this.internalIsOpen = true
       this.$el.focus()
@@ -424,7 +431,7 @@ export default {
       this.isOpen ? this.hidePopover() : this.showPopover()
     },
     updateSwatch (swatch) {
-      if (this.checkException(swatch)) return
+      if (this.checkException(swatch) || this.disabled) return
 
       this.internalValue = swatch
       this.$emit('input', swatch)
@@ -469,6 +476,10 @@ export default {
 
     &.vue-swatches--is-empty {
       border: 2px solid #ccc;
+    }
+
+    &.vue-swatches--is-disabled {
+      cursor: not-allowed;
     }
   }
 
