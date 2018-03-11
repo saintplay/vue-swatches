@@ -87,7 +87,6 @@
 <script>
 import presets from './presets'
 import Swatch from './Swatch'
-import * as errorsMessages from './errors'
 
 export const DEFAULT_BACKGROUND_COLOR = '#ffffff'
 export const DEFAULT_BORDER_RADIUS = '10px'
@@ -111,108 +110,52 @@ export default {
       default: true
     },
     colors: {
-      default: 'basic',
-      validator (value) {
-        if (value instanceof Array) return true
-        else if (value instanceof Object && !(value instanceof RegExp)) {
-          if (!value.swatches || !(value.swatches instanceof Array)) {
-            throw new Error(errorsMessages.presetArray(value))
-          }
-          return true
-        } else if (typeof value === 'string') {
-          const preset = presets[value]
-          if (!preset) {
-            throw new Error(errorsMessages.presetName(value))
-          }
-          return true
-        }
-        throw new Error(errorsMessages.typeCheckError('colors', ['Array', 'Object', 'String'], value))
-      }
+      type: [Array, Object, String],
+      default: 'basic'
     },
     exceptions: {
       type: Array,
       default: () => []
     },
     exceptionMode: {
-      default: 'disabled',
-      validator (value) {
-        if (typeof value === 'string') {
-          if (value === 'disabled' || value === 'hidden') return true
-          throw new Error(errorsMessages.exceptionModeValue(value))
-        }
-        throw new Error(errorsMessages.typeCheckError('exception-mode', ['String'], value))
-      }
+      type: String,
+      default: 'disabled'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     inline: {
       type: Boolean,
       default: false
     },
     maxHeight: {
-      default: null,
-      validator (value) {
-        if (typeof value === 'number') return true
-        else if (typeof value === 'string') {
-          if (isNaN(value)) {
-            throw new Error(errorsMessages.stringNotANumber('max-height', value))
-          }
-          return true
-        }
-        throw new Error(errorsMessages.typeCheckError('max-height', ['Number', 'String'], value))
-      }
+      type: [Number, String],
+      default: null // The default is especified as DEFAULT_MAX_HEIGHT
     },
     shapes: {
-      default: 'squares',
-      validator (value) {
-        if (typeof value === 'string') {
-          if (value === 'squares' || value === 'circles') return true
-          throw new Error(errorsMessages.shapesValue(value))
-        }
-        throw new Error(errorsMessages.typeCheckError('shapes', ['String'], value))
-      }
+      type: String,
+      default: 'squares'
     },
     popoverTo: {
-      default: 'right',
-      validator (value) {
-        if (typeof value === 'string') {
-          if (value === 'left' || value === 'right') return true
-          throw new Error(errorsMessages.popoverToValue(value))
-        }
-        throw new Error(errorsMessages.typeCheckError('popover-to', ['String'], value))
-      }
+      type: String,
+      default: 'right'
     },
     rowLength: {
-      default: null,
-      validator (value) {
-        if (typeof value === 'number') return true
-        else if (typeof value === 'string') {
-          if (isNaN(value)) {
-            throw new Error(errorsMessages.stringNotANumber('row-length', value))
-          }
-          return true
-        }
-        throw new Error(errorsMessages.typeCheckError('row-length', ['Number', 'String'], value))
-      }
+      type: [Number, String],
+      default: null // The default is especified as DEFAULT_ROW_LENGTH
     },
     showBorder: {
       type: Boolean,
-      default: null
+      default: null // The default is especified as DEFAULT_SHOW_BORDER
     },
     showCheckbox: {
       type: Boolean,
       default: true
     },
     swatchSize: {
-      default: null,
-      validator (value) {
-        if (typeof value === 'number') return true
-        else if (typeof value === 'string') {
-          if (isNaN(value)) {
-            throw new Error(errorsMessages.stringNotANumber('swatch-size', value))
-          }
-          return true
-        }
-        throw new Error(errorsMessages.typeCheckError('swatch-size', ['Number', 'String'], value))
-      }
+      type: [Number, String],
+      default: null // The default is especified as DEFAULT_SWATCH_SIZE
     },
     swatchStyle: {
       type: Object,
@@ -229,10 +172,6 @@ export default {
     value: {
       type: String,
       default: null
-    },
-    disabled: {
-      type: Boolean,
-      default: false
     }
   },
   data () {

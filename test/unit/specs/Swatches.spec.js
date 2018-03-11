@@ -3,16 +3,14 @@ import { mount } from '@vue/test-utils'
 import rgb from 'rgb'
 import isHexColor from 'is-hex-color'
 
-import Swatches from 'src/Swatches'
+import Swatches, {
+  DEFAULT_BACKGROUND_COLOR,
+  DEFAULT_MAX_HEIGHT,
+  DEFAULT_ROW_LENGTH,
+  DEFAULT_SWATCH_SIZE
+} from 'src/Swatches'
 import Swatch from 'src/Swatch'
 import presets, { supportedProperties } from 'src/presets'
-
-import * as errorsMessages from 'src/errors'
-
-const DEFAULT_BACKGROUND_COLOR = '#FFFFFF'
-const DEFAULT_MAX_HEIGHT = 300
-const DEFAULT_ROW_LENGTH = 4
-const DEFAULT_SWATCH_SIZE = 42
 
 const completPresetExample = {
   swatches: ['#cc4125', '#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af', '#6d9eeb', '#6fa8dc', '#8e7cc3', '#c27ba0'],
@@ -104,8 +102,12 @@ describe('Props', () => {
         const container = componentWrapper.find('.vue-swatches__container')
         const swatch = componentWrapper.find('.vue-swatches__swatch')
         swatch.trigger('click')
-        expect(container.hasStyle('display', 'none'))
-        .toBeTruthy()
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(false)
+        })
       })
       test('should not close the popover if false', () => {
         const componentWrapper = mount(Swatches, {
@@ -118,8 +120,12 @@ describe('Props', () => {
         const container = componentWrapper.find('.vue-swatches__container')
         const swatch = componentWrapper.find('.vue-swatches__swatch')
         swatch.trigger('click')
-        expect(container.hasStyle('display', 'none'))
-        .not.toBeTruthy()
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(true)
+        })
       })
     })
   })
@@ -495,8 +501,12 @@ describe('Props', () => {
           }
         })
         const container = componentWrapper.find('.vue-swatches__container')
-        expect(container.hasStyle('display', 'none'))
-        .not.toBeTruthy()
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(true)
+        })
       })
     })
     describe('When inline prop is false (Popover)', () => {
@@ -517,8 +527,12 @@ describe('Props', () => {
           }
         })
         const container = componentWrapper.find('.vue-swatches__container')
-        expect(container.hasStyle('display', 'none'))
-        .toBeTruthy()
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(false)
+        })
       })
     })
   })
@@ -849,12 +863,14 @@ describe('Props', () => {
         }
       })
       const swatch = componentWrapper.find('.vue-swatches__swatch')
+      const check = swatch.find('.vue-swatches__check__wrapper')
       swatch.trigger('click')
 
-      const check = swatch.find('.vue-swatches__check__wrapper ')
-
-      expect(check.hasStyle('display', 'none'))
-      .not.toBeTruthy()
+      return Vue.nextTick()
+      .then(() => {
+        expect(check.element.style.display)
+        .not.toBe('none')
+      })
     })
     test('should not render the checkbox if true', () => {
       const componentWrapper = mount(Swatches, {
@@ -868,8 +884,11 @@ describe('Props', () => {
 
       const check = swatch.find('.vue-swatches__check__wrapper ')
 
-      expect(check.hasStyle('display', 'none'))
-      .toBeTruthy()
+      return Vue.nextTick()
+      .then(() => {
+        expect(check.isVisible())
+        .toBe(false)
+      })
     })
   })
 
@@ -1395,180 +1414,6 @@ describe('Slots', () => {
         expect(trigger.html())
         .toEqual(spanTest)
       })
-    })
-  })
-})
-
-describe('Exceptions', () => {
-  describe('colors Prop', () => {
-    test('should throw if swatches property is not present on preset', () => {
-      const incorrectPreset = {
-        borderRadius: '15%',
-        spacingSize: 20
-      }
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          colors: incorrectPreset
-        }
-      })
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(mountComponent)
-        .toThrow(errorsMessages.presetArray())
-      })
-    })
-    test('should throw if swatches property is not an array on preset', () => {
-      const incorrectPreset = {
-        swatches: 189,
-        borderRadius: '15%',
-        spacingSize: 20
-      }
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          colors: incorrectPreset
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.presetArray())
-    })
-    test('should throw if preset name doesn\'t match any preset', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          colors: 'fancy-preset-name-that-doesnt-exists'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.presetName('fancy-preset-name-that-doesnt-exists'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          colors: /regular-expression/
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('colors', ['Array', 'Object', 'String'], /regular-expression/))
-    })
-  })
-  describe('exception-mode Prop', () => {
-    test('should throw if prop doesn\'t match any valid value', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          exceptionMode: 'value-that-doesnt-match'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.exceptionModeValue('value-that-doesnt-match'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          exceptionMode: 158.18
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('exception-mode', ['String'], 158.18))
-    })
-  })
-  describe('max-height Prop', () => {
-    test('should throw if prop is a String but can\'t be parsed as Number', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          maxHeight: 'not-a-number'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.stringNotANumber('max-height'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          maxHeight: { data: 'Hello' }
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('max-height', ['Number', 'String'], { data: 'Hello' }))
-    })
-  })
-  describe('shapes Prop', () => {
-    test('should throw if prop doesn\'t match any valid value', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          shapes: 'value-that-doesnt-match'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.shapesValue('value-that-doesnt-match'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          shapes: ['fancy', 'array']
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('shapes', ['String'], ['fancy', 'array']))
-    })
-  })
-  describe('popover-to Prop', () => {
-    test('should throw if prop doesn\'t match any valid value', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          popoverTo: 'value-that-doesnt-match'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.popoverToValue('value-that-doesnt-match'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          popoverTo: 158.18
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('popover-to', ['String'], 158.18))
-    })
-  })
-  describe('row-length Prop', () => {
-    test('should throw if prop is a String but can\'t be parsed as Number', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          rowLength: 'not-a-number'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.stringNotANumber('row-length'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          rowLength: ['fancy', 'array']
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('row-length', ['Number', 'String'], ['fancy', 'array']))
-    })
-  })
-  describe('swatch-size Prop', () => {
-    test('should throw if prop is a String but can\'t be parsed as Number', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          swatchSize: 'not-a-number'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.stringNotANumber('swatch-size'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          swatchSize: /regular-expression/
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('swatch-size', ['Number', 'String'], /regular-expression/))
     })
   })
 })
