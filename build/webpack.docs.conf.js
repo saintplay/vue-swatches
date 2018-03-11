@@ -16,6 +16,7 @@ const env = process.env.NODE_ENV === 'testing'
   : require('../config/bundle.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
+  mode: 'production',
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.bundle.productionSourceMap,
@@ -80,8 +81,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
-    // enable scope hoisting
-    new webpack.optimize.ModuleConcatenationPlugin(),
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),

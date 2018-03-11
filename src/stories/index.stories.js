@@ -38,7 +38,7 @@ storiesOf('Disabled State', module)
     }),
     template: `
       <swatches v-model="color" disabled>
-        <input slot="trigger" :value="color" readonly>
+        <button slot="trigger">Hello World</button>'
       </swatches>
       `
   }))
