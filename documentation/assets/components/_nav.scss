@@ -1,21 +1,26 @@
-ul.nav {
-  font-family: $global-font;
-  font-size: to-rem(16px);
-  letter-spacing: 0.4px;
-  line-height: 32px;
-  list-style: none;
-  @media #{$desktop-l-up} {
-    padding-left: 112px;
-  }
-  @media #{$retina-up} {
-    padding-left: 180px;
+.nav {
+  ul {
+    font-family: $global-font;
+    font-size: to-rem(16px);
+    letter-spacing: 0.4px;
+    line-height: 32px;
+    list-style: none;
+
+    @media #{$desktop-l-up} {
+      padding-left: 112px;
+    }
+    @media #{$retina-up} {
+      padding-left: 180px;
+    }
   }
 }
 
 .nav--sticky {
   position: fixed;
-  top: 0;
+  top: 10px;
+  bottom: 10px;
   width: 25%;
+  overflow-y: scroll;
 }
 
 .nav__heading {

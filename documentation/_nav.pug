@@ -1,11 +1,12 @@
-ul.nav(:class="{ 'nav--sticky': isNavSticky }")
-  li.nav__heading(:class="`color--${color}`") Setup
-  +tocSubsection('Getting Started')
+.nav.scrollbar--custom(:class="{ 'nav--sticky': isNavSticky }")
+  ul
+    li.nav__heading(:class="`color--${color}`") Setup
+    +tocSubsection('Getting Started')
 
-  //- replaced later in _mixins.pug:renderToc()
-  ='%%_TOC_%%'
+    //- replaced later in _mixins.pug:renderToc()
+    ='%%_TOC_%%'
 
-  li.nav__heading(:class="`color--${color}`") API
-  +tocSubsection('Props')
-  +tocSubsection('Events')
-  +tocSubsection('Slots')
+    li.nav__heading(:class="`color--${color}`") API
+    +tocSubsection('Props')
+    +tocSubsection('Events')
+    +tocSubsection('Slots')
