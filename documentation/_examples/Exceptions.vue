@@ -7,8 +7,10 @@
       <swatches
         v-model="color"
         colors="text-basic"
+
         :exceptions="exceptions"
         exception-mode="disabled"
+
         row-length="4"
         show-border
         popover-to="left"

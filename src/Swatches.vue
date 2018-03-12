@@ -64,7 +64,7 @@
               :is-exception="checkException(swatch)"
               :selected="checkEquality(swatch, internalValue)"
               :size="computedSwatchSize"
-              :spacing-size="computedSpacingSize"
+                :spacing-size="computedSpacingSize"
               :show-border="computedShowBorder"
               :show-checkbox="showCheckbox"
               :swatch-color="swatch"
@@ -333,7 +333,7 @@ export default {
   methods: {
     // Called programmatically
     checkEquality (color1, color2) {
-      if (!color1 || !color2) return false
+      if ((!color1 && color1 !== '') || (!color2 && color2 !== '')) return false
       return (color1.toUpperCase() === color2.toUpperCase())
     },
     checkException (swatch) {
@@ -450,5 +450,12 @@ export default {
   }
   .vue-swatches-show-hide-enter, .vue-swatches-show-hide-leave-active {
     opacity: 0;
+  }
+
+  // Shared Styles (Swatch.vue, Check.vue)
+  .vue-swatches--has-children-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>

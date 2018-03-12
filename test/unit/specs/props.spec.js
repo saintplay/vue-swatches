@@ -187,6 +187,70 @@ describe('Props', () => {
           .toEqual(rgbColors)
         })
       })
+      describe('When empty string are passed as a color', () => {
+        test('it should render the swatch diagonal', () => {
+          const colors = ['', '#a156e2', '#eca23e']
+          const componentWrapper = mount(Swatches, {
+            propsData: {
+              colors
+            }
+          })
+          const diagonal = componentWrapper.find('.vue-swatches__diagonal--wrapper')
+          return Vue.nextTick()
+          .then(() => {
+            expect(diagonal.exists())
+            .toBeTruthy()
+          })
+        })
+        test('it should update the value', () => {
+          const colors = ['', '#a156e2', '#eca23e']
+          const componentWrapper = mount(Swatches, {
+            propsData: {
+              colors
+            }
+          })
+          const swatch = componentWrapper.find('.vue-swatches__swatch')
+          swatch.trigger('click')
+          return Vue.nextTick()
+          .then(() => {
+            expect(componentWrapper.vm.internalValue)
+            .toEqual('')
+          })
+        })
+        test('it should render the check if the value is empty string', () => {
+          const colors = ['', '#a156e2', '#eca23e']
+          const componentWrapper = mount(Swatches, {
+            propsData: {
+              colors
+            }
+          })
+          const swatch = componentWrapper.find('.vue-swatches__swatch')
+          const check = swatch.find('.vue-swatches__check__wrapper')
+          swatch.trigger('click')
+
+          return Vue.nextTick()
+          .then(() => {
+            expect(check.element.style.display)
+            .not.toBe('none')
+          })
+        })
+      })
+      test('given array colors are shown', () => {
+        const colors = ['#e31432', '#a156e2', '#eca23e']
+        const rgbColors = colors.map(c => rgb(c))
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            colors
+          }
+        })
+        const swatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch'))
+        const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
+        return Vue.nextTick()
+        .then(() => {
+          expect(swatchesColors)
+          .toEqual(rgbColors)
+        })
+      })
     })
     describe('When preset name is passed as a prop', () => {
       test('preset colors are shown', () => {

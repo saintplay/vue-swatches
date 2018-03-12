@@ -32,10 +32,5 @@ export default {
   .vue-swatches__check__path {
     fill: white;
   }
-  .vue-swatches--has-children-centered {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 </style>
 

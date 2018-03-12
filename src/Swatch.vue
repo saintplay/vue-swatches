@@ -8,6 +8,9 @@
     }"
     :style="swatchStyles"
   >
+    <div v-if="swatchColor === ''" class="vue-swatches__diagonal--wrapper vue-swatches--has-children-centered">
+      <div class="vue-swatches__diagonal"></div>
+    </div>
     <check v-show="showCheckbox && selected" />
   </div>
 </template>
@@ -75,7 +78,7 @@ export default {
         marginBottom: `${this.spacingSize}px`,
         marginRight: `${this.spacingSize}px`,
         borderRadius: this.borderRadius,
-        backgroundColor: this.swatchColor,
+        backgroundColor: this.swatchColor !== '' ? this.swatchColor : '#FFFFFF',
         cursor: this.cursorStyle
       }
     },
@@ -108,6 +111,23 @@ export default {
 
     &.vue-swatches__swatch--selected {
       box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
+    }
+
+    .vue-swatches__diagonal--wrapper {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .vue-swatches__diagonal {
+      width: 75%;
+      height: 75%;
+      background:
+        linear-gradient(to top right,
+        rgba(0,0,0,0) 0%,
+        rgba(0, 0, 0, 0) calc(50% - 2.4px),
+        rgba(222, 8, 10, 1) 50%,
+        rgba(0,0,0,0) calc(50% + 2.4px),
+        rgba(0,0,0,0) 100%);
     }
   }
 </style>
