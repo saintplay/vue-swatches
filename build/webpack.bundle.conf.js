@@ -86,4 +86,9 @@ if (config.bundle.productionGzip) {
   )
 }
 
+if (config.bundle.bundleAnalyzerReport) {
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+}
+
 module.exports = webpackConfig
