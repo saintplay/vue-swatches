@@ -200,7 +200,7 @@ describe('Props', () => {
               colors
             }
           })
-          const diagonal = componentWrapper.find('.vue-swatches__diagonal--wrapper')
+          const diagonal = componentWrapper.find('.vue-swatches__swatch .vue-swatches__diagonal--wrapper')
           return Vue.nextTick()
           .then(() => {
             expect(diagonal.exists())
@@ -254,6 +254,21 @@ describe('Props', () => {
         .then(() => {
           expect(swatchesColors)
           .toEqual(rgbColors)
+        })
+      })
+      test('it should render a diagonal in the trigger', () => {
+        const colors = ['', '#a156e2', '#eca23e']
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            colors,
+            value: ''
+          }
+        })
+        const diagonal = componentWrapper.find('.vue-swatches__trigger').find('.vue-swatches__diagonal--wrapper')
+        return Vue.nextTick()
+        .then(() => {
+          expect(diagonal.isVisible())
+          .toBeTruthy()
         })
       })
     })

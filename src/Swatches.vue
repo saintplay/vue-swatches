@@ -9,7 +9,12 @@
           class="vue-swatches__trigger"
           :class="{ 'vue-swatches--is-empty': !value, 'vue-swatches--is-disabled': disabled }"
           :style="triggerStyles"
-        ></div>
+        >
+        <div v-show="isNoColor" class="vue-swatches__diagonal--wrapper vue-swatches--has-children-centered">
+          <div class="vue-swatches__diagonal"></div>
+        </div>
+      </div>
+
       </slot>
     </div>
 
@@ -225,6 +230,9 @@ export default {
     isOpen () {
       if (this.inline) return false
       return this.internalIsOpen
+    },
+    isNoColor () {
+      return this.checkEquality('', this.internalValue)
     },
 
     /** REAL COMPUTEDS (depends on user's props and preset's values, these have 'computed' prefix) **/
@@ -535,5 +543,21 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .vue-swatches__diagonal--wrapper {
+    width: 100%;
+    height: 100%;
+  }
+  .vue-swatches__diagonal {
+    width: 75%;
+    height: 75%;
+    background:
+      linear-gradient(to top right,
+      rgba(0,0,0,0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 2.4px),
+      rgba(222, 8, 10, 1) 50%,
+      rgba(0,0,0,0) calc(50% + 2.4px),
+      rgba(0,0,0,0) 100%);
   }
 </style>
