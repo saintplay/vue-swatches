@@ -69,6 +69,9 @@ export default {
       // default is especified in `Swatches.vue`
     }
   },
+  data () {
+    return { }
+  },
   computed: {
     computedSwatchStyle () {
       return {

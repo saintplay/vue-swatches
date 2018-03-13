@@ -1101,6 +1101,25 @@ describe('Props', () => {
         .not.toBeTruthy()
       })
     })
+
+    test('should close the popover when click to ok button', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: true,
+          inline: false
+        }
+      })
+      componentWrapper.vm.showPopover()
+      const container = componentWrapper.find('.vue-swatches__container')
+      const button = componentWrapper.find('.vue-swatches__fallback__button')
+      button.trigger('click')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(container.isVisible())
+        .not.toBeTruthy()
+      })
+    })
   })
 
   describe('swatch-size', () => {

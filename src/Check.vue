@@ -13,7 +13,10 @@
 
 <script>
 export default {
-  name: 'check'
+  name: 'check',
+  data () {
+    return { }
+  }
 }
 </script>
 
