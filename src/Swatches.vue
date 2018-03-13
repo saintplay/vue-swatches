@@ -10,7 +10,7 @@
           :class="{ 'vue-swatches--is-empty': !value, 'vue-swatches--is-disabled': disabled }"
           :style="triggerStyles"
         >
-        <div v-if="isNoColor" class="vue-swatches__diagonal--wrapper vue-swatches--has-children-centered">
+        <div v-show="isNoColor" class="vue-swatches__diagonal--wrapper vue-swatches--has-children-centered">
           <div class="vue-swatches__diagonal"></div>
         </div>
       </div>
