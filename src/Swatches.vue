@@ -73,12 +73,25 @@
             />
           </template>
         </div>
-        <input
-          ref="fallbackInput"
-          v-model="internalValue"
-          type="hidden"
-          style="width: 0"
-        >
+        <div v-if="showFallback" class="vue-swatches__fallback__wrapper" :style="computedFallbackWrapperStyles">
+          <span class="vue-swatches__fallback__input--wrapper">
+            <input
+              type="text"
+              ref="fallbackInput"
+              class="vue-swatches__fallback__input"
+              :class="fallbackInputClass"
+              :value="internalValue"
+              @input="e => updateSwatch(e.target.value, { fromFallbackInput: true })"
+            >
+          </span>
+          <button
+            class="vue-swatches__fallback__button"
+            :class="fallbackOkClass"
+            @click="onFallbackButtonClick"
+          >
+            {{ fallbackOkText }}
+          </button>
+        </div>
       </div>
     </transition>
   </div>
@@ -125,6 +138,18 @@ export default {
       type: Boolean,
       default: false
     },
+    fallbackInputClass: {
+      type: [Array, Object, String],
+      default: null
+    },
+    fallbackOkClass: {
+      type: [Array, Object, String],
+      default: null
+    },
+    fallbackOkText: {
+      type: String,
+      default: 'Ok'
+    },
     inline: {
       type: Boolean,
       default: false
@@ -149,6 +174,10 @@ export default {
       type: Boolean,
       default: null // The default is especified as DEFAULT_SHOW_BORDER
     },
+    showFallback: {
+      type: Boolean,
+      default: false
+    },
     showCheckbox: {
       type: Boolean,
       default: true
@@ -158,15 +187,15 @@ export default {
       default: null // The default is especified as DEFAULT_SWATCH_SIZE
     },
     swatchStyle: {
-      type: Object,
+      type: [Object, Array],
       default: () => {}
     },
     triggerStyle: {
-      type: Object,
+      type: [Object, Array],
       default: () => {}
     },
     wrapperStyle: {
-      type: Object,
+      type: [Object, Array],
       default: () => {}
     },
     value: {
@@ -323,6 +352,22 @@ export default {
     },
     wrapperStyles () {
       return [this.computedWrapperStyle, this.wrapperStyle]
+    },
+    computedFallbackWrapperStyle () {
+      const baseStyles = {
+        marginLeft: `${this.computedSpacingSize}px`,
+        paddingBottom: `${this.computedSpacingSize}px`
+      }
+
+      if (this.inline) return baseStyles
+
+      return {
+        ...baseStyles,
+        width: `${this.wrapperWidth - this.computedSpacingSize}px`
+      }
+    },
+    computedFallbackWrapperStyles () {
+      return [this.computedFallbackWrapperStyle]
     }
   },
   watch: {
@@ -357,6 +402,9 @@ export default {
       this.internalIsOpen = false
       this.$emit('close', this.internalValue)
     },
+    onFallbackButtonClick () {
+      this.hidePopover()
+    },
     // Called programmatically
     showPopover () {
       /* istanbul ignore if */
@@ -369,13 +417,13 @@ export default {
     togglePopover () {
       this.isOpen ? this.hidePopover() : this.showPopover()
     },
-    updateSwatch (swatch) {
+    updateSwatch (swatch, { fromFallbackInput } = {}) {
       if (this.checkException(swatch) || this.disabled) return
 
       this.internalValue = swatch
       this.$emit('input', swatch)
 
-      if (this.closeOnSelect && !this.inline) {
+      if (this.closeOnSelect && !this.inline && !fromFallbackInput) {
         this.hidePopover()
       }
     },
@@ -442,6 +490,36 @@ export default {
 
   .vue-swatches__row {
     font-size: 0;
+  }
+
+  .vue-swatches__fallback__wrapper {
+    display: table;
+    // justify-content: space-between;
+  }
+  .vue-swatches__fallback__input--wrapper {
+    display: table-cell;
+    padding-right: 10px;
+    width: 100%;
+    font-size: 14px;
+  }
+  .vue-swatches__fallback__input {
+    width: 100%;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    color: #35495e;
+    background: #ffffff;
+  }
+  .vue-swatches__fallback__button {
+    display: table-cell;
+    padding: 6px 15px;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #3571c8;
+    border-radius: 5px;
   }
 
   // Transitions

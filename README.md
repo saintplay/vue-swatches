@@ -73,6 +73,9 @@ With fewer options, the user experience will be improved
   <li>
     <a href="https://saintplay.github.io/vue-swatches/#sub-using-a-custom-trigger">Custom Trigger</a>
   </li>
+  <li>
+    <a href="https://saintplay.github.io/vue-swatches/#sub-fallback-input">Fallback Input</a>
+  </li>
 </ul>
 
 ## Install ##
@@ -136,6 +139,9 @@ This component has the same support than Vue itself
 However if you want to use this with IE9, you will probably need to work on the CSS styles.
 IE10 should be fine
 
+## Awsome Contributors ##
+
+* [Diego Jara (saintplay)](https://github.com/saintplay/)
 
 ## License
 

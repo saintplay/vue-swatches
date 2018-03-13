@@ -31,7 +31,7 @@ body {
   }
   @media #{$desktop-up} {
     max-width: 480px;
-    padding: to-rem-all($brand-container-spacing-desktop);    
+    padding: to-rem-all($brand-container-spacing-desktop);
   }
 }
   .brand__logo {
@@ -43,7 +43,7 @@ body {
       height: 120px;
     }
   }
-  
+
   .brand__name {
     position: relative;
   }
@@ -51,7 +51,7 @@ body {
   .brand__swatches {
     padding-bottom: 0;
   }
-  
+
   .brand__version {
     position: absolute;
     right: 0;
@@ -63,7 +63,7 @@ body {
       padding-bottom: 48px;
     }
   }
-  
+
   .brand__colors__container {
     display: flex;
     justify-content: space-around;
@@ -116,7 +116,7 @@ body {
     font-family: $global-font-secondary;
     font-size: 1.2rem;
   }
-  .form__input input {
+  .form__input__element {
     border: 1px solid transparent;
     border-radius: 3px;
     box-shadow: none;
@@ -140,7 +140,7 @@ body {
 }
 
 .footer {
-  margin-top: 30px; 
+  margin-top: 30px;
 }
 
 .color--red {

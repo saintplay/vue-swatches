@@ -93,6 +93,44 @@ h2.typo__h2#sub-props(data-section) Props
             td.table__td
               | Set it to #[kbd 'true'] to disable the swatch. It won't be possible to pick another color.
 
+          tr.table__tr
+            td.table__td: strong fallbackInputClass
+            td.table__td #[kbd Array], #[kbd Object] or #[kbd String]
+            td.table__td: kbd null
+            td.table__td
+              ul
+                li: kbd 'primary'
+                li: kbd 'is-primary'
+                li: kbd 'is-info'
+            td.table__td
+              | Sets the
+              a.typo__link(href="https://vuejs.org/v2/guide/class-and-style.html#Object-Syntax")  class
+              |  for the fallback input
+
+          tr.table__tr
+            td.table__td: strong fallbackOkClass
+            td.table__td #[kbd Array], #[kbd Object] or #[kbd String]
+            td.table__td: kbd null
+            td.table__td
+              ul
+                li: kbd 'primary'
+                li: kbd 'is-primary'
+                li: kbd 'is-info'
+            td.table__td
+              | Sets the
+              a.typo__link(href="https://vuejs.org/v2/guide/class-and-style.html#Object-Syntax")  class
+              |  for the fallback button
+
+          tr.table__tr
+            td.table__td: strong fallbackOkText
+            td.table__td #[kbd String]
+            td.table__td: kbd 'Ok'
+            td.table__td
+              ul
+                li: kbd 'Select'
+                li: kbd 'Save'
+                li: kbd 'OK'
+            td.table__td Sets the text for the fallback button
 
           tr.table__tr
             td.table__td: strong inline
@@ -170,6 +208,18 @@ h2.typo__h2#sub-props(data-section) Props
               | Useful for making lighter colors more noticeable.
 
           tr.table__tr
+            td.table__td: strong show-fallback
+            td.table__td #[kbd Boolean]
+            td.table__td: kbd false
+            td.table__td
+              ul
+                li: kbd true
+                li: kbd false
+            td.table__td
+              | Shows an input to change the color from there as well.#[br]
+              | Useful for custom color codes.
+
+          tr.table__tr
             td.table__td: strong swatch-size
             td.table__td #[kbd Number] or #[kbd String]
             td.table__td: kbd 42
@@ -183,7 +233,7 @@ h2.typo__h2#sub-props(data-section) Props
 
           tr.table__tr
             td.table__td: strong swatch-style
-            td.table__td #[kbd Object]
+            td.table__td #[kbd Object] or #[kbd Array]
             td.table__td: kbd {}
             td.table__td
               ul
@@ -197,7 +247,7 @@ h2.typo__h2#sub-props(data-section) Props
 
           tr.table__tr
             td.table__td: strong trigger-style
-            td.table__td #[kbd Object]
+            td.table__td #[kbd Object] or #[kbd Array]
             td.table__td: kbd {}
             td.table__td
               ul
@@ -211,7 +261,7 @@ h2.typo__h2#sub-props(data-section) Props
 
           tr.table__tr
             td.table__td: strong wrapper-style
-            td.table__td #[kbd Object]
+            td.table__td #[kbd Object] or #[kbd Array]
             td.table__td: kbd {}
             td.table__td
               ul
@@ -229,8 +279,9 @@ h2.typo__h2#sub-props(data-section) Props
             td.table__td: kbd null
             td.table__td
               ul
-                li: kbd 30
-                li: kbd '24'
-                li: kbd '36'
+                li: kbd '#1b22ee'
+                li: kbd ''
+                li: kbd '#fc2343'
+
             td.table__td
-              | Sets the selected color.
+              | Sets the selected color. Use `''` for transparent/no-color.

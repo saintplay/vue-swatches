@@ -22,6 +22,11 @@ const completPresetExample = {
 }
 
 const defaultComponent = mount(Swatches)
+const defaultComponentWithFallback = mount(Swatches, {
+  propsData: {
+    showFallback: true
+  }
+})
 
 describe('Props', () => {
   describe('background-color', () => {
@@ -452,7 +457,7 @@ describe('Props', () => {
   })
 
   describe('disabled', () => {
-    test('disabled default is set to false', () => {
+    test('default disabled is set to false', () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
           disabled: false
@@ -528,6 +533,105 @@ describe('Props', () => {
           expect(container.isVisible())
           .toBe(false)
         })
+      })
+    })
+  })
+
+  describe('fallback-input-class', () => {
+    test('default fallback-input-class is set to null', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackInputClass: null,
+          showFallback: true
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponentWithFallback.html())
+      })
+    })
+
+    test('fallback-input-class should be applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackInputClass: 'class-example',
+          showFallback: true
+        }
+      })
+      const input = componentWrapper.find('.vue-swatches__fallback__input')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(input.classes().indexOf('class-example') !== -1)
+        .toBeTruthy()
+      })
+    })
+  })
+
+  describe('fallback-ok-class', () => {
+    test('default fallback-ok-class is set to null', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackOkClass: null,
+          showFallback: true
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponentWithFallback.html())
+      })
+    })
+
+    test('fallback-ok-class should be applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackOkClass: 'class-example',
+          showFallback: true
+        }
+      })
+      const button = componentWrapper.find('.vue-swatches__fallback__button')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(button.classes().indexOf('class-example') !== -1)
+        .toBeTruthy()
+      })
+    })
+  })
+
+  describe('fallback-ok-text', () => {
+    test('default fallback-text-class is set to Ok', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackOkText: 'Ok',
+          showFallback: true
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponentWithFallback.html())
+      })
+    })
+
+    test('fallback-ok-text should be applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackOkText: 'click me',
+          showFallback: true
+        }
+      })
+      const button = componentWrapper.find('.vue-swatches__fallback__button')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(button.text())
+        .toEqual('click me')
       })
     })
   })
@@ -935,7 +1039,7 @@ describe('Props', () => {
         .not.toBe('none')
       })
     })
-    test('should not render the checkbox if true', () => {
+    test('should not render the checkbox if false', () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
           showCheckbox: false,
@@ -951,6 +1055,50 @@ describe('Props', () => {
       .then(() => {
         expect(check.isVisible())
         .toBe(false)
+      })
+    })
+  })
+
+  describe('show-fallback', () => {
+    test('default show-fallback is set to false', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: false
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+    test('should render the fallback if true', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: true
+        }
+      })
+      const fallbackWrapper = componentWrapper.find('.vue-swatches__fallback__wrapper')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(fallbackWrapper.exists())
+        .toBeTruthy()
+      })
+    })
+    test('should not render the fallback if false', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: false
+        }
+      })
+      const fallbackWrapper = componentWrapper.find('.vue-swatches__fallback__wrapper')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(fallbackWrapper.exists())
+        .not.toBeTruthy()
       })
     })
   })
