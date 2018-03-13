@@ -19,7 +19,7 @@ jobs:
         provider: pages
         local_dir: docs
         github_token: $GITHUB_TOKEN
-        email: saintplay@gmail.com
+        email: saintplay96@gmail.com
         name: Diego Jara
         on:
           branch: master
