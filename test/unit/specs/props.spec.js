@@ -1,18 +1,15 @@
 import Vue from 'vue'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import rgb from 'rgb'
-import isHexColor from 'is-hex-color'
 
-import Swatches from 'src/Swatches'
+import Swatches, {
+  DEFAULT_BACKGROUND_COLOR,
+  DEFAULT_MAX_HEIGHT,
+  DEFAULT_ROW_LENGTH,
+  DEFAULT_SWATCH_SIZE
+} from 'src/Swatches'
 import Swatch from 'src/Swatch'
-import presets, { supportedProperties } from 'src/presets'
-
-import * as errorsMessages from 'src/errors'
-
-const DEFAULT_BACKGROUND_COLOR = '#FFFFFF'
-const DEFAULT_MAX_HEIGHT = 300
-const DEFAULT_ROW_LENGTH = 4
-const DEFAULT_SWATCH_SIZE = 42
+import presets from 'src/presets'
 
 const completPresetExample = {
   swatches: ['#cc4125', '#e06666', '#f6b26b', '#ffd966', '#93c47d', '#76a5af', '#6d9eeb', '#6fa8dc', '#8e7cc3', '#c27ba0'],
@@ -25,6 +22,11 @@ const completPresetExample = {
 }
 
 const defaultComponent = mount(Swatches)
+const defaultComponentWithFallback = mount(Swatches, {
+  propsData: {
+    showFallback: true
+  }
+})
 
 describe('Props', () => {
   describe('background-color', () => {
@@ -104,8 +106,12 @@ describe('Props', () => {
         const container = componentWrapper.find('.vue-swatches__container')
         const swatch = componentWrapper.find('.vue-swatches__swatch')
         swatch.trigger('click')
-        expect(container.hasStyle('display', 'none'))
-        .toBeTruthy()
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(false)
+        })
       })
       test('should not close the popover if false', () => {
         const componentWrapper = mount(Swatches, {
@@ -118,8 +124,12 @@ describe('Props', () => {
         const container = componentWrapper.find('.vue-swatches__container')
         const swatch = componentWrapper.find('.vue-swatches__swatch')
         swatch.trigger('click')
-        expect(container.hasStyle('display', 'none'))
-        .not.toBeTruthy()
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(true)
+        })
       })
     })
   })
@@ -176,6 +186,70 @@ describe('Props', () => {
           const rgbSwatches = swatchesNodeList.map(s => rgb(s.style.backgroundColor))
           swatchesColors.push(rgbSwatches)
         })
+        return Vue.nextTick()
+        .then(() => {
+          expect(swatchesColors)
+          .toEqual(rgbColors)
+        })
+      })
+      describe('When empty string are passed as a color', () => {
+        test('it should render the swatch diagonal', () => {
+          const colors = ['', '#a156e2', '#eca23e']
+          const componentWrapper = mount(Swatches, {
+            propsData: {
+              colors
+            }
+          })
+          const diagonal = componentWrapper.find('.vue-swatches__diagonal--wrapper')
+          return Vue.nextTick()
+          .then(() => {
+            expect(diagonal.exists())
+            .toBeTruthy()
+          })
+        })
+        test('it should update the value', () => {
+          const colors = ['', '#a156e2', '#eca23e']
+          const componentWrapper = mount(Swatches, {
+            propsData: {
+              colors
+            }
+          })
+          const swatch = componentWrapper.find('.vue-swatches__swatch')
+          swatch.trigger('click')
+          return Vue.nextTick()
+          .then(() => {
+            expect(componentWrapper.vm.internalValue)
+            .toEqual('')
+          })
+        })
+        test('it should render the check if the value is empty string', () => {
+          const colors = ['', '#a156e2', '#eca23e']
+          const componentWrapper = mount(Swatches, {
+            propsData: {
+              colors
+            }
+          })
+          const swatch = componentWrapper.find('.vue-swatches__swatch')
+          const check = swatch.find('.vue-swatches__check__wrapper')
+          swatch.trigger('click')
+
+          return Vue.nextTick()
+          .then(() => {
+            expect(check.element.style.display)
+            .not.toBe('none')
+          })
+        })
+      })
+      test('given array colors are shown', () => {
+        const colors = ['#e31432', '#a156e2', '#eca23e']
+        const rgbColors = colors.map(c => rgb(c))
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            colors
+          }
+        })
+        const swatches = Array.from(componentWrapper.element.querySelectorAll('.vue-swatches__swatch'))
+        const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor))
         return Vue.nextTick()
         .then(() => {
           expect(swatchesColors)
@@ -382,6 +456,186 @@ describe('Props', () => {
     })
   })
 
+  describe('disabled', () => {
+    test('default disabled is set to false', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          disabled: false
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+
+    describe('When Inline mode is enabled', () => {
+      test('value won\'t change when cliking a swatch', () => {
+        const colors = ['#e31432', '#a156e2', '#eca23e']
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            value: '#eca23e',
+            colors,
+            disabled: true,
+            inline: true
+          }
+        })
+
+        const swatch = componentWrapper.find('.vue-swatches__swatch')
+        swatch.trigger('click')
+        const selectedSwatch = componentWrapper.findAll(Swatch).wrappers.filter(s => s.vm.selected)[0]
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(selectedSwatch.vm.swatchColor)
+          .toEqual('#eca23e')
+        })
+      })
+    })
+
+    describe('When Inline mode is not enabled', () => {
+      test('default trigger won\'t open the Popover', () => {
+        const componentWrapper = mount(Swatches, {
+          propsData: {
+            disabled: true,
+            inline: false
+          }
+        })
+        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        const container = componentWrapper.find('.vue-swatches__container')
+        trigger.trigger('click')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(false)
+        })
+      })
+      test('custom trigger won\'t open the Popover', () => {
+        const buttonTest = '<button id="button-test">Hello World</button>'
+        const componentWrapper = mount(Swatches, {
+          slots: {
+            trigger: buttonTest
+          },
+          propsData: {
+            disabled: true,
+            inline: false
+          }
+        })
+        const trigger = componentWrapper.find('#button-test')
+        const container = componentWrapper.find('.vue-swatches__container')
+        trigger.trigger('click')
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(false)
+        })
+      })
+    })
+  })
+
+  describe('fallback-input-class', () => {
+    test('default fallback-input-class is set to null', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackInputClass: null,
+          showFallback: true
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponentWithFallback.html())
+      })
+    })
+
+    test('fallback-input-class should be applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackInputClass: 'class-example',
+          showFallback: true
+        }
+      })
+      const input = componentWrapper.find('.vue-swatches__fallback__input')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(input.classes().indexOf('class-example') !== -1)
+        .toBeTruthy()
+      })
+    })
+  })
+
+  describe('fallback-ok-class', () => {
+    test('default fallback-ok-class is set to null', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackOkClass: null,
+          showFallback: true
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponentWithFallback.html())
+      })
+    })
+
+    test('fallback-ok-class should be applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackOkClass: 'class-example',
+          showFallback: true
+        }
+      })
+      const button = componentWrapper.find('.vue-swatches__fallback__button')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(button.classes().indexOf('class-example') !== -1)
+        .toBeTruthy()
+      })
+    })
+  })
+
+  describe('fallback-ok-text', () => {
+    test('default fallback-text-class is set to Ok', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackOkText: 'Ok',
+          showFallback: true
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponentWithFallback.html())
+      })
+    })
+
+    test('fallback-ok-text should be applied', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackOkText: 'click me',
+          showFallback: true
+        }
+      })
+      const button = componentWrapper.find('.vue-swatches__fallback__button')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(button.text())
+        .toEqual('click me')
+      })
+    })
+  })
+
   describe('inline', () => {
     test('inline default is set to false', () => {
       const noInlineComponent = mount(Swatches, {
@@ -414,11 +668,15 @@ describe('Props', () => {
           }
         })
         const container = componentWrapper.find('.vue-swatches__container')
-        expect(container.hasStyle('display', 'none'))
-        .not.toBeTruthy()
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(true)
+        })
       })
     })
-    describe('When inline prop is fale (Popover)', () => {
+    describe('When inline prop is false (Popover)', () => {
       test('should render the trigger', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {
@@ -429,15 +687,19 @@ describe('Props', () => {
         expect(trigger.exists())
         .toBeTruthy()
       })
-      test('shoukd render swatches not visible', () => {
+      test('should render swatches not visible', () => {
         const componentWrapper = mount(Swatches, {
           propsData: {
             inline: false
           }
         })
         const container = componentWrapper.find('.vue-swatches__container')
-        expect(container.hasStyle('display', 'none'))
-        .toBeTruthy()
+
+        return Vue.nextTick()
+        .then(() => {
+          expect(container.isVisible())
+          .toBe(false)
+        })
       })
     })
   })
@@ -768,14 +1030,16 @@ describe('Props', () => {
         }
       })
       const swatch = componentWrapper.find('.vue-swatches__swatch')
+      const check = swatch.find('.vue-swatches__check__wrapper')
       swatch.trigger('click')
 
-      const check = swatch.find('.vue-swatches__check__wrapper ')
-
-      expect(check.hasStyle('display', 'none'))
-      .not.toBeTruthy()
+      return Vue.nextTick()
+      .then(() => {
+        expect(check.element.style.display)
+        .not.toBe('none')
+      })
     })
-    test('should not render the checkbox if true', () => {
+    test('should not render the checkbox if false', () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
           showCheckbox: false,
@@ -787,8 +1051,74 @@ describe('Props', () => {
 
       const check = swatch.find('.vue-swatches__check__wrapper ')
 
-      expect(check.hasStyle('display', 'none'))
-      .toBeTruthy()
+      return Vue.nextTick()
+      .then(() => {
+        expect(check.isVisible())
+        .toBe(false)
+      })
+    })
+  })
+
+  describe('show-fallback', () => {
+    test('default show-fallback is set to false', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: false
+        }
+      })
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(componentWrapper.html())
+        .toEqual(defaultComponent.html())
+      })
+    })
+    test('should render the fallback if true', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: true
+        }
+      })
+      const fallbackWrapper = componentWrapper.find('.vue-swatches__fallback__wrapper')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(fallbackWrapper.exists())
+        .toBeTruthy()
+      })
+    })
+    test('should not render the fallback if false', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: false
+        }
+      })
+      const fallbackWrapper = componentWrapper.find('.vue-swatches__fallback__wrapper')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(fallbackWrapper.exists())
+        .not.toBeTruthy()
+      })
+    })
+
+    test('should close the popover when click to ok button', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: true,
+          inline: false
+        }
+      })
+      componentWrapper.vm.showPopover()
+      const container = componentWrapper.find('.vue-swatches__container')
+      const button = componentWrapper.find('.vue-swatches__fallback__button')
+      button.trigger('click')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(container.isVisible())
+        .not.toBeTruthy()
+      })
     })
   })
 
@@ -1060,562 +1390,5 @@ describe('Props', () => {
         .toEqual(0)
       })
     })
-  })
-})
-
-describe('Events', () => {
-  describe('@input', () => {
-    test('should be emited whenever user pick a swatch', () => {
-      const componentWrapper = mount(Swatches)
-      const swatch = componentWrapper.find(Swatch)
-      swatch.trigger('click')
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(componentWrapper.emitted().input.length).toEqual(1)
-      })
-    })
-    test('should payload the value', () => {
-      const componentWrapper = mount(Swatches)
-      const swatch = componentWrapper.find(Swatch)
-      swatch.trigger('click')
-      const color = swatch.vm.swatchColor
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(componentWrapper.emitted().input[0][0])
-        .toEqual(color)
-      })
-    })
-  })
-  describe('@open', () => {
-    test('should not be emited when Inline mode is activated', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          inline: true
-        }
-      })
-      componentWrapper.vm.showPopover()
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(componentWrapper.emitted().open)
-        .not.toBeTruthy()
-      })
-    })
-    test('should be emited when Inline mode is not activated', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          inline: false
-        }
-      })
-      componentWrapper.vm.showPopover()
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(componentWrapper.emitted().open.length).toEqual(1)
-      })
-    })
-    describe('When legacy trigger is used', () => {
-      test('should be emited whenever user clicks the trigger', () => {
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: false
-          }
-        })
-        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
-        trigger.trigger('click')
-
-        return Vue.nextTick()
-        .then(() => {
-          expect(componentWrapper.emitted().open.length).toEqual(1)
-        })
-      })
-    })
-    describe('When trigger slot is used', () => {
-      test('should be emited whenever user clicks the trigger', () => {
-        const buttonTest = '<button id="button-test">Hello World</button>'
-        const componentWrapper = mount(Swatches, {
-          slots: {
-            trigger: buttonTest
-          },
-          propsData: {
-            inline: false
-          }
-        })
-        const trigger = componentWrapper.find('#button-test')
-        trigger.trigger('click')
-
-        return Vue.nextTick()
-        .then(() => {
-          expect(componentWrapper.emitted().open.length).toEqual(1)
-        })
-      })
-    })
-  })
-  describe('@close', () => {
-    test('should not be emited when Inline mode is activated', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          inline: true,
-          closeOnSelect: true
-        }
-      })
-      componentWrapper.vm.onBlur(null)
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(componentWrapper.emitted().close)
-        .not.toBeTruthy()
-      })
-    })
-    describe('When legacy trigger is used', () => {
-      test('should be emited whenever user close the Popover by clicking outside', () => {
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: false
-          }
-        })
-        componentWrapper.vm.showPopover()
-        componentWrapper.vm.onBlur(null)
-
-        return Vue.nextTick()
-        .then(() => {
-          expect(componentWrapper.emitted().close.length).toEqual(1)
-        })
-      })
-      test('should be emited whenever user close the Popover by clicking the trigger', () => {
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: false
-          }
-        })
-        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
-        trigger.trigger('click') // one click to open the Popover
-        trigger.trigger('click') // and another to close the Popover
-
-        return Vue.nextTick()
-        .then(() => {
-          expect(componentWrapper.emitted().close.length).toEqual(1)
-        })
-      })
-      test('should be emited whenever user close the Popover by clicking a Swatch', () => {
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: false,
-            closeOnSelect: true
-          }
-        })
-        componentWrapper.vm.showPopover()
-        const swatch = componentWrapper.find(Swatch)
-        swatch.trigger('click')
-
-        return Vue.nextTick()
-        .then(() => {
-          expect(componentWrapper.emitted().close.length).toEqual(1)
-        })
-      })
-    })
-    describe('When trigger slot is used', () => {
-      test('should be emited whenever user close the Popover by clicking outside', () => {
-        const buttonTest = '<button id="button-test">Hello World</button>'
-        const componentWrapper = mount(Swatches, {
-          slots: {
-            trigger: buttonTest
-          },
-          propsData: {
-            inline: false
-          }
-        })
-        componentWrapper.vm.showPopover()
-        componentWrapper.vm.onBlur(null)
-
-        return Vue.nextTick()
-        .then(() => {
-          expect(componentWrapper.emitted().close.length).toEqual(1)
-        })
-      })
-      test('should be emited whenever user close the Popover by clicking the trigger', () => {
-        const buttonTest = '<button id="button-test">Hello World</button>'
-        const componentWrapper = mount(Swatches, {
-          slots: {
-            trigger: buttonTest
-          },
-          propsData: {
-            inline: false
-          }
-        })
-        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
-        trigger.trigger('click')
-        trigger.trigger('click')
-
-        return Vue.nextTick()
-        .then(() => {
-          expect(componentWrapper.emitted().close.length).toEqual(1)
-        })
-      })
-      test('should be emited whenever user close the Popover by clicking a Swatch', () => {
-        const buttonTest = '<button id="button-test">Hello World</button>'
-        const componentWrapper = mount(Swatches, {
-          slots: {
-            trigger: buttonTest
-          },
-          propsData: {
-            inline: false
-          }
-        })
-        componentWrapper.vm.showPopover()
-        const swatch = componentWrapper.find(Swatch)
-        swatch.trigger('click')
-
-        return Vue.nextTick()
-        .then(() => {
-          expect(componentWrapper.emitted().close.length).toEqual(1)
-        })
-      })
-    })
-    test('should payload the value', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          inline: false,
-          closeOnSelect: true
-        }
-      })
-      componentWrapper.vm.showPopover()
-      const swatch = componentWrapper.find(Swatch)
-      swatch.trigger('click')
-      const color = swatch.vm.swatchColor
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(componentWrapper.emitted().close[0][0])
-        .toEqual(color)
-      })
-    })
-  })
-})
-
-describe('Slots', () => {
-  describe('trigger', () => {
-    test('should replace the trigger node', () => {
-      const spanTest = '<span id="span-test">Hello World</span>'
-      const componentWrapper = mount(Swatches, {
-        slots: {
-          trigger: spanTest
-        },
-        propsData: {
-          inline: false
-        }
-      })
-      const trigger = componentWrapper.find('#span-test')
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(trigger.html())
-        .toEqual(spanTest)
-      })
-    })
-  })
-})
-
-describe('Exceptions', () => {
-  describe('colors Prop', () => {
-    test('should throw if swatches property is not present on preset', () => {
-      const incorrectPreset = {
-        borderRadius: '15%',
-        spacingSize: 20
-      }
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          colors: incorrectPreset
-        }
-      })
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(mountComponent)
-        .toThrow(errorsMessages.presetArray())
-      })
-    })
-    test('should throw if swatches property is not an array on preset', () => {
-      const incorrectPreset = {
-        swatches: 189,
-        borderRadius: '15%',
-        spacingSize: 20
-      }
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          colors: incorrectPreset
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.presetArray())
-    })
-    test('should throw if preset name doesn\'t match any preset', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          colors: 'fancy-preset-name-that-doesnt-exists'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.presetName('fancy-preset-name-that-doesnt-exists'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          colors: /regular-expression/
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('colors', ['Array', 'Object', 'String'], /regular-expression/))
-    })
-  })
-  describe('exception-mode Prop', () => {
-    test('should throw if prop doesn\'t match any valid value', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          exceptionMode: 'value-that-doesnt-match'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.exceptionModeValue('value-that-doesnt-match'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          exceptionMode: 158.18
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('exception-mode', ['String'], 158.18))
-    })
-  })
-  describe('max-height Prop', () => {
-    test('should throw if prop is a String but can\'t be parsed as Number', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          maxHeight: 'not-a-number'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.stringNotANumber('max-height'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          maxHeight: { data: 'Hello' }
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('max-height', ['Number', 'String'], { data: 'Hello' }))
-    })
-  })
-  describe('shapes Prop', () => {
-    test('should throw if prop doesn\'t match any valid value', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          shapes: 'value-that-doesnt-match'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.shapesValue('value-that-doesnt-match'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          shapes: ['fancy', 'array']
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('shapes', ['String'], ['fancy', 'array']))
-    })
-  })
-  describe('popover-to Prop', () => {
-    test('should throw if prop doesn\'t match any valid value', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          popoverTo: 'value-that-doesnt-match'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.popoverToValue('value-that-doesnt-match'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          popoverTo: 158.18
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('popover-to', ['String'], 158.18))
-    })
-  })
-  describe('row-length Prop', () => {
-    test('should throw if prop is a String but can\'t be parsed as Number', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          rowLength: 'not-a-number'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.stringNotANumber('row-length'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          rowLength: ['fancy', 'array']
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('row-length', ['Number', 'String'], ['fancy', 'array']))
-    })
-  })
-  describe('swatch-size Prop', () => {
-    test('should throw if prop is a String but can\'t be parsed as Number', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          swatchSize: 'not-a-number'
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.stringNotANumber('swatch-size'))
-    })
-    test('should throw if prop is not a valid type', () => {
-      const mountComponent = () => mount(Swatches, {
-        propsData: {
-          swatchSize: /regular-expression/
-        }
-      })
-      expect(mountComponent)
-      .toThrow(errorsMessages.typeCheckError('swatch-size', ['Number', 'String'], /regular-expression/))
-    })
-  })
-})
-
-describe('Presets', () => {
-  let presetsTested = 0
-  const testPreset = (presetName) => {
-    describe(`"${presetName}"`, () => {
-      test('should have swatches property', () => {
-        const preset = presets[presetName]
-        const swatches = preset.swatches
-
-        expect(swatches)
-        .toBeTruthy()
-      })
-      test('preset should have valid colors', () => {
-        let isNested = false
-        let validSwatches = 0
-        let swatchesCount = 0
-        const preset = presets[presetName]
-        const swatches = preset.swatches
-
-        if (swatches instanceof Array && swatches.length > 0 && swatches[0] instanceof Array) {
-          isNested = true
-        }
-        if (isNested) {
-          swatches.forEach(r => {
-            if (!(r instanceof Array)) return swatchesCount++
-            r.forEach(s => {
-              if (isHexColor(s)) validSwatches++
-              return swatchesCount++
-            })
-          })
-        } else {
-          swatches.forEach(s => {
-            if (isHexColor(s)) validSwatches++
-            return swatchesCount++
-          })
-        }
-
-        expect(`${validSwatches} valid colors`)
-        .toEqual(`${swatchesCount} valid colors`)
-      })
-      test('preset should have a valid borderRadius', () => {
-        let valid = false
-        const preset = presets[presetName]
-        const borderRadius = preset.borderRadius
-        if (typeof borderRadius === 'undefined') valid = true // borderRadius is not required
-        if (typeof borderRadius === 'string') valid = true
-
-        expect(valid)
-        .toBeTruthy()
-      })
-      test('preset should have a valid rowLength', () => {
-        let valid = false
-        const preset = presets[presetName]
-        const rowLength = preset.rowLength
-        if (typeof rowLength === 'undefined') valid = true // rowLength is not required
-        if (typeof rowLength === 'number' && rowLength > 0 && Number.isInteger(rowLength)) valid = true
-
-        expect(valid)
-        .toBeTruthy()
-      })
-      test('preset should have a valid spacingSize', () => {
-        let valid = false
-        const preset = presets[presetName]
-        const spacingSize = preset.spacingSize
-        if (typeof spacingSize === 'undefined') valid = true // spacingSize is not required
-        if (typeof spacingSize === 'number' && spacingSize >= 0) valid = true
-
-        expect(valid)
-        .toBeTruthy()
-      })
-      test('preset should have a valid swatchSize', () => {
-        let valid = false
-        const preset = presets[presetName]
-        const swatchSize = preset.swatchSize
-        if (typeof swatchSize === 'undefined') valid = true // swatchSize is not required
-        if (typeof swatchSize === 'number' && swatchSize > 0) valid = true
-
-        expect(valid)
-        .toBeTruthy()
-      })
-      test('preset should have a valid maxHeight', () => {
-        let valid = false
-        const preset = presets[presetName]
-        const maxHeight = preset.maxHeight
-        if (typeof maxHeight === 'undefined') valid = true // maxHeight is not required
-        if (typeof maxHeight === 'number' && maxHeight > 0) valid = true
-
-        expect(valid)
-        .toBeTruthy()
-      })
-      test('preset should have a valid showBorder', () => {
-        let valid = false
-        const preset = presets[presetName]
-        const showBorder = preset.showBorder
-        if (typeof showBorder === 'undefined') valid = true // showBorder is not required
-        if (typeof showBorder === 'boolean') valid = true
-
-        expect(valid)
-        .toBeTruthy()
-      })
-      test('preset should only have a supported properties', () => {
-        let validProperties = 0
-        const preset = presets[presetName]
-        const keys = Object.keys(preset)
-
-        keys.forEach(k => {
-          if (supportedProperties.indexOf(k) !== -1) validProperties++
-        })
-
-        expect(`${keys.length} valid properties`)
-        .toEqual(`${validProperties} valid properties`)
-      })
-      presetsTested++
-    })
-  }
-
-  testPreset('basic')
-  testPreset('material-basic')
-  testPreset('material-dark')
-  testPreset('material-light')
-  testPreset('text-basic')
-  testPreset('text-advanced')
-
-  test('all presets should be tested', () => {
-    expect(presetsTested)
-    .toEqual(Object.keys(presets).length)
   })
 })

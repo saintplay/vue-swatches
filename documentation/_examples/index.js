@@ -6,6 +6,7 @@ import CustomTrigger from './CustomTrigger'
 import InlineSimple from './InlineSimple'
 import InlineAdvanced from './InlineAdvanced'
 import Exceptions from './Exceptions'
+import FallbackInput from './FallbackInput'
 
 export {
   Simple,
@@ -15,5 +16,6 @@ export {
   CustomTrigger,
   InlineSimple,
   InlineAdvanced,
-  Exceptions
+  Exceptions,
+  FallbackInput
 }

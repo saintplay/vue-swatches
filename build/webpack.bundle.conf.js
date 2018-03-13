@@ -17,6 +17,7 @@ baseWebpackConfig.entry = {
 }
 
 const webpackConfig = merge(baseWebpackConfig, {
+  mode: 'production',
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.bundle.productionSourceMap,
@@ -63,9 +64,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         : { safe: true }
     }),
     // keep module.id stable when vender modules does not change
-    new webpack.HashedModuleIdsPlugin(),
-    // enable scope hoisting
-    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.HashedModuleIdsPlugin()
   ]
 })
 
@@ -85,6 +84,11 @@ if (config.bundle.productionGzip) {
       minRatio: 0.8
     })
   )
+}
+
+if (config.bundle.bundleAnalyzerReport) {
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
 module.exports = webpackConfig

@@ -13,7 +13,10 @@
 
 <script>
 export default {
-  name: 'check'
+  name: 'check',
+  data () {
+    return { }
+  }
 }
 </script>
 
@@ -31,11 +34,6 @@ export default {
   }
   .vue-swatches__check__path {
     fill: white;
-  }
-  .vue-swatches--has-children-centered {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 </style>
 

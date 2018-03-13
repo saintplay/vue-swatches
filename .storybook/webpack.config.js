@@ -7,6 +7,7 @@ function resolve (dir) {
 
 module.exports = (storybookBaseConfig, configType) => {
   const rules = storybookBaseConfig.module.rules
+  storybookBaseConfig.mode = 'development'
   storybookBaseConfig.resolve = {
     extensions: ['.js', '.vue', '.json'],
     alias: {

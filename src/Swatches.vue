@@ -1,4 +1,5 @@
 <template>
+
   <div class="vue-swatches" @blur.self="e => onBlur(e.relatedTarget)" tabindex="0">
     <div v-if="!inline" ref="trigger-wrapper" @click="togglePopover">
       <slot
@@ -6,7 +7,7 @@
       >
         <div
           class="vue-swatches__trigger"
-          :class="{'vue-swatches--is-empty': !value}"
+          :class="{ 'vue-swatches--is-empty': !value, 'vue-swatches--is-disabled': disabled }"
           :style="triggerStyles"
         ></div>
       </slot>
@@ -37,6 +38,7 @@
                 v-for="swatch in swatchRow"
                 :key="swatch"
                 :border-radius="computedBorderRadius"
+                :disabled="disabled"
                 :exception-mode="computedExceptionMode"
                 :is-exception="checkException(swatch)"
                 :selected="checkEquality(swatch, internalValue)"
@@ -57,11 +59,12 @@
               v-for="swatch in computedColors"
               :key="swatch"
               :border-radius="computedBorderRadius"
+              :disabled="disabled"
               :exception-mode="computedExceptionMode"
               :is-exception="checkException(swatch)"
               :selected="checkEquality(swatch, internalValue)"
               :size="computedSwatchSize"
-              :spacing-size="computedSpacingSize"
+                :spacing-size="computedSpacingSize"
               :show-border="computedShowBorder"
               :show-checkbox="showCheckbox"
               :swatch-color="swatch"
@@ -70,12 +73,25 @@
             />
           </template>
         </div>
-        <input
-          ref="fallbackInput"
-          v-model="internalValue"
-          type="hidden"
-          style="width: 0"
-        >
+        <div v-if="showFallback" class="vue-swatches__fallback__wrapper" :style="computedFallbackWrapperStyles">
+          <span class="vue-swatches__fallback__input--wrapper">
+            <input
+              type="text"
+              ref="fallbackInput"
+              class="vue-swatches__fallback__input"
+              :class="fallbackInputClass"
+              :value="internalValue"
+              @input="e => updateSwatch(e.target.value, { fromFallbackInput: true })"
+            >
+          </span>
+          <button
+            class="vue-swatches__fallback__button"
+            :class="fallbackOkClass"
+            @click="onFallbackButtonClick"
+          >
+            {{ fallbackOkText }}
+          </button>
+        </div>
       </div>
     </transition>
   </div>
@@ -84,7 +100,6 @@
 <script>
 import presets from './presets'
 import Swatch from './Swatch'
-import * as errorsMessages from './errors'
 
 export const DEFAULT_BACKGROUND_COLOR = '#ffffff'
 export const DEFAULT_BORDER_RADIUS = '10px'
@@ -108,119 +123,79 @@ export default {
       default: true
     },
     colors: {
-      default: 'basic',
-      validator (value) {
-        if (value instanceof Array) return true
-        else if (value instanceof Object && !(value instanceof RegExp)) {
-          if (!value.swatches || !(value.swatches instanceof Array)) {
-            throw new Error(errorsMessages.presetArray(value))
-          }
-          return true
-        } else if (typeof value === 'string') {
-          const preset = presets[value]
-          if (!preset) {
-            throw new Error(errorsMessages.presetName(value))
-          }
-          return true
-        }
-        throw new Error(errorsMessages.typeCheckError('colors', ['Array', 'Object', 'String'], value))
-      }
+      type: [Array, Object, String],
+      default: 'basic'
     },
     exceptions: {
       type: Array,
       default: () => []
     },
     exceptionMode: {
-      default: 'disabled',
-      validator (value) {
-        if (typeof value === 'string') {
-          if (value === 'disabled' || value === 'hidden') return true
-          throw new Error(errorsMessages.exceptionModeValue(value))
-        }
-        throw new Error(errorsMessages.typeCheckError('exception-mode', ['String'], value))
-      }
+      type: String,
+      default: 'disabled'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    fallbackInputClass: {
+      type: [Array, Object, String],
+      default: null
+    },
+    fallbackOkClass: {
+      type: [Array, Object, String],
+      default: null
+    },
+    fallbackOkText: {
+      type: String,
+      default: 'Ok'
     },
     inline: {
       type: Boolean,
       default: false
     },
     maxHeight: {
-      default: null,
-      validator (value) {
-        if (typeof value === 'number') return true
-        else if (typeof value === 'string') {
-          if (isNaN(value)) {
-            throw new Error(errorsMessages.stringNotANumber('max-height', value))
-          }
-          return true
-        }
-        throw new Error(errorsMessages.typeCheckError('max-height', ['Number', 'String'], value))
-      }
+      type: [Number, String],
+      default: null // The default is especified as DEFAULT_MAX_HEIGHT
     },
     shapes: {
-      default: 'squares',
-      validator (value) {
-        if (typeof value === 'string') {
-          if (value === 'squares' || value === 'circles') return true
-          throw new Error(errorsMessages.shapesValue(value))
-        }
-        throw new Error(errorsMessages.typeCheckError('shapes', ['String'], value))
-      }
+      type: String,
+      default: 'squares'
     },
     popoverTo: {
-      default: 'right',
-      validator (value) {
-        if (typeof value === 'string') {
-          if (value === 'left' || value === 'right') return true
-          throw new Error(errorsMessages.popoverToValue(value))
-        }
-        throw new Error(errorsMessages.typeCheckError('popover-to', ['String'], value))
-      }
+      type: String,
+      default: 'right'
     },
     rowLength: {
-      default: null,
-      validator (value) {
-        if (typeof value === 'number') return true
-        else if (typeof value === 'string') {
-          if (isNaN(value)) {
-            throw new Error(errorsMessages.stringNotANumber('row-length', value))
-          }
-          return true
-        }
-        throw new Error(errorsMessages.typeCheckError('row-length', ['Number', 'String'], value))
-      }
+      type: [Number, String],
+      default: null // The default is especified as DEFAULT_ROW_LENGTH
     },
     showBorder: {
       type: Boolean,
-      default: null
+      default: null // The default is especified as DEFAULT_SHOW_BORDER
+    },
+    showFallback: {
+      type: Boolean,
+      default: false
     },
     showCheckbox: {
       type: Boolean,
       default: true
     },
     swatchSize: {
-      default: null,
-      validator (value) {
-        if (typeof value === 'number') return true
-        else if (typeof value === 'string') {
-          if (isNaN(value)) {
-            throw new Error(errorsMessages.stringNotANumber('swatch-size', value))
-          }
-          return true
-        }
-        throw new Error(errorsMessages.typeCheckError('swatch-size', ['Number', 'String'], value))
-      }
+      type: [Number, String],
+      default: null // The default is especified as DEFAULT_SWATCH_SIZE
     },
     swatchStyle: {
-      type: Object,
+      type: [Object, Array],
       default: () => {}
     },
     triggerStyle: {
-      type: Object,
+      type: [Object, Array],
       default: () => {}
     },
     wrapperStyle: {
-      type: Object,
+      type: [Object, Array],
       default: () => {}
     },
     value: {
@@ -316,7 +291,7 @@ export default {
       return DEFAULT_SHOW_BORDER
     },
 
-    /** DUMB COMPUTEDS (these use others computed) **/
+    /** DUMB COMPUTEDS (these use other computed) **/
 
     borderRadius () {
       if (this.shapes === 'squares') return `${Math.round(this.computedSwatchSize * 0.25)}px`
@@ -377,6 +352,22 @@ export default {
     },
     wrapperStyles () {
       return [this.computedWrapperStyle, this.wrapperStyle]
+    },
+    computedFallbackWrapperStyle () {
+      const baseStyles = {
+        marginLeft: `${this.computedSpacingSize}px`,
+        paddingBottom: `${this.computedSpacingSize}px`
+      }
+
+      if (this.inline) return baseStyles
+
+      return {
+        ...baseStyles,
+        width: `${this.wrapperWidth - this.computedSpacingSize}px`
+      }
+    },
+    computedFallbackWrapperStyles () {
+      return [this.computedFallbackWrapperStyle]
     }
   },
   watch: {
@@ -387,7 +378,7 @@ export default {
   methods: {
     // Called programmatically
     checkEquality (color1, color2) {
-      if (!color1 || !color2) return false
+      if ((!color1 && color1 !== '') || (!color2 && color2 !== '')) return false
       return (color1.toUpperCase() === color2.toUpperCase())
     },
     checkException (swatch) {
@@ -411,10 +402,13 @@ export default {
       this.internalIsOpen = false
       this.$emit('close', this.internalValue)
     },
+    onFallbackButtonClick () {
+      this.hidePopover()
+    },
     // Called programmatically
     showPopover () {
       /* istanbul ignore if */
-      if (this.isOpen || this.inline) return /* dont show */
+      if (this.isOpen || this.inline || this.disabled) return /* dont show */
 
       this.internalIsOpen = true
       this.$el.focus()
@@ -423,13 +417,13 @@ export default {
     togglePopover () {
       this.isOpen ? this.hidePopover() : this.showPopover()
     },
-    updateSwatch (swatch) {
-      if (this.checkException(swatch)) return
+    updateSwatch (swatch, { fromFallbackInput } = {}) {
+      if (this.checkException(swatch) || this.disabled) return
 
       this.internalValue = swatch
       this.$emit('input', swatch)
 
-      if (this.closeOnSelect && !this.inline) {
+      if (this.closeOnSelect && !this.inline && !fromFallbackInput) {
         this.hidePopover()
       }
     },
@@ -470,6 +464,10 @@ export default {
     &.vue-swatches--is-empty {
       border: 2px solid #ccc;
     }
+
+    &.vue-swatches--is-disabled {
+      cursor: not-allowed;
+    }
   }
 
   .vue-swatches__container {
@@ -494,11 +492,48 @@ export default {
     font-size: 0;
   }
 
+  .vue-swatches__fallback__wrapper {
+    display: table;
+    // justify-content: space-between;
+  }
+  .vue-swatches__fallback__input--wrapper {
+    display: table-cell;
+    padding-right: 10px;
+    width: 100%;
+    font-size: 14px;
+  }
+  .vue-swatches__fallback__input {
+    width: 100%;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    color: #35495e;
+    background: #ffffff;
+  }
+  .vue-swatches__fallback__button {
+    display: table-cell;
+    padding: 6px 15px;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #3571c8;
+    border-radius: 5px;
+  }
+
   // Transitions
   .vue-swatches-show-hide-enter-active, .vue-swatches-show-hide-leave-active {
     transition: all 0.3s ease;
   }
   .vue-swatches-show-hide-enter, .vue-swatches-show-hide-leave-active {
     opacity: 0;
+  }
+
+  // Shared Styles (Swatch.vue, Check.vue)
+  .vue-swatches--has-children-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>

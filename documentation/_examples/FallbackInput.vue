@@ -1,9 +1,16 @@
 <template>
   <div class="form__field">
+    <div class="form__label">
+      <strong>Please choose a color:</strong>
+    </div>
     <div class="form__input">
-      <swatches v-model="color">
-        <input slot="trigger" :value="color" class="form__input__element" readonly>
-      </swatches>
+      <swatches
+        v-model="color"
+
+        show-fallback
+
+        popover-to="left"
+      ></swatches>
     </div>
   </div>
 </template>
@@ -17,7 +24,7 @@ export default {
   },
   data () {
     return {
-      color: '#2ECC70'
+      color: '#A463BF',
     }
   }
 }

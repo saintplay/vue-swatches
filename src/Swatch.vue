@@ -4,10 +4,13 @@
     :class="{
       'vue-swatches__swatch--border': showBorder,
       'vue-swatches__swatch--selected': selected,
-      'vue-swatches__swatch--is-exception': isException
+      'vue-swatches__swatch--is-exception': isException || disabled
     }"
     :style="swatchStyles"
   >
+    <div v-if="swatchColor === ''" class="vue-swatches__diagonal--wrapper vue-swatches--has-children-centered">
+      <div class="vue-swatches__diagonal"></div>
+    </div>
     <check v-show="showCheckbox && selected" />
   </div>
 </template>
@@ -24,6 +27,10 @@ export default {
     borderRadius: {
       type: String
       // default is calculated in `Swatches.vue`
+    },
+    disabled: {
+      type: Boolean
+      // default is especified in `Swatches.vue`
     },
     exceptionMode: {
       type: String
@@ -62,6 +69,9 @@ export default {
       // default is especified in `Swatches.vue`
     }
   },
+  data () {
+    return { }
+  },
   computed: {
     computedSwatchStyle () {
       return {
@@ -71,9 +81,14 @@ export default {
         marginBottom: `${this.spacingSize}px`,
         marginRight: `${this.spacingSize}px`,
         borderRadius: this.borderRadius,
-        backgroundColor: this.swatchColor,
-        cursor: (this.isException && this.exceptionMode === 'disabled') ? 'not-allowed' : 'pointer'
+        backgroundColor: this.swatchColor !== '' ? this.swatchColor : '#FFFFFF',
+        cursor: this.cursorStyle
       }
+    },
+    cursorStyle () {
+      if (this.disabled) return 'not-allowed'
+      if (this.isException && this.exceptionMode === 'disabled') return 'not-allowed'
+      return 'pointer'
     },
     swatchStyles () {
       return [this.computedSwatchStyle, this.swatchStyle]
@@ -99,6 +114,23 @@ export default {
 
     &.vue-swatches__swatch--selected {
       box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
+    }
+
+    .vue-swatches__diagonal--wrapper {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .vue-swatches__diagonal {
+      width: 75%;
+      height: 75%;
+      background:
+        linear-gradient(to top right,
+        rgba(0,0,0,0) 0%,
+        rgba(0, 0, 0, 0) calc(50% - 2.4px),
+        rgba(222, 8, 10, 1) 50%,
+        rgba(0,0,0,0) calc(50% + 2.4px),
+        rgba(0,0,0,0) 100%);
     }
   }
 </style>

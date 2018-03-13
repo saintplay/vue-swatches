@@ -17,7 +17,7 @@ module.exports = {
     poll: false,
     useEslint: true,
     showEslintErrorsInOverlay: true,
-    devtool: 'eval-source-map',
+    devtool: '#source-map',
     cacheBusting: true,
     cssSourceMap: false,
   },
