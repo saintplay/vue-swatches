@@ -139,9 +139,10 @@ This component has the same support than Vue itself
 However if you want to use this with IE9, you will probably need to work on the CSS styles.
 IE10 should be fine
 
-## Awsome Contributors ##
+## Awesome Contributors ##
 
-* [Diego Jara (saintplay)](https://github.com/saintplay/)
+- [Diego Jara (saintplay)](https://github.com/saintplay/)
+- *feel free to add yourself*
 
 ## License
 

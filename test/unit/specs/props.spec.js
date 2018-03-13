@@ -207,6 +207,36 @@ describe('Props', () => {
             .toBeTruthy()
           })
         })
+        test('it should render a diagonal in the trigger if value match', () => {
+          const colors = ['', '#a156e2', '#eca23e']
+          const componentWrapper = mount(Swatches, {
+            propsData: {
+              colors,
+              value: ''
+            }
+          })
+          const diagonal = componentWrapper.find('.vue-swatches__trigger').find('.vue-swatches__diagonal--wrapper')
+          return Vue.nextTick()
+          .then(() => {
+            expect(diagonal.isVisible())
+            .toBeTruthy()
+          })
+        })
+        test('it should not render a diagonal in the trigger if value doesn\'t match', () => {
+          const colors = ['', '#a156e2', '#eca23e']
+          const componentWrapper = mount(Swatches, {
+            propsData: {
+              colors,
+              value: '#a156e2'
+            }
+          })
+          const diagonal = componentWrapper.find('.vue-swatches__trigger').find('.vue-swatches__diagonal--wrapper')
+          return Vue.nextTick()
+          .then(() => {
+            expect(diagonal.isVisible())
+            .not.toBeTruthy()
+          })
+        })
         test('it should update the value', () => {
           const colors = ['', '#a156e2', '#eca23e']
           const componentWrapper = mount(Swatches, {
@@ -254,21 +284,6 @@ describe('Props', () => {
         .then(() => {
           expect(swatchesColors)
           .toEqual(rgbColors)
-        })
-      })
-      test('it should render a diagonal in the trigger', () => {
-        const colors = ['', '#a156e2', '#eca23e']
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            colors,
-            value: ''
-          }
-        })
-        const diagonal = componentWrapper.find('.vue-swatches__trigger').find('.vue-swatches__diagonal--wrapper')
-        return Vue.nextTick()
-        .then(() => {
-          expect(diagonal.isVisible())
-          .toBeTruthy()
         })
       })
     })
