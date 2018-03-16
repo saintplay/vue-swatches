@@ -142,6 +142,7 @@ IE10 should be fine
 ## Awesome Contributors ##
 
 - [Diego Jara (saintplay)](https://github.com/saintplay/)
+- [Niko Nagy](https://github.com/NikoNagy)
 - *feel free to add yourself*
 
 ## License
