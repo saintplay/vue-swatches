@@ -69,7 +69,7 @@
               :is-exception="checkException(swatch)"
               :selected="checkEquality(swatch, internalValue)"
               :size="computedSwatchSize"
-                :spacing-size="computedSpacingSize"
+              :spacing-size="computedSpacingSize"
               :show-border="computedShowBorder"
               :show-checkbox="showCheckbox"
               :swatch-color="swatch"
