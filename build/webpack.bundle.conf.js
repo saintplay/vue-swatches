@@ -4,7 +4,7 @@ const webpack = require('webpack')
 const config = require('../config')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
@@ -38,21 +38,43 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        compress: {
-          warnings: false
-        }
-      }
-    }),
     // extract css into its own file
-    new ExtractTextPlugin({
-      filename: 'vue-swatches.min.css'
+    new MiniCssExtractPlugin({
+      filename: utils.assetsPath('css/[name].[chunkhash].css'),
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin(),
-  ]
+    new OptimizeCSSPlugin({
+      cssProcessorOptions: config.bundle.productionSourceMap
+        ? { safe: true, map: { inline: false } }
+        : { safe: true }
+    })
+  ],
+  optimization: {
+    concatenateModules: true,
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          enforce: true
+        }
+      }
+    },
+    runtimeChunk: 'single',
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            warnings: false
+          }
+        },
+        sourceMap: config.bundle.productionSourceMap,
+        parallel: true
+      })
+    ]
+  }
 })
 
 if (config.bundle.productionGzip) {

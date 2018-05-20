@@ -1,20 +1,18 @@
-sudo: required
-dist: trusty
 language: node_js
 node_js:
   - "8"
 
-script: "npm test"
+script: "yarn test"
 
 jobs:
   include:
     - stage: unit tests
       script:
-        - npm test
+        - yarn test
         - cat test/unit/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 
     - stage: deploy artifacts
-      script: "npm run docs"
+      script: "yarn docs"
       deploy:
         skip_cleanup: true
         provider: pages

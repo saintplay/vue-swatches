@@ -85,6 +85,7 @@
     "jquery": "^3.2.1",
     "jstransformer-escape-html": "^1.0.0",
     "jstransformer-markdown-it": "^2.0.0",
+    "mini-css-extract-plugin": "^0.4.0",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.7.2",
     "normalize.css": "^7.0.0",

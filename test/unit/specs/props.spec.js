@@ -587,7 +587,8 @@ describe('Props', () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
           fallbackInputClass: 'class-example',
-          showFallback: true
+          showFallback: true,
+          inline: true // or false, doesn't matter
         }
       })
       const input = componentWrapper.find('.vue-swatches__fallback__input')
