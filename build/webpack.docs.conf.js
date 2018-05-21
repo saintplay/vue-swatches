@@ -29,8 +29,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     path: config.docs.assetsRoot,
     publicPath: config.docs.assetsPublicPath,
 
-    filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+    filename: utils.assetsPath('js/[name].[chunkhash].js', true),
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js', true)
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -47,7 +47,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       parallel: true
     }),
     new MiniCssExtractPlugin({
-      filename: utils.assetsPath('css/[name].[chunkhash].css')
+      filename: utils.assetsPath('css/[name].[chunkhash].css', true)
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
