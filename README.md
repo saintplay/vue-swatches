@@ -88,11 +88,11 @@ or
 
 ## Basic Usage ##
 
-```html
+```vue
 <!-- Vue component -->
 <template>
   <div>
-    <swatches v-model="color" />
+    <swatches v-model="color"></swatches>
   </div>
 </template>
 
