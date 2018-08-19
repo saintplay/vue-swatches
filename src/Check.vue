@@ -14,26 +14,25 @@
 <script>
 export default {
   name: 'check',
-  data () {
-    return { }
-  }
+  data() {
+    return {}
+  },
 }
 </script>
 
 <style lang="scss">
-  .vue-swatches__check__wrapper {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-  .vue-swatches__check__circle {
-    width: 21px;
-    height: 21px;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.15);
-  }
-  .vue-swatches__check__path {
-    fill: white;
-  }
+.vue-swatches__check__wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.vue-swatches__check__circle {
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+.vue-swatches__check__path {
+  fill: white;
+}
 </style>
-

@@ -6,7 +6,7 @@ export default {
     '#009900',
     '#0066CB',
     '#000000',
-    '#FFFFFF'
+    '#FFFFFF',
   ],
-  showBorder: true
+  showBorder: true,
 }

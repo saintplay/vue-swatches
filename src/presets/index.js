@@ -6,12 +6,12 @@ import materialLight from './material-light'
 import materialDark from './material-dark'
 
 export default {
-  'basic': basic,
+  basic: basic,
   'text-basic': textBasic,
   'text-advanced': textAdvanced,
   'material-basic': materialBasic,
   'material-light': materialLight,
-  'material-dark': materialDark
+  'material-dark': materialDark,
 }
 
 export const supportedProperties = [
@@ -21,5 +21,5 @@ export const supportedProperties = [
   'swatchSize', // Optional Positive Number: 12.5, 36, 10
   'spacingSize', // Optional Positive Number: 20, 28.2, 40
   'maxHeight', // Optional Positive Number: 220, 500.40, 300
-  'showBorder' // Optional Boolean: true, false
+  'showBorder', // Optional Boolean: true, false
 ]

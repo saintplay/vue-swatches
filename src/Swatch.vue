@@ -21,103 +21,108 @@ import Check from './Check'
 export default {
   name: 'swatch',
   components: {
-    Check
+    Check,
   },
   props: {
     borderRadius: {
-      type: String
+      type: String,
       // default is calculated in `Swatches.vue`
     },
     disabled: {
-      type: Boolean
+      type: Boolean,
       // default is especified in `Swatches.vue`
     },
     exceptionMode: {
-      type: String
+      type: String,
       // default is especified in `Swatches.vue`
     },
     isException: {
       type: Boolean,
-      default: false
+      default: false,
     },
     selected: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showCheckbox: {
-      type: Boolean
+      type: Boolean,
       // default is calculated in `Swatches.vue`
     },
     showBorder: {
-      type: Boolean
+      type: Boolean,
       // default is calculated in `Swatches.vue`
     },
     size: {
-      type: Number
+      type: Number,
       // default is especified in `Swatches.vue`
     },
     spacingSize: {
-      type: Number
+      type: Number,
       // this prop comes from computed property and always should have a value
     },
     swatchColor: {
       type: String,
-      default: ''
+      default: '',
     },
     swatchStyle: {
-      type: Object
+      type: Object,
       // default is especified in `Swatches.vue`
-    }
+    },
   },
-  data () {
-    return { }
+  data() {
+    return {}
   },
   computed: {
-    computedSwatchStyle () {
+    computedSwatchStyle() {
       return {
-        display: (this.isException && this.exceptionMode === 'hidden') ? 'none' : 'inline-block',
+        display:
+          this.isException && this.exceptionMode === 'hidden'
+            ? 'none'
+            : 'inline-block',
         width: `${this.size}px`,
         height: `${this.size}px`,
         marginBottom: `${this.spacingSize}px`,
         marginRight: `${this.spacingSize}px`,
         borderRadius: this.borderRadius,
         backgroundColor: this.swatchColor !== '' ? this.swatchColor : '#FFFFFF',
-        cursor: this.cursorStyle
+        cursor: this.cursorStyle,
       }
     },
-    cursorStyle () {
+    cursorStyle() {
       if (this.disabled) return 'not-allowed'
-      if (this.isException && this.exceptionMode === 'disabled') return 'not-allowed'
+      if (this.isException && this.exceptionMode === 'disabled')
+        return 'not-allowed'
       return 'pointer'
     },
-    swatchStyles () {
+    swatchStyles() {
       return [this.computedSwatchStyle, this.swatchStyle]
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="scss">
-  .vue-swatches__swatch {
-    position: relative;
-    font-size: 0;
+.vue-swatches__swatch {
+  position: relative;
+  font-size: 0;
 
-    &:hover, &:focus {
-      opacity: 0.90;
-      box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
-      outline: none;
-    }
-
-    &.vue-swatches__swatch--border {
-      box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
-    }
-
-    &.vue-swatches__swatch--selected {
-      box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
-    }
-
-    .vue-swatches__diagonal--wrapper {
-      position: absolute;
-    }
+  &:hover,
+  &:focus {
+    opacity: 0.9;
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
+    outline: none;
   }
+
+  &.vue-swatches__swatch--border {
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
+  }
+
+  &.vue-swatches__swatch--selected {
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
+  }
+
+  .vue-swatches__diagonal--wrapper {
+    position: absolute;
+  }
+}
 </style>

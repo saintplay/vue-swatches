@@ -15,7 +15,7 @@ export default {
     '#E84B3C',
     '#C0382B',
     '#DDE6E8',
-    '#BDC3C8'
+    '#BDC3C8',
   ],
-  rowLength: 4
+  rowLength: 4,
 }
