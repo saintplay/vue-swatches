@@ -1,6 +1,6 @@
-# Getting Started
+## Getting Started
 
-## Usage in Module Bundlers
+### Usage in Module Bundlers
 
 If you are using module bundlers such as Webpack, Rollup, etc, you may want to include the package directly
 
@@ -37,7 +37,7 @@ export default {
 </script>
 ```
 
-## Usage in Nuxt
+### Usage in Nuxt
 
 Vue Swatches is SSR Compatible, which means you can use it in your server side or in your generated static page. You can add `vue-swatches` to your project adding a **module** to the Nuxt Config
 
@@ -56,7 +56,7 @@ npm install --save vue-swatches
 }
 ```
 
-## Usage in Browser
+### Usage in Browser
 
 You can use [UNPKG CDN](https://unpkg.com/) to use Vue Swatches in the browser
 

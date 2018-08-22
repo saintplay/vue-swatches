@@ -45,6 +45,7 @@
     "babel-jest": "^23.0.1",
     "is-hex-color": "^0.0.1",
     "lint-staged": "^7.2.2",
+    "markdown-it-include": "^1.0.0",
     "node-sass": "^4.9.0",
     "rgb": "^0.1.0",
     "sass-loader": "^7.0.1",

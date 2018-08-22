@@ -2,7 +2,7 @@
 home: true
 heroImage: /assets/images/promo.png
 actionText: Get Started
-actionLink: /guide/getting-started
+actionLink: /guide/
 features:
   - title: Builtin Presets
     details: This library wraps the official Google mdc-web components which implement the Material Design specs.

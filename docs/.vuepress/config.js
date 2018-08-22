@@ -10,20 +10,19 @@ module.exports = {
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },
+      { text: 'Examples', link: '/examples/' },
       { text: 'API', link: '/api/' },
+      { text: 'Presets', link: '/presets/' },
       {
         text: 'Changelog',
         link: 'https://github.com/saintplay/vue-swatches/releases',
       },
     ],
-    sidebar: {
-      '/guide/': [
-        {
-          title: 'Guide',
-          collapsable: false,
-          children: ['', 'getting-started'],
-        },
-      ],
+    sidebar: 'auto',
+  },
+  markdown: {
+    config: md => {
+      md.use(require('markdown-it-include'))
     },
   },
 }
