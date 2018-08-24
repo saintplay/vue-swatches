@@ -28,6 +28,7 @@
     "url": "git+https://github.com/saintplay/vue-swatches.git"
   },
   "scripts": {
+    "serve": "vue-cli-service serve demo/main.js",
     "build": "vue-cli-service build --target lib --name vue-swatches src/Swatches.vue",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",

@@ -58,7 +58,7 @@ describe('Events', () => {
             inline: false,
           },
         })
-        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        const trigger = componentWrapper.find({ ref: 'triggerWrapper' })
         trigger.trigger('click')
 
         return Vue.nextTick().then(() => {
@@ -120,7 +120,7 @@ describe('Events', () => {
             inline: false,
           },
         })
-        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        const trigger = componentWrapper.find({ ref: 'triggerWrapper' })
         trigger.trigger('click') // one click to open the Popover
         trigger.trigger('click') // and another to close the Popover
 
@@ -172,7 +172,7 @@ describe('Events', () => {
             inline: false,
           },
         })
-        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        const trigger = componentWrapper.find({ ref: 'triggerWrapper' })
         trigger.trigger('click')
         trigger.trigger('click')
 

@@ -1,20 +1,17 @@
 <template>
-
   <div class="vue-swatches" @blur.self="e => onBlur(e.relatedTarget)" tabindex="0">
-    <div v-if="!inline" ref="trigger-wrapper" @click="togglePopover">
-      <slot
-        name="trigger"
-      >
+
+    <!-- Trigger -->
+    <div v-if="!inline" ref="triggerWrapper" class="vue-swatches__trigger__wrapper" @click="togglePopover">
+      <slot name="trigger">
         <div
           class="vue-swatches__trigger"
           :class="{ 'vue-swatches--is-empty': !value, 'vue-swatches--is-disabled': disabled }"
-          :style="triggerStyles"
-        >
-        <div v-show="isNoColor" class="vue-swatches__diagonal--wrapper vue-swatches--has-children-centered">
-          <div class="vue-swatches__diagonal"></div>
+          :style="triggerStyles">
+          <div v-show="isNoColor" class="vue-swatches__diagonal--wrapper vue-swatches--has-children-centered">
+            <div class="vue-swatches__diagonal"></div>
+          </div>
         </div>
-      </div>
-
       </slot>
     </div>
 
@@ -23,22 +20,19 @@
       <div
         v-show="inline || isOpen"
         class="vue-swatches__container"
-        :class="{'vue-swatches--inline': inline}"
-        :style="containerStyles"
-      >
+        :class="{ 'vue-swatches--inline': inline }"
+        :style="containerStyles">
         <!-- The wrapper handles the internal spacing -->
         <div
           class="vue-swatches__wrapper"
-          :style="wrapperStyles"
-        >
+          :style="wrapperStyles">
 
           <!-- for nested distribution -->
           <template v-if="isNested">
             <div
               v-for="(swatchRow, index) in computedColors"
               :key="index"
-              class="vue-swatches__row"
-            >
+              class="vue-swatches__row">
               <swatch
                 v-for="swatch in swatchRow"
                 :key="swatch"
@@ -53,8 +47,7 @@
                 :show-checkbox="showCheckbox"
                 :swatch-color="swatch"
                 :swatch-style="swatchStyle"
-                @click.native="updateSwatch(swatch)"
-              />
+                @click.native="updateSwatch(swatch)" />
             </div>
           </template>
 
@@ -74,8 +67,7 @@
               :show-checkbox="showCheckbox"
               :swatch-color="swatch"
               :swatch-style="swatchStyle"
-              @click.native="updateSwatch(swatch)"
-            />
+              @click.native="updateSwatch(swatch)" />
           </template>
         </div>
         <div v-if="showFallback" class="vue-swatches__fallback__wrapper" :style="computedFallbackWrapperStyles">
@@ -86,14 +78,12 @@
               class="vue-swatches__fallback__input"
               :class="fallbackInputClass"
               :value="internalValue"
-              @input="e => updateSwatch(e.target.value, { fromFallbackInput: true })"
-            >
+              @input="e => updateSwatch(e.target.value, { fromFallbackInput: true })">
           </span>
           <button
             class="vue-swatches__fallback__button"
             :class="fallbackOkClass"
-            @click="onFallbackButtonClick"
-          >
+            @click="onFallbackButtonClick">
             {{ fallbackOkText }}
           </button>
         </div>
@@ -167,9 +157,21 @@ export default {
       type: String,
       default: 'squares',
     },
-    popoverTo: {
-      type: String,
-      default: 'right',
+    popoverBottom: {
+      type: Boolean,
+      default: false,
+    },
+    popoverLeft: {
+      type: Boolean,
+      default: false,
+    },
+    popoverRight: {
+      type: Boolean,
+      default: false,
+    },
+    popoverTop: {
+      type: Boolean,
+      default: false,
     },
     rowLength: {
       type: [Number, String],
@@ -210,6 +212,7 @@ export default {
   },
   data() {
     return {
+      componentMounted: false,
       presetBorderRadius: null,
       presetMaxHeight: null,
       presetRowLength: null,
@@ -269,6 +272,24 @@ export default {
       // Use default value if these two are unset!
       return DEFAULT_MAX_HEIGHT
     },
+    // Computed value for `popoverBottom`
+    computedPopoverBottom() {
+      // Default direction if "Y" direction is not specified
+      return this.popoverBottom || !this.popoverTop
+    },
+    // Computed value for `popoverLeft`
+    computedPopoverLeft() {
+      // Default direction if "X" direction is not specified
+      return this.popoverLeft || !this.popoverRight
+    },
+    // Computed value for `popoverRight`
+    computedPopoverRight() {
+      return this.popoverRight
+    },
+    // Computed value for `popoverTop`
+    computedPopoverTop() {
+      return this.popoverTop
+    },
     // Computed value for `rowLength`
     computedRowLength() {
       // Priorize user value
@@ -306,15 +327,36 @@ export default {
       return DEFAULT_SHOW_BORDER
     },
 
-    /** DUMB COMPUTEDS (these use other computed) **/
+    /** DUMB COMPUTEDS (these only mutate props) **/
 
     borderRadius() {
       if (this.shapes === 'squares')
         return `${Math.round(this.computedSwatchSize * 0.25)}px`
       else if (this.shapes === 'circles') return `50%`
     },
+    containerHeight() {
+      const acualWrapperHeight = this.wrapperHeight + 10
+      if (this.computedMaxHeight < acualWrapperHeight)
+        return this.computedMaxHeight
+      return acualWrapperHeight
+    },
+    containerWidth() {
+      return this.wrapperWidth + 10
+    },
+    columnLength() {
+      if (this.isNested) return this.computedColors.length
+      return Math.ceil(this.computedColors.length / this.computedRowLength)
+    },
     spacingSize() {
       return Math.round(this.computedSwatchSize * 0.25)
+    },
+    wrapperHeight() {
+      return (
+        this.columnLength *
+          (this.computedSwatchSize + this.computedSpacingSize) +
+        2 * this.computedSpacingSize +
+        5
+      )
     },
     wrapperWidth() {
       return (
@@ -344,8 +386,17 @@ export default {
 
       if (this.inline) return baseStyles
 
-      if (this.popoverTo === 'right') positionStyle = { left: 0 }
-      else if (this.popoverTo === 'left') positionStyle = { right: 0 }
+      if (this.computedPopoverTop) {
+        positionStyle.bottom = '+100%'
+      } else if (this.computedPopoverBottom) {
+        positionStyle.top = '+100%'
+      }
+
+      if (this.computedPopoverLeft) {
+        positionStyle.right = 0
+      } else if (this.computedPopoverRight) {
+        positionStyle.left = 0
+      }
 
       return {
         ...positionStyle,
@@ -353,8 +404,56 @@ export default {
         maxHeight: `${this.computedMaxHeight}px`,
       }
     },
+    alwaysOnScreenStyle() {
+      const styles = {}
+      const triggerEl = this.$refs.triggerWrapper
+
+      if (
+        !this.componentMounted ||
+        this.inline ||
+        !triggerEl ||
+        !window ||
+        !document
+      )
+        return styles
+
+      const rect = triggerEl.getBoundingClientRect()
+      const leftMin = 5
+      const rightMax =
+        (window.innerWidth || document.documentElement.clientWidth) - 5
+      const topMin = 5
+      const bottomMax =
+        (window.innerHeight || document.documentElement.clientHeight) - 5
+
+      if (this.computedPopoverTop && rect.top - this.containerHeight < topMin) {
+        styles.top = `${topMin - rect.top}px`
+        styles.bottom = 'auto'
+      } else if (
+        this.computedPopoverBottom &&
+        rect.bottom + this.containerHeight > bottomMax
+      ) {
+        styles.bottom = `${rect.bottom - bottomMax}px`
+        styles.top = 'auto'
+      }
+
+      if (
+        this.computedPopoverLeft &&
+        rect.right - this.containerWidth < leftMin
+      ) {
+        styles.left = `${leftMin - rect.left}px`
+        styles.right = 'auto'
+      } else if (
+        this.computedPopoverRight &&
+        rect.left + this.containerWidth > rightMax
+      ) {
+        styles.right = `${rect.right - rightMax}px`
+        styles.left = 'auto'
+      }
+
+      return styles
+    },
     containerStyles() {
-      return [this.containerStyle]
+      return [this.containerStyle, this.alwaysOnScreenStyle]
     },
     computedWrapperStyle() {
       const baseStyles = {
@@ -393,6 +492,9 @@ export default {
     value(newValue) {
       this.internalValue = newValue
     },
+  },
+  mounted() {
+    this.componentMounted = true
   },
   methods: {
     // Called programmatically
@@ -475,13 +577,16 @@ fieldset[disabled] .vue-swatches {
 
 .vue-swatches {
   position: relative;
+  display: inline-block;
   outline: none;
 }
 
-.vue-swatches__trigger {
+.vue-swatches__trigger__wrapper {
   display: inline-block;
   cursor: pointer;
+}
 
+.vue-swatches__trigger {
   &.vue-swatches--is-empty {
     border: 2px solid #ccc;
   }
@@ -492,6 +597,7 @@ fieldset[disabled] .vue-swatches {
 }
 
 .vue-swatches__container {
+  margin-bottom: 5px;
   box-sizing: content-box;
   padding: 5px;
 

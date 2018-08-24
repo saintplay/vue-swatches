@@ -575,7 +575,7 @@ describe('Props', () => {
             inline: false,
           },
         })
-        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        const trigger = componentWrapper.find({ ref: 'triggerWrapper' })
         const container = componentWrapper.find('.vue-swatches__container')
         trigger.trigger('click')
 
@@ -718,7 +718,7 @@ describe('Props', () => {
             inline: true,
           },
         })
-        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        const trigger = componentWrapper.find({ ref: 'triggerWrapper' })
         expect(trigger.exists()).not.toBeTruthy()
       })
       test('should render swatches visible', () => {
@@ -741,7 +741,7 @@ describe('Props', () => {
             inline: false,
           },
         })
-        const trigger = componentWrapper.find({ ref: 'trigger-wrapper' })
+        const trigger = componentWrapper.find({ ref: 'triggerWrapper' })
         expect(trigger.exists()).toBeTruthy()
       })
       test('should render swatches not visible', () => {
@@ -871,39 +871,39 @@ describe('Props', () => {
     })
   })
 
-  describe('popover-to', () => {
-    test('default popover-to is set to right', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          popoverTo: 'right',
-        },
-      })
+  // describe('popover-to', () => {
+  //   test('default popover-to is set to right', () => {
+  //     const componentWrapper = mount(Swatches, {
+  //       propsData: {
+  //         popoverTo: 'right',
+  //       },
+  //     })
 
-      return Vue.nextTick().then(() => {
-        expect(componentWrapper.html()).toEqual(defaultComponent.html())
-      })
-    })
-    test('container should posisionate at right if prop is left', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          inline: false,
-          popoverTo: 'left',
-        },
-      })
-      const container = componentWrapper.find('.vue-swatches__container')
-      expect(container.element.style.right).toEqual('0px')
-    })
-    test('container should posisionate at left if prop is right', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          inline: false,
-          popoverTo: 'right',
-        },
-      })
-      const container = componentWrapper.find('.vue-swatches__container')
-      expect(container.element.style.left).toEqual('0px')
-    })
-  })
+  //     return Vue.nextTick().then(() => {
+  //       expect(componentWrapper.html()).toEqual(defaultComponent.html())
+  //     })
+  //   })
+  //   test('container should posisionate at right if prop is left', () => {
+  //     const componentWrapper = mount(Swatches, {
+  //       propsData: {
+  //         inline: false,
+  //         popoverTo: 'left',
+  //       },
+  //     })
+  //     const container = componentWrapper.find('.vue-swatches__container')
+  //     expect(container.element.style.right).toEqual('0px')
+  //   })
+  //   test('container should posisionate at left if prop is right', () => {
+  //     const componentWrapper = mount(Swatches, {
+  //       propsData: {
+  //         inline: false,
+  //         popoverTo: 'right',
+  //       },
+  //     })
+  //     const container = componentWrapper.find('.vue-swatches__container')
+  //     expect(container.element.style.left).toEqual('0px')
+  //   })
+  // })
 
   describe('row-length', () => {
     test(`default row-length is set to ${DEFAULT_ROW_LENGTH}`, () => {
