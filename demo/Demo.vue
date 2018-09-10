@@ -73,10 +73,10 @@ export default {
   data: () => ({
     color1: '#1FBC9C',
     swatchesArray: [
-      { showBorder: false, color: '#1FBC9C', label: 'Green 1' },
-      { showBorder: false, color: '#1CA085', label: 'Green 2' },
-      { showBorder: false, color: '#2ECC70', label: 'Green 3' },
-      { showBorder: false, color: '#27AF60', label: 'Green 4' },
+      { hidden: true, color: '#1FBC9C', label: 'Green 1' },
+      { hidden: true, color: '#1CA085', label: 'Green 2' },
+      { hidden: true, color: '#2ECC70', label: 'Green 3' },
+      { hidden: true, color: '#27AF60', label: 'Green 4' },
       { showBorder: false, color: '#3398DB', label: 'Blue 1' },
       { showBorder: false, color: '#2980B9', label: 'Blue 2' },
       { showBorder: false, color: '#A463BF', label: 'Purple 1' },
@@ -87,8 +87,8 @@ export default {
       { showBorder: false, color: '#F39C19', label: 'Orange' },
       { showBorder: false, color: '#E84B3C', label: 'Red 1' },
       { showBorder: false, color: '#C0382B', label: 'Red 2' },
-      { color: '#DDE6E8', label: 'Sliver 1' },
-      { color: '#BDC3C8', label: 'Silver 2' },
+      { disabled: true, color: '#DDE6E8', label: 'Sliver 1' },
+      { disabled: true, color: '#BDC3C8', label: 'Silver 2' },
     ],
   }),
 }

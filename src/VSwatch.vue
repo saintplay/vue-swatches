@@ -4,7 +4,7 @@
     :class="{
       'vue-swatches__swatch--border': showBorder,
       'vue-swatches__swatch--selected': selected,
-      'vue-swatches__swatch--is-exception': isException || disabled
+      'vue-swatches__swatch--is-disabled': disabled
     }"
     :style="swatchStyles"
     :aria-label="swatchLabel"
@@ -38,15 +38,11 @@ export default {
     },
     disabled: {
       type: Boolean,
-      // default is especified in `Swatches.vue`
+      // this prop comes from computed property and always should have a value
     },
-    exceptionMode: {
-      type: String,
-      // default is especified in `Swatches.vue`
-    },
-    isException: {
+    hidden: {
       type: Boolean,
-      default: false,
+      // this prop comes from computed property and always should have a value
     },
     selected: {
       type: Boolean,
@@ -97,10 +93,7 @@ export default {
     },
     computedSwatchStyle() {
       return {
-        display:
-          this.isException && this.exceptionMode === 'hidden'
-            ? 'none'
-            : 'inline-block',
+        display: this.hidden ? 'none' : 'inline-block',
         width: `${this.size}px`,
         height: `${this.size}px`,
         marginBottom: `${this.spacingSize}px`,
@@ -112,8 +105,6 @@ export default {
     },
     cursorStyle() {
       if (this.disabled) return 'not-allowed'
-      if (this.isException && this.exceptionMode === 'disabled')
-        return 'not-allowed'
       return 'pointer'
     },
     labelStyles() {

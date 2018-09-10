@@ -44,9 +44,8 @@
                 v-for="(swatch, swatchIndex) in swatchRow"
                 :key="swatchIndex"
                 :border-radius="computedBorderRadius"
-                :disabled="disabled"
-                :exception-mode="computedExceptionMode"
-                :is-exception="checkException(getSwatchColor(swatch))"
+                :disabled="getSwatchDisabled(swatch)"
+                :hidden="getSwatchHidden(swatch)"
                 :selected="checkEquality(getSwatchColor(swatch), value)"
                 :size="computedSwatchSize"
                 :spacing-size="computedSpacingSize"
@@ -57,7 +56,7 @@
                 :swatch-label="getSwatchLabel(swatch)"
                 :swatch-style="swatchStyle"
                 @blur="relatedTarget => onBlur(relatedTarget)"
-                @click.native="updateSwatch(getSwatchColor(swatch))" />
+                @click.native="updateSwatch(swatch)" />
             </div>
           </template>
 
@@ -67,9 +66,8 @@
               v-for="(swatch, swatchIndex) in computedSwatches"
               :key="swatchIndex"
               :border-radius="computedBorderRadius"
-              :disabled="disabled"
-              :exception-mode="computedExceptionMode"
-              :is-exception="checkException(getSwatchColor(swatch))"
+              :disabled="getSwatchDisabled(swatch)"
+              :hidden="getSwatchHidden(swatch)"
               :selected="checkEquality(getSwatchColor(swatch), value)"
               :size="computedSwatchSize"
               :spacing-size="computedSpacingSize"
@@ -80,7 +78,7 @@
               :swatch-label="getSwatchLabel(swatch)"
               :swatch-style="swatchStyle"
               @blur="relatedTarget => onBlur(relatedTarget)"
-              @click.native="updateSwatch(getSwatchColor(swatch))" />
+              @click.native="updateSwatch(swatch)" />
           </template>
         </div>
         <div v-if="showFallback" class="vue-swatches__fallback__wrapper" :style="computedFallbackWrapperStyles">
@@ -106,7 +104,7 @@
 </template>
 
 <script>
-import presets from './presets'
+import basicPreset from './presets/basic'
 import VSwatch from './VSwatch'
 
 export const DEFAULT_BACKGROUND_COLOR = '#ffffff'
@@ -130,16 +128,8 @@ export default {
       default: true,
     },
     swatches: {
-      type: [Array, Object, String],
-      default: 'basic',
-    },
-    exceptions: {
-      type: Array,
-      default: () => [],
-    },
-    exceptionMode: {
-      type: String,
-      default: 'disabled',
+      type: [Array, Object],
+      default: () => basicPreset,
     },
     disabled: {
       type: Boolean,
@@ -265,11 +255,7 @@ export default {
       // over computed value
       return this.borderRadius
     },
-    // Computed value for `exceptionMode`
-    computedExceptionMode() {
-      if (this.exceptionMode === 'hidden') return this.exceptionMode
-      else if (this.exceptionMode === 'disabled') return this.exceptionMode
-    },
+
     // Computed value for `rowLength`
     computedRowLength() {
       // Priorize user value
@@ -429,10 +415,6 @@ export default {
       if ((!color1 && color1 !== '') || (!color2 && color2 !== '')) return false
       return color1.toUpperCase() === color2.toUpperCase()
     },
-    checkException(color) {
-      const uppercaseExceptions = this.exceptions.map(s => s.toUpperCase())
-      return uppercaseExceptions.indexOf(color.toUpperCase()) !== -1
-    },
     hidePopover() {
       this.internalIsOpen = false
       this.$el.blur()
@@ -497,6 +479,15 @@ export default {
       if (typeof swatch === 'string') return swatch
       else if (typeof swatch === 'object') return swatch.color
     },
+    getSwatchDisabled(swatch) {
+      if (typeof swatch === 'string') return this.disabled
+      else if (typeof swatch === 'object')
+        return swatch.disabled !== undefined ? swatch.disabled : this.disabled
+    },
+    getSwatchHidden(swatch) {
+      if (typeof swatch === 'object') return swatch.hidden
+      return false
+    },
     getSwatchLabel(swatch) {
       if (typeof swatch === 'string') return swatch
       else if (typeof swatch === 'object') return swatch.label
@@ -530,8 +521,10 @@ export default {
     togglePopover() {
       this.isOpen ? this.hidePopover() : this.showPopover()
     },
-    updateSwatch(color, { fromFallbackInput } = {}) {
-      if (this.checkException(color) || this.disabled) return
+    updateSwatch(swatch, { fromFallbackInput } = {}) {
+      if (this.getSwatchDisabled(swatch)) return
+
+      const color = this.getSwatchColor(swatch)
 
       this.internalValue = color
       this.$emit('input', color)
@@ -540,11 +533,7 @@ export default {
         this.hidePopover()
       }
     },
-    extractSwatchesFromPreset(presetName) {
-      let preset = null
-      if (presetName instanceof Object) preset = presetName
-      else preset = presets[presetName]
-
+    extractSwatchesFromPreset(preset) {
       // Applying the styles if present in the preset
       if (preset.borderRadius) this.presetBorderRadius = preset.borderRadius
       if (preset.rowLength) this.presetRowLength = preset.rowLength

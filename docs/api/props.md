@@ -15,14 +15,6 @@ The colors that will be shown in the swatches. You should always use **6-digits 
 - **Default**: `'basic'`
 - **Examples**: `'material-light'`, `'text-advanced'`
 
-#### exceptions
-
-Colors that will be excluded. User won't be able to pick these colors. You can hide or disable them with the `exception-mode` prop.
-
-- **Type**: `Array`
-- **Default**: `[]`
-- **Examples**: `['#ffffff', '#000000']`, `['#f102a3', '#1b22ee', '#fc2343']`
-
 #### value
 
 Sets the selected color. It's compatible with the **v-model** directive.
@@ -47,15 +39,6 @@ Disables the color picker, user won't be able to open the popover. When using `i
 
 - **Type**: `Boolean`
 - **Default**: `false`
-
-#### exception-mode
-
-Define the behaviour of the exceptions.
-
-- **Type**: `String`
-- Use an `disabled` to disable the exceptions.
-- Use an `hidden` to hide the exceptions.
-- **Default**: `disabled`
 
 #### inline
 
