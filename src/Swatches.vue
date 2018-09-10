@@ -1,8 +1,15 @@
 <template>
-  <div class="vue-swatches" @blur.self="e => onBlur(e.relatedTarget)" tabindex="0">
+  <div
+    class="vue-swatches"
+    tabindex="-1"
+    @blur="e => onBlur(e.relatedTarget)">
 
     <!-- Trigger -->
-    <div v-if="!inline" ref="triggerWrapper" class="vue-swatches__trigger__wrapper" @click="togglePopover">
+    <div
+      v-if="!inline"
+      ref="triggerWrapper"
+      class="vue-swatches__trigger__wrapper"
+      @click="togglePopover">
       <slot name="trigger">
         <div
           class="vue-swatches__trigger"
@@ -30,44 +37,50 @@
           <!-- for nested distribution -->
           <template v-if="isNested">
             <div
-              v-for="(swatchRow, index) in computedColors"
+              v-for="(swatchRow, index) in computedSwatches"
               :key="index"
               class="vue-swatches__row">
               <swatch
-                v-for="swatch in swatchRow"
-                :key="swatch"
+                v-for="(swatch, swatchIndex) in swatchRow"
+                :key="swatchIndex"
                 :border-radius="computedBorderRadius"
                 :disabled="disabled"
                 :exception-mode="computedExceptionMode"
-                :is-exception="checkException(swatch)"
-                :selected="checkEquality(swatch, value)"
+                :is-exception="checkException(getSwatchColor(swatch))"
+                :selected="checkEquality(getSwatchColor(swatch), internalValue)"
                 :size="computedSwatchSize"
                 :spacing-size="computedSpacingSize"
-                :show-border="computedShowBorder"
+                :show-border="getSwatchShowBorder(swatch)"
                 :show-checkbox="showCheckbox"
-                :swatch-color="swatch"
+                :show-label="showLabels"
+                :swatch-color="getSwatchColor(swatch)"
+                :swatch-label="getSwatchLabel(swatch)"
                 :swatch-style="swatchStyle"
-                @click.native="updateSwatch(swatch)" />
+                @blur="relatedTarget => onBlur(relatedTarget)"
+                @click.native="updateSwatch(getSwatchColor(swatch))" />
             </div>
           </template>
 
           <!-- for normal distribution -->
           <template v-else>
             <swatch
-              v-for="swatch in computedColors"
-              :key="swatch"
+              v-for="(swatch, swatchIndex) in computedSwatches"
+              :key="swatchIndex"
               :border-radius="computedBorderRadius"
               :disabled="disabled"
               :exception-mode="computedExceptionMode"
-              :is-exception="checkException(swatch)"
-              :selected="checkEquality(swatch, value)"
+              :is-exception="checkException(getSwatchColor(swatch))"
+              :selected="checkEquality(getSwatchColor(swatch), internalValue)"
               :size="computedSwatchSize"
               :spacing-size="computedSpacingSize"
-              :show-border="computedShowBorder"
+              :show-border="getSwatchShowBorder(swatch)"
               :show-checkbox="showCheckbox"
-              :swatch-color="swatch"
+              :show-label="showLabels"
+              :swatch-color="getSwatchColor(swatch)"
+              :swatch-label="getSwatchLabel(swatch)"
               :swatch-style="swatchStyle"
-              @click.native="updateSwatch(swatch)" />
+              @blur="relatedTarget => onBlur(relatedTarget)"
+              @click.native="updateSwatch(getSwatchColor(swatch))" />
           </template>
         </div>
         <div v-if="showFallback" class="vue-swatches__fallback__wrapper" :style="computedFallbackWrapperStyles">
@@ -98,7 +111,6 @@ import Swatch from './Swatch'
 
 export const DEFAULT_BACKGROUND_COLOR = '#ffffff'
 export const DEFAULT_BORDER_RADIUS = '10px'
-export const DEFAULT_MAX_HEIGHT = 300
 export const DEFAULT_ROW_LENGTH = 4
 export const DEFAULT_SWATCH_SIZE = 42
 export const DEFAULT_SHOW_BORDER = false
@@ -117,7 +129,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    colors: {
+    swatches: {
       type: [Array, Object, String],
       default: 'basic',
     },
@@ -149,29 +161,17 @@ export default {
       type: Boolean,
       default: false,
     },
-    maxHeight: {
-      type: [Number, String],
-      default: null, // The default is especified as DEFAULT_MAX_HEIGHT
-    },
     shapes: {
       type: String,
       default: 'squares',
     },
-    popoverBottom: {
-      type: Boolean,
-      default: false,
+    popoverX: {
+      type: String,
+      default: 'right',
     },
-    popoverLeft: {
-      type: Boolean,
-      default: false,
-    },
-    popoverRight: {
-      type: Boolean,
-      default: false,
-    },
-    popoverTop: {
-      type: Boolean,
-      default: false,
+    popoverY: {
+      type: String,
+      default: 'bottom',
     },
     rowLength: {
       type: [Number, String],
@@ -188,6 +188,10 @@ export default {
     showCheckbox: {
       type: Boolean,
       default: true,
+    },
+    showLabels: {
+      type: Boolean,
+      default: false,
     },
     swatchSize: {
       type: [Number, String],
@@ -212,9 +216,9 @@ export default {
   },
   data() {
     return {
+      alwaysOnScreenStyle: {},
       componentMounted: false,
       presetBorderRadius: null,
-      presetMaxHeight: null,
       presetRowLength: null,
       presetShowBorder: null,
       presetSwatchSize: null,
@@ -226,9 +230,9 @@ export default {
   computed: {
     isNested() {
       if (
-        this.computedColors &&
-        this.computedColors.length > 0 &&
-        this.computedColors[0] instanceof Array
+        this.computedSwatches &&
+        this.computedSwatches.length > 0 &&
+        this.computedSwatches[0] instanceof Array
       ) {
         return true
       }
@@ -244,11 +248,11 @@ export default {
 
     /** REAL COMPUTEDS (depends on user's props and preset's values, these have 'computed' prefix) **/
 
-    // Computed value for `colors`
-    computedColors() {
-      if (this.colors instanceof Array) return this.colors
+    // Computed value for `swatches`
+    computedSwatches() {
+      if (this.swatches instanceof Array) return this.swatches
 
-      return this.extractSwatchesFromPreset(this.colors)
+      return this.extractSwatchesFromPreset(this.swatches)
     },
     // Computed value for `borderRadius`
     computedBorderRadius() {
@@ -261,34 +265,6 @@ export default {
     computedExceptionMode() {
       if (this.exceptionMode === 'hidden') return this.exceptionMode
       else if (this.exceptionMode === 'disabled') return this.exceptionMode
-    },
-    // Computed value for `maxHeight`
-    computedMaxHeight() {
-      // Priorize user value
-      if (this.maxHeight !== null) return Number(this.maxHeight)
-      else if (this.presetMaxHeight !== null)
-        // Over preset value
-        return this.presetMaxHeight
-      // Use default value if these two are unset!
-      return DEFAULT_MAX_HEIGHT
-    },
-    // Computed value for `popoverBottom`
-    computedPopoverBottom() {
-      // Default direction if "Y" direction is not specified
-      return this.popoverBottom || !this.popoverTop
-    },
-    // Computed value for `popoverLeft`
-    computedPopoverLeft() {
-      // Default direction if "X" direction is not specified
-      return this.popoverLeft || !this.popoverRight
-    },
-    // Computed value for `popoverRight`
-    computedPopoverRight() {
-      return this.popoverRight
-    },
-    // Computed value for `popoverTop`
-    computedPopoverTop() {
-      return this.popoverTop
     },
     // Computed value for `rowLength`
     computedRowLength() {
@@ -335,17 +311,14 @@ export default {
       else if (this.shapes === 'circles') return `50%`
     },
     containerHeight() {
-      const acualWrapperHeight = this.wrapperHeight + 10
-      if (this.computedMaxHeight < acualWrapperHeight)
-        return this.computedMaxHeight
-      return acualWrapperHeight
+      return this.wrapperHeight + 10
     },
     containerWidth() {
       return this.wrapperWidth + 10
     },
     columnLength() {
-      if (this.isNested) return this.computedColors.length
-      return Math.ceil(this.computedColors.length / this.computedRowLength)
+      if (this.isNested) return this.computedSwatches.length
+      return Math.ceil(this.computedSwatches.length / this.computedRowLength)
     },
     spacingSize() {
       return Math.round(this.computedSwatchSize * 0.25)
@@ -371,7 +344,7 @@ export default {
       return {
         width: '42px',
         height: '42px',
-        backgroundColor: this.value ? this.value : '#ffffff',
+        backgroundColor: this.internalValue ? this.internalValue : '#ffffff',
         borderRadius: this.shapes === 'circles' ? '50%' : DEFAULT_BORDER_RADIUS,
       }
     },
@@ -386,71 +359,22 @@ export default {
 
       if (this.inline) return baseStyles
 
-      if (this.computedPopoverTop) {
+      if (this.popoverY === 'top') {
         positionStyle.bottom = '+100%'
-      } else if (this.computedPopoverBottom) {
+      } else if (this.popoverY === 'bottom') {
         positionStyle.top = '+100%'
       }
 
-      if (this.computedPopoverLeft) {
+      if (this.popoverX === 'left') {
         positionStyle.right = 0
-      } else if (this.computedPopoverRight) {
+      } else if (this.popoverX === 'right') {
         positionStyle.left = 0
       }
 
       return {
         ...positionStyle,
         ...baseStyles,
-        maxHeight: `${this.computedMaxHeight}px`,
       }
-    },
-    alwaysOnScreenStyle() {
-      const styles = {}
-      const triggerEl = this.$refs.triggerWrapper
-
-      if (
-        !this.componentMounted ||
-        this.inline ||
-        !triggerEl ||
-        !window ||
-        !document
-      )
-        return styles
-
-      const rect = triggerEl.getBoundingClientRect()
-      const leftMin = 5
-      const rightMax =
-        (window.innerWidth || document.documentElement.clientWidth) - 5
-      const topMin = 5
-      const bottomMax =
-        (window.innerHeight || document.documentElement.clientHeight) - 5
-
-      if (this.computedPopoverTop && rect.top - this.containerHeight < topMin) {
-        styles.top = `${topMin - rect.top}px`
-        styles.bottom = 'auto'
-      } else if (
-        this.computedPopoverBottom &&
-        rect.bottom + this.containerHeight > bottomMax
-      ) {
-        styles.bottom = `${rect.bottom - bottomMax}px`
-        styles.top = 'auto'
-      }
-
-      if (
-        this.computedPopoverLeft &&
-        rect.right - this.containerWidth < leftMin
-      ) {
-        styles.left = `${leftMin - rect.left}px`
-        styles.right = 'auto'
-      } else if (
-        this.computedPopoverRight &&
-        rect.left + this.containerWidth > rightMax
-      ) {
-        styles.right = `${rect.right - rightMax}px`
-        styles.left = 'auto'
-      }
-
-      return styles
     },
     containerStyles() {
       return [this.containerStyle, this.alwaysOnScreenStyle]
@@ -502,14 +426,77 @@ export default {
       if ((!color1 && color1 !== '') || (!color2 && color2 !== '')) return false
       return color1.toUpperCase() === color2.toUpperCase()
     },
-    checkException(swatch) {
+    checkException(color) {
       const uppercaseExceptions = this.exceptions.map(s => s.toUpperCase())
-      return uppercaseExceptions.indexOf(swatch.toUpperCase()) !== -1
+      return uppercaseExceptions.indexOf(color.toUpperCase()) !== -1
     },
     hidePopover() {
       this.internalIsOpen = false
       this.$el.blur()
       this.$emit('close', this.internalValue)
+    },
+    getAlwaysOnScreenStyle() {
+      const styles = {}
+      const triggerEl = this.$refs.triggerWrapper
+
+      if (
+        !this.componentMounted ||
+        this.inline ||
+        !triggerEl ||
+        !window ||
+        !document
+      )
+        return styles
+
+      const rect = triggerEl.getBoundingClientRect()
+      const leftMin = 5
+      const rightMax =
+        (document.documentElement.clientWidth || window.innerWidth) - 5
+      const topMin = 5
+      const bottomMax =
+        (document.documentElement.clientHeight || window.innerHeight) - 5
+
+      if (this.popoverY === 'top' && rect.top - this.containerHeight < topMin) {
+        styles.top = `${topMin - rect.top}px`
+        styles.bottom = 'auto'
+      } else if (
+        this.popoverY === 'bottom' &&
+        rect.bottom + this.containerHeight > bottomMax
+      ) {
+        styles.bottom = `${rect.bottom - bottomMax}px`
+        styles.top = 'auto'
+      }
+
+      if (
+        this.popoverX === 'left' &&
+        rect.right - this.containerWidth < leftMin
+      ) {
+        styles.left = `${leftMin - rect.left}px`
+        styles.right = 'auto'
+      } else if (
+        this.popoverX === 'right' &&
+        rect.left + this.containerWidth > rightMax
+      ) {
+        styles.right = `${rect.right - rightMax}px`
+        styles.left = 'auto'
+      }
+
+      return styles
+    },
+    getSwatchShowBorder(swatch) {
+      if (typeof swatch === 'string') return this.computedShowBorder
+      else if (typeof swatch === 'object')
+        return swatch.showBorder !== undefined
+          ? swatch.showBorder
+          : this.computedShowBorder
+    },
+    getSwatchColor(swatch) {
+      if (typeof swatch === 'string') return swatch
+      else if (typeof swatch === 'object') return swatch.color
+    },
+    getSwatchLabel(swatch) {
+      if (typeof swatch === 'string') return swatch
+      else if (typeof swatch === 'object') return swatch.label
     },
     // Called by user action
     onBlur(relatedTarget) {
@@ -532,6 +519,7 @@ export default {
       /* istanbul ignore if */
       if (this.isOpen || this.inline || this.disabled) return /* dont show */
 
+      this.alwaysOnScreenStyle = this.getAlwaysOnScreenStyle()
       this.internalIsOpen = true
       this.$el.focus()
       this.$emit('open')
@@ -539,11 +527,11 @@ export default {
     togglePopover() {
       this.isOpen ? this.hidePopover() : this.showPopover()
     },
-    updateSwatch(swatch, { fromFallbackInput } = {}) {
-      if (this.checkException(swatch) || this.disabled) return
+    updateSwatch(color, { fromFallbackInput } = {}) {
+      if (this.checkException(color) || this.disabled) return
 
-      this.internalValue = swatch
-      this.$emit('input', swatch)
+      this.internalValue = color
+      this.$emit('input', color)
 
       if (this.closeOnSelect && !this.inline && !fromFallbackInput) {
         this.hidePopover()
@@ -556,7 +544,6 @@ export default {
 
       // Applying the styles if present in the preset
       if (preset.borderRadius) this.presetBorderRadius = preset.borderRadius
-      if (preset.maxHeight) this.presetMaxHeight = preset.maxHeight
       if (preset.rowLength) this.presetRowLength = preset.rowLength
       if (preset.showBorder) this.presetShowBorder = preset.showBorder
       if (preset.swatchSize) this.presetSwatchSize = preset.swatchSize

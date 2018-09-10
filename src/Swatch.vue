@@ -7,11 +7,14 @@
       'vue-swatches__swatch--is-exception': isException || disabled
     }"
     :style="swatchStyles"
-  >
-    <div v-if="swatchColor === ''" class="vue-swatches__diagonal--wrapper vue-swatches--has-children-centered">
+    :aria-label="swatchLabel"
+    tabindex="0"
+    @blur="e => this.$emit('blur', e.relatedTarget)">
+    <div v-if="swatchColor === ''" class="vue-swatches__diagonal__wrapper vue-swatches--has-children-centered">
       <div class="vue-swatches__diagonal"></div>
     </div>
     <check v-show="showCheckbox && selected" />
+    <div v-if="showLabel" class="vue-swatches__swatch__label">{{ swatchLabel }}</div>
   </div>
 </template>
 
@@ -52,6 +55,10 @@ export default {
       type: Boolean,
       // default is calculated in `Swatches.vue`
     },
+    showLabel: {
+      type: Boolean,
+      // default is especified in `Swatches.vue`
+    },
     size: {
       type: Number,
       // default is especified in `Swatches.vue`
@@ -63,6 +70,10 @@ export default {
     swatchColor: {
       type: String,
       default: '',
+    },
+    swatchLabel: {
+      type: String,
+      // this prop comes from computed property and always should have a value
     },
     swatchStyle: {
       type: Object,
@@ -121,7 +132,18 @@ export default {
     box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.75);
   }
 
-  .vue-swatches__diagonal--wrapper {
+  &__label {
+    position: absolute;
+    bottom: -14px;
+    left: 0;
+    right: 0;
+    color: #666;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .vue-swatches__diagonal__wrapper {
     position: absolute;
   }
 }
