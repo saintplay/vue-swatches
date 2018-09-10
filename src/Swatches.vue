@@ -193,6 +193,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    spacingSize: {
+      type: Number,
+      default: null,
+    },
     swatchSize: {
       type: [Number, String],
       default: null, // The default is especified as DEFAULT_SWATCH_SIZE
@@ -288,10 +292,12 @@ export default {
     },
     // Computed value for `spacingSize`
     computedSpacingSize() {
+      // Priorize user value
+      if (this.spacingSize !== null) return this.spacingSize
       // Priorize preset value
       if (this.presetSpacingSize !== null) return this.presetSpacingSize
       // over computed value
-      return this.spacingSize
+      return Math.round(this.computedSwatchSize * 0.25)
     },
     // Computed value for `showBorder`
     computedShowBorder() {
@@ -319,9 +325,6 @@ export default {
     columnLength() {
       if (this.isNested) return this.computedSwatches.length
       return Math.ceil(this.computedSwatches.length / this.computedRowLength)
-    },
-    spacingSize() {
-      return Math.round(this.computedSwatchSize * 0.25)
     },
     wrapperHeight() {
       return (

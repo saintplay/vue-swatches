@@ -11,7 +11,8 @@
       <swatches
         popover-y="top"
         popover-x="left"
-        show-labels />
+        show-labels
+        :spacing-size="20" />
       <swatches
         popover-y="top"
         popover-x="left" />

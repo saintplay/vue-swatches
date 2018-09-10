@@ -85,15 +85,6 @@ describe('Presets', () => {
 
         expect(valid).toBeTruthy()
       })
-      test('preset should have a valid maxHeight', () => {
-        let valid = false
-        const preset = presets[presetName]
-        const maxHeight = preset.maxHeight
-        if (typeof maxHeight === 'undefined') valid = true // maxHeight is not required
-        if (typeof maxHeight === 'number' && maxHeight > 0) valid = true
-
-        expect(valid).toBeTruthy()
-      })
       test('preset should have a valid showBorder', () => {
         let valid = false
         const preset = presets[presetName]

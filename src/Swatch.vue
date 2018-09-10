@@ -14,7 +14,12 @@
       <div class="vue-swatches__diagonal"></div>
     </div>
     <check v-show="showCheckbox && selected" />
-    <div v-if="showLabel" class="vue-swatches__swatch__label">{{ swatchLabel }}</div>
+    <div
+      v-if="showLabel"
+      class="vue-swatches__swatch__label"
+      :style="labelStyles">
+        {{ swatchLabel }}
+    </div>
   </div>
 </template>
 
@@ -84,6 +89,12 @@ export default {
     return {}
   },
   computed: {
+    computedLabelStyle() {
+      const offset = 8 + Math.floor(this.spacingSize / 5) * 3
+      return {
+        bottom: `-${offset}px`,
+      }
+    },
     computedSwatchStyle() {
       return {
         display:
@@ -104,6 +115,9 @@ export default {
       if (this.isException && this.exceptionMode === 'disabled')
         return 'not-allowed'
       return 'pointer'
+    },
+    labelStyles() {
+      return [this.computedLabelStyle]
     },
     swatchStyles() {
       return [this.computedSwatchStyle, this.swatchStyle]
@@ -134,7 +148,6 @@ export default {
 
   &__label {
     position: absolute;
-    bottom: -14px;
     left: 0;
     right: 0;
     color: #666;

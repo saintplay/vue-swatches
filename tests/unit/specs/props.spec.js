@@ -4,7 +4,6 @@ import rgb from 'rgb'
 
 import Swatches, {
   DEFAULT_BACKGROUND_COLOR,
-  DEFAULT_MAX_HEIGHT,
   DEFAULT_ROW_LENGTH,
   DEFAULT_SWATCH_SIZE,
 } from '@/Swatches'
@@ -28,7 +27,6 @@ const completPresetExample = {
   rowLength: 6,
   swatchSize: 18,
   spacingSize: 90,
-  maxHeight: 80,
   showBorder: true,
 }
 
@@ -754,91 +752,6 @@ describe('Props', () => {
 
         return Vue.nextTick().then(() => {
           expect(container.isVisible()).toBe(false)
-        })
-      })
-    })
-  })
-
-  describe('max-height', () => {
-    test(`default max-height is set to ${DEFAULT_MAX_HEIGHT}`, () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          maxHeight: DEFAULT_MAX_HEIGHT,
-        },
-      })
-
-      return Vue.nextTick().then(() => {
-        expect(componentWrapper.html()).toEqual(defaultComponent.html())
-      })
-    })
-    describe('When Inline mode is enabled', () => {
-      test('should not have a max-height value especified', () => {
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: true,
-          },
-        })
-        const container = componentWrapper.find('.vue-swatches__container')
-
-        return Vue.nextTick().then(() => {
-          expect(container.element.style.maxHeight).toEqual('')
-        })
-      })
-    })
-    describe('When Popover mode is enabled', () => {
-      test('should update the max-height if prop is passed', () => {
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: false,
-            maxHeight: 120,
-          },
-        })
-        const container = componentWrapper.find('.vue-swatches__container')
-
-        return Vue.nextTick().then(() => {
-          expect(container.element.style.maxHeight).toEqual('120px')
-        })
-      })
-      test('should accept string number', () => {
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: false,
-            maxHeight: '110',
-          },
-        })
-        const container = componentWrapper.find('.vue-swatches__container')
-
-        return Vue.nextTick().then(() => {
-          expect(container.element.style.maxHeight).toEqual('110px')
-        })
-      })
-      test('should update the max-height if preset specify one', () => {
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: false,
-            colors: completPresetExample,
-          },
-        })
-        const container = componentWrapper.find('.vue-swatches__container')
-
-        return Vue.nextTick().then(() => {
-          expect(container.element.style.maxHeight).toEqual(
-            `${completPresetExample.maxHeight}px`
-          )
-        })
-      })
-      test('should priorize the max-height from the prop over the preset one', () => {
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: false,
-            colors: completPresetExample,
-            maxHeight: 250,
-          },
-        })
-        const container = componentWrapper.find('.vue-swatches__container')
-
-        return Vue.nextTick().then(() => {
-          expect(container.element.style.maxHeight).toEqual(`250px`)
         })
       })
     })

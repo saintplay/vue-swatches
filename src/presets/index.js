@@ -20,6 +20,5 @@ export const supportedProperties = [
   'rowLength', // Optional Integer: 5, 8, 6
   'swatchSize', // Optional Positive Number: 12.5, 36, 10
   'spacingSize', // Optional Positive Number: 20, 28.2, 40
-  'maxHeight', // Optional Positive Number: 220, 500.40, 300
   'showBorder', // Optional Boolean: true, false
 ]
