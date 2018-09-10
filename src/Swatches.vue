@@ -46,7 +46,7 @@
                 :disabled="disabled"
                 :exception-mode="computedExceptionMode"
                 :is-exception="checkException(swatch)"
-                :selected="checkEquality(swatch, internalValue)"
+                :selected="checkEquality(swatch, value)"
                 :size="computedSwatchSize"
                 :spacing-size="computedSpacingSize"
                 :show-border="computedShowBorder"
@@ -67,7 +67,7 @@
               :disabled="disabled"
               :exception-mode="computedExceptionMode"
               :is-exception="checkException(swatch)"
-              :selected="checkEquality(swatch, internalValue)"
+              :selected="checkEquality(swatch, value)"
               :size="computedSwatchSize"
               :spacing-size="computedSpacingSize"
               :show-border="computedShowBorder"
@@ -232,7 +232,7 @@ export default {
       return this.internalIsOpen
     },
     isNoColor () {
-      return this.checkEquality('', this.internalValue)
+      return this.checkEquality('', this.value)
     },
 
     /** REAL COMPUTEDS (depends on user's props and preset's values, these have 'computed' prefix) **/
