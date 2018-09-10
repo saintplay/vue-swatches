@@ -9,11 +9,14 @@
     <h2>Popover to Top and Left</h2>
     <div class="flexbox">
       <swatches
+        v-model="color1"
         popover-y="top"
         popover-x="left"
         show-labels
+        show-fallback
         :spacing-size="20" />
       <swatches
+        :value="color1"
         popover-y="top"
         popover-x="left" />
     </div>
@@ -68,6 +71,7 @@
 export default {
   name: 'app-demo',
   data: () => ({
+    color1: '#1FBC9C',
     swatchesArray: [
       { showBorder: false, color: '#1FBC9C', label: 'Green 1' },
       { showBorder: false, color: '#1CA085', label: 'Green 2' },

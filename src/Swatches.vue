@@ -47,7 +47,7 @@
                 :disabled="disabled"
                 :exception-mode="computedExceptionMode"
                 :is-exception="checkException(getSwatchColor(swatch))"
-                :selected="checkEquality(getSwatchColor(swatch), internalValue)"
+                :selected="checkEquality(getSwatchColor(swatch), value)"
                 :size="computedSwatchSize"
                 :spacing-size="computedSpacingSize"
                 :show-border="getSwatchShowBorder(swatch)"
@@ -70,7 +70,7 @@
               :disabled="disabled"
               :exception-mode="computedExceptionMode"
               :is-exception="checkException(getSwatchColor(swatch))"
-              :selected="checkEquality(getSwatchColor(swatch), internalValue)"
+              :selected="checkEquality(getSwatchColor(swatch), value)"
               :size="computedSwatchSize"
               :spacing-size="computedSpacingSize"
               :show-border="getSwatchShowBorder(swatch)"
@@ -347,7 +347,7 @@ export default {
       return {
         width: '42px',
         height: '42px',
-        backgroundColor: this.internalValue ? this.internalValue : '#ffffff',
+        backgroundColor: this.value ? this.value : '#ffffff',
         borderRadius: this.shapes === 'circles' ? '50%' : DEFAULT_BORDER_RADIUS,
       }
     },
