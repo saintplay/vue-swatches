@@ -256,7 +256,8 @@ describe('Props', () => {
           const colors = ['', '#a156e2', '#eca23e']
           const componentWrapper = mount(Swatches, {
             propsData: {
-              colors
+              colors,
+              value: ''
             }
           })
           const swatch = componentWrapper.find('.vue-swatches__swatch')
@@ -1051,41 +1052,6 @@ describe('Props', () => {
       .then(() => {
         expect(componentSwatch.html())
         .toEqual(defaultSwatch.html())
-      })
-    })
-    test('should render the checkbox if true', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          showCheckbox: true,
-          inline: false
-        }
-      })
-      const swatch = componentWrapper.find('.vue-swatches__swatch')
-      const check = swatch.find('.vue-swatches__check__wrapper')
-      swatch.trigger('click')
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(check.element.style.display)
-        .not.toBe('none')
-      })
-    })
-    test('should not render the checkbox if false', () => {
-      const componentWrapper = mount(Swatches, {
-        propsData: {
-          showCheckbox: false,
-          inline: false
-        }
-      })
-      const swatch = componentWrapper.find('.vue-swatches__swatch')
-      swatch.trigger('click')
-
-      const check = swatch.find('.vue-swatches__check__wrapper ')
-
-      return Vue.nextTick()
-      .then(() => {
-        expect(check.isVisible())
-        .toBe(false)
       })
     })
   })
