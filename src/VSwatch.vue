@@ -13,7 +13,7 @@
     <div v-if="swatchColor === ''" class="vue-swatches__diagonal__wrapper vue-swatches--has-children-centered">
       <div class="vue-swatches__diagonal"></div>
     </div>
-    <check v-show="showCheckbox && selected" />
+    <v-check v-show="showCheckbox && selected" />
     <div
       v-if="showLabel"
       class="vue-swatches__swatch__label"
@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import Check from './Check'
+import VCheck from './VCheck'
 
 export default {
-  name: 'swatch',
+  name: 'v-swatch',
   components: {
-    Check,
+    VCheck,
   },
   props: {
     borderRadius: {

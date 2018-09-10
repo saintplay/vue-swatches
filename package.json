@@ -29,7 +29,7 @@
   },
   "scripts": {
     "serve": "vue-cli-service serve demo/main.js",
-    "build": "vue-cli-service build --target lib --name vue-swatches src/Swatches.vue",
+    "build": "vue-cli-service build --target lib --name vue-swatches src/VSwatches.vue",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "docs:dev": "vuepress dev docs",

@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'check',
+  name: 'v-check',
   data() {
     return {}
   },

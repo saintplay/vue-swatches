@@ -2,27 +2,27 @@
   <div id="app">
     <div>
       <h2>Popover</h2>
-      <swatches>
+      <v-swatches>
         <button slot="trigger">Open</button>
-      </swatches>
+      </v-swatches>
     </div>
     <h2>Popover to Top and Left</h2>
     <div class="flexbox">
-      <swatches
+      <v-swatches
         v-model="color1"
         popover-y="top"
         popover-x="left"
         show-labels
         show-fallback
         :spacing-size="20" />
-      <swatches
+      <v-swatches
         :value="color1"
         popover-y="top"
         popover-x="left" />
     </div>
     <h2>Popover to Top and Right</h2>
     <div class="flexbox">
-      <swatches
+      <v-swatches
         popover-y="top"
         popover-x="right"
         :swatches="[
@@ -32,34 +32,34 @@
           { color: '#ffffff' },
           { color: '#ffffff', showBorder: true }
         ]" />
-      <swatches
+      <v-swatches
         popover-y="top"
         popover-x="right" />
     </div>
     <h2>Popover to Bottom and Left</h2>
     <div class="flexbox">
-      <swatches
+      <v-swatches
         popover-y="bottom"
         popover-x="left"
         :swatches="swatchesArray"
         showLabels />
-      <swatches
+      <v-swatches
         popover-y="bottom"
         popover-x="left" />
     </div>
 
     <h2>Popover to Bottom and Right</h2>
     <div class="flexbox">
-      <swatches
+      <v-swatches
         popover-y="bottom"
         popover-x="right" />
-      <swatches
+      <v-swatches
         popover-y="bottom"
         popover-x="right" />
     </div>
 
     <h2>Inline Swatches</h2>
-    <swatches
+    <v-swatches
       inline
       :swatches="swatchesArray"
       show-border

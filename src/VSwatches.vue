@@ -40,7 +40,7 @@
               v-for="(swatchRow, index) in computedSwatches"
               :key="index"
               class="vue-swatches__row">
-              <swatch
+              <v-swatch
                 v-for="(swatch, swatchIndex) in swatchRow"
                 :key="swatchIndex"
                 :border-radius="computedBorderRadius"
@@ -63,7 +63,7 @@
 
           <!-- for normal distribution -->
           <template v-else>
-            <swatch
+            <v-swatch
               v-for="(swatch, swatchIndex) in computedSwatches"
               :key="swatchIndex"
               :border-radius="computedBorderRadius"
@@ -107,7 +107,7 @@
 
 <script>
 import presets from './presets'
-import Swatch from './Swatch'
+import VSwatch from './VSwatch'
 
 export const DEFAULT_BACKGROUND_COLOR = '#ffffff'
 export const DEFAULT_BORDER_RADIUS = '10px'
@@ -116,9 +116,9 @@ export const DEFAULT_SWATCH_SIZE = 42
 export const DEFAULT_SHOW_BORDER = false
 
 export default {
-  name: 'swatches',
+  name: 'v-swatches',
   components: {
-    Swatch,
+    VSwatch,
   },
   props: {
     backgroundColor: {

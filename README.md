@@ -23,12 +23,11 @@
   </a>
 </p>
 
-## Demo And Documentation ##
+## Demo And Documentation
 
 <https://saintplay.github.io/vue-swatches/>
 
-
-## Table of Contents ##
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Features](#features)
@@ -38,18 +37,17 @@
 - [Browser Compatibility](#browser-compatibility)
 - [License](#license)
 
-## Introduction ##
+## Introduction
 
 Vue Swatches is a UI Component for Vue that allows the user to choose colors.
 
-Unlike classic color pickers, where all colors are available (167 77 216 colors),
-Vue Swatches only shows a bunch of predefined colors.
+Unlike classic color pickers, where all colors are available (167 77 216 colors), Vue Swatches only shows a bunch of predefined colors.
 
 > More decisions require more effort
 
 With fewer options, the user experience will be improved
 
-## Features ##
+## Features
 
 <ul>
   <li>
@@ -78,7 +76,7 @@ With fewer options, the user experience will be improved
   </li>
 </ul>
 
-## Install ##
+## Install
 
 `npm install --save vue-swatches`
 
@@ -86,36 +84,36 @@ or
 
 `yarn add vue-swatches`
 
-## Basic Usage ##
+## Basic Usage
 
 ```vue
 <!-- Vue component -->
 <template>
   <div>
-    <swatches v-model="color"></swatches>
+    <v-swatches v-model="color"></v-swatches>
   </div>
 </template>
 
 <script>
-  import Swatches from 'vue-swatches'
+import Swatches from 'vue-swatches'
 
-  // Import the styles too, globally
-  import "vue-swatches/dist/vue-swatches.min.css"
+// Import the styles too, globally
+import 'vue-swatches/dist/vue-swatches.min.css'
 
-  export default {
-    components: { Swatches }, // window.VueSwatches.default - from CDN
-    data () {
-      return {
-        color: '#1CA085'
-      }
+export default {
+  components: { Swatches }, // window.VueSwatches.default - from CDN
+  data() {
+    return {
+      color: '#1CA085',
     }
-  }
+  },
+}
 </script>
 ```
 
-## Contributing ##
+## Contributing
 
-``` bash
+```bash
 # serve with hot reload at localhost:8080
 npm run dev
 
@@ -127,23 +125,21 @@ npm run docs
 
 # run unit tests
 npm run test
-
 ```
 
-## Browser Compatibility ##
+## Browser Compatibility
 
 This component has the same support than Vue itself
 
 > Vue does not support IE8 and below, because it uses ECMAScript 5 features that are un-shimmable in IE8. However it supports all [ECMAScript 5 compliant browsers](https://caniuse.com/#feat=es5).
 
-However if you want to use this with IE9, you will probably need to work on the CSS styles.
-IE10 should be fine
+However if you want to use this with IE9, you will probably need to work on the CSS styles. IE10 should be fine
 
-## Awesome Contributors ##
+## Awesome Contributors
 
 - [Diego Jara (saintplay)](https://github.com/saintplay/)
 - [Niko Nagy](https://github.com/NikoNagy)
-- *feel free to add yourself*
+- _feel free to add yourself_
 
 ## License
 

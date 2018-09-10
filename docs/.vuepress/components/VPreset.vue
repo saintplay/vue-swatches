@@ -1,5 +1,5 @@
 <template>
-  <swatches :swatches="preset" inline />
+  <v-swatches :swatches="preset" inline />
 </template>
 
 <script>
@@ -11,7 +11,7 @@ import materialLight from '../../../src/presets/material-light'
 import materialDark from '../../../src/presets/material-dark'
 
 export default {
-  name: 'preset',
+  name: 'v-preset',
   props: {
     name: {
       type: String,

@@ -1,4 +1,4 @@
 import Vue from 'vue'
-import VueSwatches from 'vue-swatches'
+import VSwatches from 'vue-swatches'
 
-Vue.component('swatches', VueSwatches)
+Vue.component('v-swatches', VSwatches)

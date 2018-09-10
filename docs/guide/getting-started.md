@@ -16,18 +16,18 @@ npm install --save vue-swatches
 <!-- Vue component -->
 <template>
   <div>
-    <swatches v-model="color"></swatches>
+    <v-swatches v-model="color"></v-swatches>
   </div>
 </template>
 
 <script>
-import Swatches from 'vue-swatches'
+import VSwatches from 'vue-swatches'
 
 // Import the styles too, typically in App.vue
 import 'vue-swatches/dist/vue-swatches.css'
 
 export default {
-  components: { Swatches },
+  components: { VSwatches },
   data() {
     return {
       color: '#1CA085',
@@ -66,7 +66,7 @@ You can use [UNPKG CDN](https://unpkg.com/) to use Vue Swatches in the browser
 </head>
 <body>
   <div id="app">
-    <swatches v-model="color"></swatches>
+    <v-swatches v-model="color"></v-swatches>
   </div>
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/vue-swatches"></script>
@@ -74,7 +74,7 @@ You can use [UNPKG CDN](https://unpkg.com/) to use Vue Swatches in the browser
     new Vue({
       el: '#app',
       components: {
-        Swatches: window['vue-swatches']
+        VSwatches: window['vue-swatches']
       },
       data() {
         return {

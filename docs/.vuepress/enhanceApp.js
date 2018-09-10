@@ -1,7 +1,7 @@
-import Swatches from '../../src/Swatches'
-import Preset from './components/Preset'
+import VSwatches from '../../src/VSwatches'
+import VPreset from './components/VPreset'
 
 export default ({ Vue, options, router, siteData }) => {
-  Vue.component('swatches', Swatches)
-  Vue.component('preset', Preset)
+  Vue.component('v-swatches', VSwatches)
+  Vue.component('v-preset', VPreset)
 }

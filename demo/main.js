@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import Swatches from '../src/Swatches'
+import VSwatches from '../src/VSwatches'
 import Demo from './Demo.vue'
 
 Vue.config.productionTip = false
 
-Vue.component('swatches', Swatches)
+Vue.component('v-swatches', VSwatches)
 
 new Vue({
   render: h => h(Demo),

@@ -4,7 +4,7 @@
 
 A basic collection of colors for generic purposes.
 
-<preset name="basic" />
+<v-preset name="basic" />
 
 **Preset updates the following props**
 
@@ -14,7 +14,7 @@ A basic collection of colors for generic purposes.
 
 A basic collection of colors for styling text.
 
-<preset name="text-basic" />
+<v-preset name="text-basic" />
 
 **Preset updates the following props**
 
@@ -25,7 +25,7 @@ A basic collection of colors for styling text.
 
 A complete collection of colors for styling text. This preset uses nested colors. Inspired by **Google Docs**
 
-<preset name="text-advanced" />
+<v-preset name="text-advanced" />
 
 **Preset updates the following props**
 
@@ -39,7 +39,7 @@ A complete collection of colors for styling text. This preset uses nested colors
 
 A basic collection of material colors.
 
-<preset name="material-basic" />
+<v-preset name="material-basic" />
 
 **Preset updates the following props**
 
@@ -49,7 +49,7 @@ A basic collection of material colors.
 
 A basic collection of light material colors. Useful to show dark text inside.
 
-<preset name="material-light" />
+<v-preset name="material-light" />
 
 **Preset updates the following props**
 
@@ -59,7 +59,7 @@ A basic collection of light material colors. Useful to show dark text inside.
 
 A basic collection of dark material colors. Useful to show light text inside.
 
-<preset name="material-dark" />
+<v-preset name="material-dark" />
 
 **Preset updates the following props**
 
