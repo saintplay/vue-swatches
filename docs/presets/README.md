@@ -1,5 +1,7 @@
 # Presets
 
+**Vue Swatches** has a bunch of predefined sets of colors ready to be used for most common usages
+
 ## Basic
 
 A basic collection of colors for generic purposes.
