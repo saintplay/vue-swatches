@@ -92,7 +92,7 @@
           <button
             class="vue-swatches__fallback__button"
             :class="fallbackOkClass"
-            @click="onFallbackButtonClick"
+            @click.prevent="onFallbackButtonClick"
           >
             {{ fallbackOkText }}
           </button>
