@@ -668,6 +668,39 @@ describe('Props', () => {
     })
   })
 
+  describe('fallback-type-prop', () => {
+    test('default fallback input type is set to text', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: true
+        }
+      })
+      const input = componentWrapper.find('.vue-swatches__fallback__input')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(input.attributes().type)
+        .toBe('text')
+      })
+    })
+
+    test('fallback input type is set to color', () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: true,
+          fallbackInputType: 'color'
+        }
+      })
+      const input = componentWrapper.find('.vue-swatches__fallback__input')
+
+      return Vue.nextTick()
+      .then(() => {
+        expect(input.attributes().type)
+        .toBe('color')
+      })
+    })
+  })
+
   describe('inline', () => {
     test('inline default is set to false', () => {
       const noInlineComponent = mount(Swatches, {
