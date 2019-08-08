@@ -81,9 +81,9 @@
         <div v-if="showFallback" class="vue-swatches__fallback__wrapper" :style="computedFallbackWrapperStyles">
           <span class="vue-swatches__fallback__input--wrapper">
             <input
-              type="text"
               ref="fallbackInput"
               class="vue-swatches__fallback__input"
+              :type="fallbackInputType"
               :class="fallbackInputClass"
               :value="internalValue"
               @input="e => updateSwatch(e.target.value, { fromFallbackInput: true })"
@@ -154,6 +154,13 @@ export default {
     fallbackOkText: {
       type: String,
       default: 'Ok'
+    },
+    fallbackInputType: {
+      type: String,
+      default: () => 'text',
+      validator (value) {
+        return ['text', 'color'].includes(value)
+      }
     },
     inline: {
       type: Boolean,

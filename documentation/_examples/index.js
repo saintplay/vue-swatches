@@ -7,6 +7,7 @@ import InlineSimple from './InlineSimple'
 import InlineAdvanced from './InlineAdvanced'
 import Exceptions from './Exceptions'
 import FallbackInput from './FallbackInput'
+import FallbackInputType from './FallbackInputType'
 
 export {
   Simple,
@@ -17,5 +18,6 @@ export {
   InlineSimple,
   InlineAdvanced,
   Exceptions,
-  FallbackInput
+  FallbackInput,
+  FallbackInputType
 }
