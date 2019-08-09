@@ -159,7 +159,7 @@ export default {
       type: String,
       default: () => 'text',
       validator (value) {
-        return ['text', 'color'].includes(value)
+        return ['text', 'color'].indexOf(value) !== -1
       }
     },
     inline: {
