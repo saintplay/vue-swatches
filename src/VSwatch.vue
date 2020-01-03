@@ -9,112 +9,117 @@
     :style="swatchStyles"
     :aria-label="swatchLabel"
     tabindex="0"
-    @blur="e => this.$emit('blur', e.relatedTarget)">
-    <div v-if="swatchColor === ''" class="vue-swatches__diagonal__wrapper vue-swatches--has-children-centered">
+    @blur="e => this.$emit('blur', e.relatedTarget)"
+  >
+    <div
+      v-if="swatchColor === ''"
+      class="vue-swatches__diagonal__wrapper vue-swatches--has-children-centered"
+    >
       <div class="vue-swatches__diagonal"></div>
     </div>
     <v-check v-show="showCheckbox && selected" />
     <div
       v-if="showLabel"
       class="vue-swatches__swatch__label"
-      :style="labelStyles">
-        {{ swatchLabel }}
+      :style="labelStyles"
+    >
+      {{ swatchLabel }}
     </div>
   </div>
 </template>
 
 <script>
-import VCheck from './VCheck'
+import VCheck from "./VCheck";
 
 export default {
-  name: 'v-swatch',
+  name: "v-swatch",
   components: {
-    VCheck,
+    VCheck
   },
   props: {
     borderRadius: {
-      type: String,
+      type: String
       // default is calculated in `Swatches.vue`
     },
     disabled: {
-      type: Boolean,
+      type: Boolean
       // this prop comes from computed property and always should have a value
     },
     hidden: {
-      type: Boolean,
+      type: Boolean
       // this prop comes from computed property and always should have a value
     },
     selected: {
       type: Boolean,
-      default: false,
+      default: false
     },
     showCheckbox: {
-      type: Boolean,
+      type: Boolean
       // default is calculated in `Swatches.vue`
     },
     showBorder: {
-      type: Boolean,
+      type: Boolean
       // default is calculated in `Swatches.vue`
     },
     showLabel: {
-      type: Boolean,
+      type: Boolean
       // default is especified in `Swatches.vue`
     },
     size: {
-      type: Number,
+      type: Number
       // default is especified in `Swatches.vue`
     },
     spacingSize: {
-      type: Number,
+      type: Number
       // this prop comes from computed property and always should have a value
     },
     swatchColor: {
       type: String,
-      default: '',
+      default: ""
     },
     swatchLabel: {
-      type: String,
+      type: String
       // this prop comes from computed property and always should have a value
     },
     swatchStyle: {
-      type: Object,
+      type: Object
       // default is especified in `Swatches.vue`
-    },
+    }
   },
   data() {
-    return {}
+    return {};
   },
   computed: {
     computedLabelStyle() {
-      const offset = 8 + Math.floor(this.spacingSize / 5) * 3
+      const offset = 8 + Math.floor(this.spacingSize / 5) * 3;
       return {
-        bottom: `-${offset}px`,
-      }
+        bottom: `-${offset}px`
+      };
     },
     computedSwatchStyle() {
       return {
-        display: this.hidden ? 'none' : 'inline-block',
+        display: this.hidden ? "none" : "inline-block",
         width: `${this.size}px`,
         height: `${this.size}px`,
         marginBottom: `${this.spacingSize}px`,
         marginRight: `${this.spacingSize}px`,
         borderRadius: this.borderRadius,
-        backgroundColor: this.swatchColor !== '' ? this.swatchColor : '#FFFFFF',
-        cursor: this.cursorStyle,
-      }
+        backgroundColor: this.swatchColor !== "" ? this.swatchColor : "#FFFFFF",
+        cursor: this.cursorStyle
+      };
     },
     cursorStyle() {
-      if (this.disabled) return 'not-allowed'
-      return 'pointer'
+      if (this.disabled) return "not-allowed";
+      return "pointer";
     },
     labelStyles() {
-      return [this.computedLabelStyle]
+      return [this.computedLabelStyle];
     },
     swatchStyles() {
-      return [this.computedSwatchStyle, this.swatchStyle]
-    },
-  },
-}
+      return [this.computedSwatchStyle, this.swatchStyle];
+    }
+  }
+};
 </script>
 
 <style lang="scss">

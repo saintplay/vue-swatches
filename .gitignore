@@ -1,8 +1,6 @@
 .DS_Store
 node_modules
-
 docs/.vuepress/dist
-
 /dist
 
 # local env files
@@ -21,4 +19,4 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
-*.sw*
+*.sw?

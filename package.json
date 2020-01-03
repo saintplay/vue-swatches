@@ -1,6 +1,6 @@
 {
   "name": "vue-swatches",
-  "version": "2.0.0-rc.3",
+  "version": "2.0.0-rc.4",
   "description": "Help the user picking beautiful colors!",
   "author": "Diego Jara <saintplay96@gmail.com>",
   "private": false,
@@ -30,44 +30,40 @@
   "scripts": {
     "serve": "vue-cli-service serve demo/main.js",
     "build": "vue-cli-service build --target lib --name vue-swatches src/VSwatches.vue",
-    "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.1",
-    "@vue/cli-plugin-eslint": "^3.0.1",
-    "@vue/cli-plugin-unit-jest": "^3.0.1",
-    "@vue/cli-service": "^3.0.1",
-    "@vue/eslint-config-prettier": "^3.0.1",
-    "@vue/test-utils": "^1.0.0-beta.20",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^23.0.1",
-    "is-hex-color": "^0.0.1",
-    "lint-staged": "^7.2.2",
-    "markdown-it-include": "^1.0.0",
-    "node-sass": "^4.9.0",
-    "rgb": "^0.1.0",
-    "sass-loader": "^7.0.1",
-    "vue": "^2.5.17",
-    "vue-template-compiler": "^2.5.17",
-    "vuepress": "^0.14.2"
+  "dependencies": {
+    "core-js": "^3.4.4",
+    "vue": "^2.6.10"
   },
-  "dependencies": {},
-  "engines": {
-    "node": ">= 6.0.0",
-    "npm": ">= 3.0.0"
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.1.0",
+    "@vue/cli-plugin-eslint": "^4.1.0",
+    "@vue/cli-plugin-unit-jest": "^4.1.0",
+    "@vue/cli-service": "^4.1.0",
+    "@vue/eslint-config-prettier": "^5.0.0",
+    "@vue/test-utils": "^1.0.0-beta.30",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "is-hex-color": "^0.0.1",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1",
+    "rgb": "^0.1.0",
+    "sass": "^1.24.1",
+    "sass-loader": "^8.0.0",
+    "vue-template-compiler": "^2.6.10",
+    "vuepress": "^1.2.0"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
+    "*.{js,vue}": [
       "vue-cli-service lint",
       "git add"
     ]

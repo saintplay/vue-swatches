@@ -1,21 +1,25 @@
 <template>
-  <div
-    class="vue-swatches"
-    tabindex="-1"
-    @blur="e => onBlur(e.relatedTarget)">
-
+  <div class="vue-swatches" tabindex="-1" @blur="e => onBlur(e.relatedTarget)">
     <!-- Trigger -->
     <div
       v-if="!inline"
       ref="triggerWrapper"
       class="vue-swatches__trigger__wrapper"
-      @click="togglePopover">
+      @click="togglePopover"
+    >
       <slot name="trigger">
         <div
           class="vue-swatches__trigger"
-          :class="{ 'vue-swatches--is-empty': !value, 'vue-swatches--is-disabled': disabled }"
-          :style="triggerStyles">
-          <div v-show="isNoColor" class="vue-swatches__diagonal--wrapper vue-swatches--has-children-centered">
+          :class="{
+            'vue-swatches--is-empty': !value,
+            'vue-swatches--is-disabled': disabled
+          }"
+          :style="triggerStyles"
+        >
+          <div
+            v-show="isNoColor"
+            class="vue-swatches__diagonal__wrapper vue-swatches--has-children-centered"
+          >
             <div class="vue-swatches__diagonal"></div>
           </div>
         </div>
@@ -28,18 +32,17 @@
         v-show="inline || isOpen"
         class="vue-swatches__container"
         :class="{ 'vue-swatches--inline': inline }"
-        :style="containerStyles">
+        :style="containerStyles"
+      >
         <!-- The wrapper handles the internal spacing -->
-        <div
-          class="vue-swatches__wrapper"
-          :style="wrapperStyles">
-
+        <div class="vue-swatches__wrapper" :style="wrapperStyles">
           <!-- for nested distribution -->
           <template v-if="isNested">
             <div
               v-for="(swatchRow, index) in computedSwatches"
               :key="index"
-              class="vue-swatches__row">
+              class="vue-swatches__row"
+            >
               <v-swatch
                 v-for="(swatch, swatchIndex) in swatchRow"
                 :key="swatchIndex"
@@ -56,7 +59,8 @@
                 :swatch-label="getSwatchLabel(swatch)"
                 :swatch-style="swatchStyle"
                 @blur="relatedTarget => onBlur(relatedTarget)"
-                @click.native="updateSwatch(swatch)" />
+                @click.native="updateSwatch(swatch)"
+              />
             </div>
           </template>
 
@@ -78,10 +82,15 @@
               :swatch-label="getSwatchLabel(swatch)"
               :swatch-style="swatchStyle"
               @blur="relatedTarget => onBlur(relatedTarget)"
-              @click.native="updateSwatch(swatch)" />
+              @click.native="updateSwatch(swatch)"
+            />
           </template>
         </div>
-        <div v-if="showFallback" class="vue-swatches__fallback__wrapper" :style="computedFallbackWrapperStyles">
+        <div
+          v-if="showFallback"
+          class="vue-swatches__fallback__wrapper"
+          :style="computedFallbackWrapperStyles"
+        >
           <span class="vue-swatches__fallback__input--wrapper">
             <input
               type="text"
@@ -89,12 +98,16 @@
               class="vue-swatches__fallback__input"
               :class="fallbackInputClass"
               :value="internalValue"
-              @input="e => updateSwatch(e.target.value, { fromFallbackInput: true })">
+              @input="
+                e => updateSwatch(e.target.value, { fromFallbackInput: true })
+              "
+            />
           </span>
           <button
             class="vue-swatches__fallback__button"
             :class="fallbackOkClass"
-            @click="onFallbackButtonClick">
+            @click="onFallbackButtonClick"
+          >
             {{ fallbackOkText }}
           </button>
         </div>
@@ -104,109 +117,109 @@
 </template>
 
 <script>
-import basicPreset from './presets/basic'
-import VSwatch from './VSwatch'
+import basicPreset from "./presets/basic";
+import VSwatch from "./VSwatch";
 
-export const DEFAULT_BACKGROUND_COLOR = '#ffffff'
-export const DEFAULT_BORDER_RADIUS = '10px'
-export const DEFAULT_ROW_LENGTH = 4
-export const DEFAULT_SWATCH_SIZE = 42
-export const DEFAULT_SHOW_BORDER = false
+export const DEFAULT_BACKGROUND_COLOR = "#ffffff";
+export const DEFAULT_BORDER_RADIUS = "10px";
+export const DEFAULT_ROW_LENGTH = 4;
+export const DEFAULT_SWATCH_SIZE = 42;
+export const DEFAULT_SHOW_BORDER = false;
 
 export default {
-  name: 'v-swatches',
+  name: "v-swatches",
   components: {
-    VSwatch,
+    VSwatch
   },
   props: {
     backgroundColor: {
       type: String,
-      default: DEFAULT_BACKGROUND_COLOR,
+      default: DEFAULT_BACKGROUND_COLOR
     },
     closeOnSelect: {
       type: Boolean,
-      default: true,
+      default: true
     },
     swatches: {
       type: [Array, Object],
-      default: () => basicPreset,
+      default: () => basicPreset
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     fallbackInputClass: {
       type: [Array, Object, String],
-      default: null,
+      default: null
     },
     fallbackOkClass: {
       type: [Array, Object, String],
-      default: null,
+      default: null
     },
     fallbackOkText: {
       type: String,
-      default: 'Ok',
+      default: "Ok"
     },
     inline: {
       type: Boolean,
-      default: false,
+      default: false
     },
     shapes: {
       type: String,
-      default: 'squares',
+      default: "squares"
     },
     popoverX: {
       type: String,
-      default: 'right',
+      default: "right"
     },
     popoverY: {
       type: String,
-      default: 'bottom',
+      default: "bottom"
     },
     rowLength: {
       type: [Number, String],
-      default: null, // The default is especified as DEFAULT_ROW_LENGTH
+      default: null // The default is especified as DEFAULT_ROW_LENGTH
     },
     showBorder: {
       type: Boolean,
-      default: null, // The default is especified as DEFAULT_SHOW_BORDER
+      default: null // The default is especified as DEFAULT_SHOW_BORDER
     },
     showFallback: {
       type: Boolean,
-      default: false,
+      default: false
     },
     showCheckbox: {
       type: Boolean,
-      default: true,
+      default: true
     },
     showLabels: {
       type: Boolean,
-      default: false,
+      default: false
     },
     spacingSize: {
       type: Number,
-      default: null,
+      default: null
     },
     swatchSize: {
       type: [Number, String],
-      default: null, // The default is especified as DEFAULT_SWATCH_SIZE
+      default: null // The default is especified as DEFAULT_SWATCH_SIZE
     },
     swatchStyle: {
       type: [Object, Array],
-      default: () => {},
+      default: () => {}
     },
     triggerStyle: {
       type: [Object, Array],
-      default: () => {},
+      default: () => {}
     },
     wrapperStyle: {
       type: [Object, Array],
-      default: () => {},
+      default: () => {}
     },
     value: {
       type: String,
-      default: null,
-    },
+      default: null
+    }
   },
   data() {
     return {
@@ -218,8 +231,8 @@ export default {
       presetSwatchSize: null,
       presetSpacingSize: null,
       internalValue: this.value,
-      internalIsOpen: false,
-    }
+      internalIsOpen: false
+    };
   },
   computed: {
     isNested() {
@@ -228,89 +241,90 @@ export default {
         this.computedSwatches.length > 0 &&
         this.computedSwatches[0] instanceof Array
       ) {
-        return true
+        return true;
       }
-      return false
+      return false;
     },
     isOpen() {
-      if (this.inline) return false
-      return this.internalIsOpen
+      if (this.inline) return false;
+      return this.internalIsOpen;
     },
     isNoColor() {
-      return this.checkEquality('', this.value)
+      return this.checkEquality("", this.value);
     },
 
     /** REAL COMPUTEDS (depends on user's props and preset's values, these have 'computed' prefix) **/
 
     // Computed value for `swatches`
     computedSwatches() {
-      if (this.swatches instanceof Array) return this.swatches
+      if (this.swatches instanceof Array) return this.swatches;
 
-      return this.extractSwatchesFromPreset(this.swatches)
+      return this.extractSwatchesFromPreset(this.swatches);
     },
     // Computed value for `borderRadius`
     computedBorderRadius() {
       // Priorize preset value
-      if (this.presetBorderRadius !== null) return this.presetBorderRadius
+      if (this.presetBorderRadius !== null) return this.presetBorderRadius;
       // over computed value
-      return this.borderRadius
+      return this.borderRadius;
     },
 
     // Computed value for `rowLength`
     computedRowLength() {
       // Priorize user value
-      if (this.rowLength !== null) return Number(this.rowLength)
+      if (this.rowLength !== null) return Number(this.rowLength);
       else if (this.presetRowLength !== null)
         // Over preset value
-        return this.presetRowLength
+        return this.presetRowLength;
       // Use default value if these two are unset!
-      return DEFAULT_ROW_LENGTH
+      return DEFAULT_ROW_LENGTH;
     },
     // Computed value for `swatchSize`
     computedSwatchSize() {
       // Priorize user value
-      if (this.swatchSize !== null) return Number(this.swatchSize)
+      if (this.swatchSize !== null) return Number(this.swatchSize);
       else if (this.presetSwatchSize !== null)
         // over preset value
-        return this.presetSwatchSize
+        return this.presetSwatchSize;
       // Use default value if these two are unset
-      return DEFAULT_SWATCH_SIZE
+      return DEFAULT_SWATCH_SIZE;
     },
     // Computed value for `spacingSize`
     computedSpacingSize() {
       // Priorize user value
-      if (this.spacingSize !== null) return this.spacingSize
+      if (this.spacingSize !== null) return this.spacingSize;
       // Priorize preset value
-      if (this.presetSpacingSize !== null) return this.presetSpacingSize
+      if (this.presetSpacingSize !== null) return this.presetSpacingSize;
       // over computed value
-      return Math.round(this.computedSwatchSize * 0.25)
+      return Math.round(this.computedSwatchSize * 0.25);
     },
     // Computed value for `showBorder`
     computedShowBorder() {
       // Priorize user value
-      if (this.showBorder !== null) return this.showBorder
+      if (this.showBorder !== null) return this.showBorder;
       // over preset value
-      if (this.presetShowBorder !== null) return this.presetShowBorder
+      if (this.presetShowBorder !== null) return this.presetShowBorder;
       // Use default value if these two are unset
-      return DEFAULT_SHOW_BORDER
+      return DEFAULT_SHOW_BORDER;
     },
 
     /** DUMB COMPUTEDS (these only mutate props) **/
 
     borderRadius() {
-      if (this.shapes === 'squares')
-        return `${Math.round(this.computedSwatchSize * 0.25)}px`
-      else if (this.shapes === 'circles') return `50%`
+      if (this.shapes === "squares")
+        return `${Math.round(this.computedSwatchSize * 0.25)}px`;
+      else if (this.shapes === "circles") return `50%`;
+      return "";
     },
     containerHeight() {
-      return this.wrapperHeight + 10
+      return this.wrapperHeight + 10;
     },
     containerWidth() {
-      return this.wrapperWidth + 10
+      return this.wrapperWidth + 10;
     },
     columnLength() {
-      if (this.isNested) return this.computedSwatches.length
-      return Math.ceil(this.computedSwatches.length / this.computedRowLength)
+      if (this.isNested) return this.computedSwatches.length;
+      return Math.ceil(this.computedSwatches.length / this.computedRowLength);
     },
     wrapperHeight() {
       return (
@@ -318,111 +332,112 @@ export default {
           (this.computedSwatchSize + this.computedSpacingSize) +
         2 * this.computedSpacingSize +
         5
-      )
+      );
     },
     wrapperWidth() {
       return (
         this.computedRowLength *
         (this.computedSwatchSize + this.computedSpacingSize)
-      )
+      );
     },
 
     /** COMPUTED STYLES **/
 
     computedtriggerStyle() {
       return {
-        width: '42px',
-        height: '42px',
-        backgroundColor: this.value ? this.value : '#ffffff',
-        borderRadius: this.shapes === 'circles' ? '50%' : DEFAULT_BORDER_RADIUS,
-      }
+        width: "42px",
+        height: "42px",
+        backgroundColor: this.value ? this.value : "#ffffff",
+        borderRadius: this.shapes === "circles" ? "50%" : DEFAULT_BORDER_RADIUS
+      };
     },
     triggerStyles() {
-      return [this.computedtriggerStyle, this.triggerStyle]
+      return [this.computedtriggerStyle, this.triggerStyle];
     },
     containerStyle() {
       const baseStyles = {
-        backgroundColor: this.backgroundColor,
+        backgroundColor: this.backgroundColor
+      };
+      let positionStyle = {};
+
+      if (this.inline) return baseStyles;
+
+      if (this.popoverY === "top") {
+        positionStyle.bottom = "+100%";
+      } else if (this.popoverY === "bottom") {
+        positionStyle.top = "+100%";
       }
-      let positionStyle = {}
 
-      if (this.inline) return baseStyles
-
-      if (this.popoverY === 'top') {
-        positionStyle.bottom = '+100%'
-      } else if (this.popoverY === 'bottom') {
-        positionStyle.top = '+100%'
-      }
-
-      if (this.popoverX === 'left') {
-        positionStyle.right = 0
-      } else if (this.popoverX === 'right') {
-        positionStyle.left = 0
+      if (this.popoverX === "left") {
+        positionStyle.right = 0;
+      } else if (this.popoverX === "right") {
+        positionStyle.left = 0;
       }
 
       return {
         ...positionStyle,
-        ...baseStyles,
-      }
+        ...baseStyles
+      };
     },
     containerStyles() {
-      return [this.containerStyle, this.alwaysOnScreenStyle]
+      return [this.containerStyle, this.alwaysOnScreenStyle];
     },
     computedWrapperStyle() {
       const baseStyles = {
         paddingTop: `${this.computedSpacingSize}px`,
-        paddingLeft: `${this.computedSpacingSize}px`,
-      }
+        paddingLeft: `${this.computedSpacingSize}px`
+      };
 
-      if (this.inline) return baseStyles
+      if (this.inline) return baseStyles;
 
       return {
         ...baseStyles,
-        width: `${this.wrapperWidth}px`,
-      }
+        width: `${this.wrapperWidth}px`
+      };
     },
     wrapperStyles() {
-      return [this.computedWrapperStyle, this.wrapperStyle]
+      return [this.computedWrapperStyle, this.wrapperStyle];
     },
     computedFallbackWrapperStyle() {
       const baseStyles = {
         marginLeft: `${this.computedSpacingSize}px`,
-        paddingBottom: `${this.computedSpacingSize}px`,
-      }
+        paddingBottom: `${this.computedSpacingSize}px`
+      };
 
-      if (this.inline) return baseStyles
+      if (this.inline) return baseStyles;
 
       return {
         ...baseStyles,
-        width: `${this.wrapperWidth - this.computedSpacingSize}px`,
-      }
+        width: `${this.wrapperWidth - this.computedSpacingSize}px`
+      };
     },
     computedFallbackWrapperStyles() {
-      return [this.computedFallbackWrapperStyle]
-    },
+      return [this.computedFallbackWrapperStyle];
+    }
   },
   watch: {
     value(newValue) {
-      this.internalValue = newValue
-    },
+      this.internalValue = newValue;
+    }
   },
   mounted() {
-    this.componentMounted = true
+    this.componentMounted = true;
   },
   methods: {
     // Called programmatically
     checkEquality(color1, color2) {
-      if ((!color1 && color1 !== '') || (!color2 && color2 !== '')) return false
-      return color1.toUpperCase() === color2.toUpperCase()
+      if ((!color1 && color1 !== "") || (!color2 && color2 !== ""))
+        return false;
+      return color1.toUpperCase() === color2.toUpperCase();
     },
     hidePopover() {
-      this.internalIsOpen = false
-      this.$el.blur()
-      this.$emit('close', this.internalValue)
+      this.internalIsOpen = false;
+      this.$el.blur();
+      this.$emit("close", this.internalValue);
     },
     getAlwaysOnScreenStyle() {
-      const styles = {}
-      const triggerEl = this.$refs.triggerWrapper
+      const styles = {};
+      const triggerEl = this.$refs.triggerWrapper;
 
       if (
         !this.componentMounted ||
@@ -431,122 +446,122 @@ export default {
         !window ||
         !document
       )
-        return styles
+        return styles;
 
-      const rect = triggerEl.getBoundingClientRect()
-      const leftMin = 5
+      const rect = triggerEl.getBoundingClientRect();
+      const leftMin = 5;
       const rightMax =
-        (document.documentElement.clientWidth || window.innerWidth) - 5
-      const topMin = 5
+        (document.documentElement.clientWidth || window.innerWidth) - 5;
+      const topMin = 5;
       const bottomMax =
-        (document.documentElement.clientHeight || window.innerHeight) - 5
+        (document.documentElement.clientHeight || window.innerHeight) - 5;
 
-      if (this.popoverY === 'top' && rect.top - this.containerHeight < topMin) {
-        styles.top = `${topMin - rect.top}px`
-        styles.bottom = 'auto'
+      if (this.popoverY === "top" && rect.top - this.containerHeight < topMin) {
+        styles.top = `${topMin - rect.top}px`;
+        styles.bottom = "auto";
       } else if (
-        this.popoverY === 'bottom' &&
+        this.popoverY === "bottom" &&
         rect.bottom + this.containerHeight > bottomMax
       ) {
-        styles.bottom = `${rect.bottom - bottomMax}px`
-        styles.top = 'auto'
+        styles.bottom = `${rect.bottom - bottomMax}px`;
+        styles.top = "auto";
       }
 
       if (
-        this.popoverX === 'left' &&
+        this.popoverX === "left" &&
         rect.right - this.containerWidth < leftMin
       ) {
-        styles.left = `${leftMin - rect.left}px`
-        styles.right = 'auto'
+        styles.left = `${leftMin - rect.left}px`;
+        styles.right = "auto";
       } else if (
-        this.popoverX === 'right' &&
+        this.popoverX === "right" &&
         rect.left + this.containerWidth > rightMax
       ) {
-        styles.right = `${rect.right - rightMax}px`
-        styles.left = 'auto'
+        styles.right = `${rect.right - rightMax}px`;
+        styles.left = "auto";
       }
 
-      return styles
+      return styles;
     },
     getSwatchShowBorder(swatch) {
-      if (typeof swatch === 'string') return this.computedShowBorder
-      else if (typeof swatch === 'object')
+      if (typeof swatch === "string") return this.computedShowBorder;
+      else if (typeof swatch === "object")
         return swatch.showBorder !== undefined
           ? swatch.showBorder
-          : this.computedShowBorder
+          : this.computedShowBorder;
     },
     getSwatchColor(swatch) {
-      if (typeof swatch === 'string') return swatch
-      else if (typeof swatch === 'object') return swatch.color
+      if (typeof swatch === "string") return swatch;
+      else if (typeof swatch === "object") return swatch.color;
     },
     getSwatchDisabled(swatch) {
-      if (typeof swatch === 'string') return this.disabled
-      else if (typeof swatch === 'object')
-        return swatch.disabled !== undefined ? swatch.disabled : this.disabled
+      if (typeof swatch === "string") return this.disabled;
+      else if (typeof swatch === "object")
+        return swatch.disabled !== undefined ? swatch.disabled : this.disabled;
     },
     getSwatchHidden(swatch) {
-      if (typeof swatch === 'object') return swatch.hidden
-      return false
+      if (typeof swatch === "object") return swatch.hidden;
+      return false;
     },
     getSwatchLabel(swatch) {
-      if (typeof swatch === 'string') return swatch
-      else if (typeof swatch === 'object') return swatch.label
+      if (typeof swatch === "string") return swatch;
+      else if (typeof swatch === "object") return swatch.label;
     },
     // Called by user action
     onBlur(relatedTarget) {
       /* istanbul ignore if */
-      if (!this.isOpen) return /* dont hide */
+      if (!this.isOpen) return; /* dont hide */
 
       // We only close the Popover if the relatedTarget came from outside the component
       // Check if the relatedTarget is inside the component
       if (relatedTarget !== null && this.$el.contains(relatedTarget))
-        return /* dont hide */
+        return; /* dont hide */
 
-      this.internalIsOpen = false
-      this.$emit('close', this.internalValue)
+      this.internalIsOpen = false;
+      this.$emit("close", this.internalValue);
     },
     onFallbackButtonClick() {
-      this.hidePopover()
+      this.hidePopover();
     },
     // Called programmatically
     showPopover() {
       /* istanbul ignore if */
-      if (this.isOpen || this.inline || this.disabled) return /* dont show */
+      if (this.isOpen || this.inline || this.disabled) return; /* dont show */
 
-      this.alwaysOnScreenStyle = this.getAlwaysOnScreenStyle()
-      this.internalIsOpen = true
-      this.$el.focus()
-      this.$emit('open')
+      this.alwaysOnScreenStyle = this.getAlwaysOnScreenStyle();
+      this.internalIsOpen = true;
+      this.$el.focus();
+      this.$emit("open");
     },
     togglePopover() {
-      this.isOpen ? this.hidePopover() : this.showPopover()
+      this.isOpen ? this.hidePopover() : this.showPopover();
     },
     updateSwatch(swatch, { fromFallbackInput } = {}) {
-      if (this.getSwatchDisabled(swatch)) return
+      if (this.getSwatchDisabled(swatch)) return;
 
-      const color = this.getSwatchColor(swatch)
+      const color = this.getSwatchColor(swatch);
 
-      this.internalValue = color
-      this.$emit('input', color)
+      this.internalValue = color;
+      this.$emit("input", color);
 
       if (this.closeOnSelect && !this.inline && !fromFallbackInput) {
-        this.hidePopover()
+        this.hidePopover();
       }
     },
     extractSwatchesFromPreset(preset) {
       // Applying the styles if present in the preset
-      if (preset.borderRadius) this.presetBorderRadius = preset.borderRadius
-      if (preset.rowLength) this.presetRowLength = preset.rowLength
-      if (preset.showBorder) this.presetShowBorder = preset.showBorder
-      if (preset.swatchSize) this.presetSwatchSize = preset.swatchSize
+      if (preset.borderRadius) this.presetBorderRadius = preset.borderRadius;
+      if (preset.rowLength) this.presetRowLength = preset.rowLength;
+      if (preset.showBorder) this.presetShowBorder = preset.showBorder;
+      if (preset.swatchSize) this.presetSwatchSize = preset.swatchSize;
       if (preset.spacingSize === 0 || preset.spacingSize)
-        this.presetSpacingSize = preset.spacingSize
+        this.presetSpacingSize = preset.spacingSize;
 
       // Must return the swatches from the preset
-      return preset.swatches
-    },
-  },
-}
+      return preset.swatches;
+    }
+  }
+};
 </script>
 
 <style lang="scss">
@@ -645,7 +660,7 @@ fieldset[disabled] .vue-swatches {
   justify-content: center;
 }
 
-.vue-swatches__diagonal--wrapper {
+.vue-swatches__diagonal__wrapper {
   width: 100%;
   height: 100%;
 }

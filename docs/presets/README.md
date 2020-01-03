@@ -8,7 +8,7 @@ A basic collection of colors for generic purposes.
 
 <v-preset name="basic" />
 
-**Preset updates the following props**
+**Using this preset will internally update the default value of these props:**
 
 - `swatches`
 
@@ -18,7 +18,7 @@ A basic collection of colors for styling text.
 
 <v-preset name="text-basic" />
 
-**Preset updates the following props**
+**Using this preset will internally update the default value of these props:**
 
 - `swatches`
 - `show-border`
@@ -29,7 +29,7 @@ A complete collection of colors for styling text. This preset uses nested colors
 
 <v-preset name="text-advanced" />
 
-**Preset updates the following props**
+**Using this preset will internally update the default value of these props:**
 
 - `swatches`
 - `border-radius`
@@ -43,7 +43,7 @@ A basic collection of material colors.
 
 <v-preset name="material-basic" />
 
-**Preset updates the following props**
+**Using this preset will internally update the default value of these props:**
 
 - `swatches`
 
@@ -53,7 +53,7 @@ A basic collection of light material colors. Useful to show dark text inside.
 
 <v-preset name="material-light" />
 
-**Preset updates the following props**
+**Using this preset will internally update the default value of these props:**
 
 - `swatches`
 
@@ -63,6 +63,6 @@ A basic collection of dark material colors. Useful to show light text inside.
 
 <v-preset name="material-dark" />
 
-**Preset updates the following props**
+**Using this preset will internally update the default value of these props:**
 
 - `swatches`
