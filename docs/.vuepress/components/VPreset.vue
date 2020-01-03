@@ -7,8 +7,6 @@ import basic from '../../../src/presets/basic'
 import textBasic from '../../../src/presets/text-basic'
 import textAdvanced from '../../../src/presets/text-advanced'
 import materialBasic from '../../../src/presets/material-basic'
-import materialLight from '../../../src/presets/material-light'
-import materialDark from '../../../src/presets/material-dark'
 
 export default {
   name: 'v-preset',
@@ -29,10 +27,6 @@ export default {
           return textAdvanced
         case 'material-basic':
           return materialBasic
-        case 'material-light':
-          return materialLight
-        case 'material-dark':
-          return materialDark
       }
     },
   },
