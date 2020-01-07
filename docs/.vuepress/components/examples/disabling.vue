@@ -7,7 +7,6 @@
       <v-swatches
         v-model="color"
         :swatches="swatches"
-        row-length="5"
         popover-x="left"
       ></v-swatches>
     </div>
@@ -16,14 +15,21 @@
 
 <script>
 export default {
-  data () {
+ data () {
     return {
-      color: '#b9f5f1',
+      color: '#27AF60',
       swatches: [
-        ['#F64272', '#F6648B', '#F493A7', '#F891A6', '#FFCCD5' ],
-        ['#8b5aff', '#a27bff', '#b99cff', '#d0bdff', '#e8deff' ],
-        ['#51e5db', '#74ebe3', '#96f0ea', '#b9f5f1', '#dcfaf8' ],
-        ['#ffa51a', '#ffb748', '#ffc976', '#ffdba3', '#ffedd1' ]
+        { color : '#1FBC9C', disabled: true },
+          "#1CA085",
+        { color : '#2ECC70', disabled: true },
+          "#27AF60",
+          "#3398DB",
+          "#2980B9",
+          "#A463BF",
+          "#8E43AD",
+          "#3D556E",
+          "#222F3D",
+        { color : '#F2C511', disabled: true }
       ]
     }
   }

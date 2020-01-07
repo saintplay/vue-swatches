@@ -1,7 +1,7 @@
 import VSwatches from '../../src/VSwatches'
-import VPreset from './components/VPreset'
+import Modal from 'vue-js-modal'
 
 export default ({ Vue, options, router, siteData }) => {
   Vue.component('v-swatches', VSwatches)
-  Vue.component('v-preset', VPreset)
+  Vue.use(Modal, { componentName: 'custom-modal' })
 }

@@ -8,6 +8,7 @@
         v-model="color"
 
         show-fallback
+        fallback-input-type="color"
 
         popover-x="left"
       ></v-swatches>
@@ -17,7 +18,7 @@
 
 <script>
 export default {
-  data () {
+ data () {
     return {
       color: '#A463BF',
     }

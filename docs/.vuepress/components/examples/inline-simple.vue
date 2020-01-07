@@ -1,9 +1,18 @@
 <template>
-  <v-swatches inline></v-swatches>
+  <div class="form__field">
+    <div class="form__label">
+      <strong>Please choose a color:</strong>
+      <v-swatches v-model="color" inline></v-swatches>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'examples-inline-simple',
+  data() {
+    return {
+      color: null
+    }
+  }
 }
 </script>

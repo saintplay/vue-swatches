@@ -48,7 +48,6 @@
                 :key="swatchIndex"
                 :border-radius="computedBorderRadius"
                 :disabled="getSwatchDisabled(swatch)"
-                :hidden="getSwatchHidden(swatch)"
                 :selected="checkEquality(getSwatchColor(swatch), value)"
                 :size="computedSwatchSize"
                 :spacing-size="computedSpacingSize"
@@ -71,7 +70,6 @@
               :key="swatchIndex"
               :border-radius="computedBorderRadius"
               :disabled="getSwatchDisabled(swatch)"
-              :hidden="getSwatchHidden(swatch)"
               :selected="checkEquality(getSwatchColor(swatch), value)"
               :size="computedSwatchSize"
               :spacing-size="computedSpacingSize"
@@ -93,11 +91,11 @@
         >
           <span class="vue-swatches__fallback__input--wrapper">
             <input
-              type="text"
               ref="fallbackInput"
               class="vue-swatches__fallback__input"
               :class="fallbackInputClass"
               :value="internalValue"
+              :type="fallbackInputType"
               @input="
                 e => updateSwatch(e.target.value, { fromFallbackInput: true })
               "
@@ -106,7 +104,7 @@
           <button
             class="vue-swatches__fallback__button"
             :class="fallbackOkClass"
-            @click="onFallbackButtonClick"
+            @click.prevent="onFallbackButtonClick"
           >
             {{ fallbackOkText }}
           </button>
@@ -118,6 +116,9 @@
 
 <script>
 import basicPreset from "./presets/basic";
+import textBasicPreset from "./presets/text-basic";
+import textAdvancedPreset from "./presets/text-advanced";
+
 import VSwatch from "./VSwatch";
 
 export const DEFAULT_BACKGROUND_COLOR = "#ffffff";
@@ -141,8 +142,8 @@ export default {
       default: true
     },
     swatches: {
-      type: [Array, Object],
-      default: () => basicPreset
+      type: [Array, String],
+      default: () => "basic"
     },
     disabled: {
       type: Boolean,
@@ -151,6 +152,13 @@ export default {
     fallbackInputClass: {
       type: [Array, Object, String],
       default: null
+    },
+    fallbackInputType: {
+      type: String,
+      default: () => "text",
+      validator(value) {
+        return ["text", "color"].indexOf(value) !== -1;
+      }
     },
     fallbackOkClass: {
       type: [Array, Object, String],
@@ -238,7 +246,7 @@ export default {
     isNested() {
       if (
         this.computedSwatches &&
-        this.computedSwatches.length > 0 &&
+        this.computedSwatches.length &&
         this.computedSwatches[0] instanceof Array
       ) {
         return true;
@@ -259,7 +267,17 @@ export default {
     computedSwatches() {
       if (this.swatches instanceof Array) return this.swatches;
 
-      return this.extractSwatchesFromPreset(this.swatches);
+      if (typeof this.swatches === "string") {
+        switch (this.swatches) {
+          case "basic":
+            return this.extractSwatchesFromPreset(basicPreset);
+          case "text-basic":
+            return this.extractSwatchesFromPreset(textBasicPreset);
+          case "text-advanced":
+            return this.extractSwatchesFromPreset(textAdvancedPreset);
+        }
+      }
+      return [];
     },
     // Computed value for `borderRadius`
     computedBorderRadius() {
@@ -498,10 +516,6 @@ export default {
       if (typeof swatch === "string") return this.disabled;
       else if (typeof swatch === "object")
         return swatch.disabled !== undefined ? swatch.disabled : this.disabled;
-    },
-    getSwatchHidden(swatch) {
-      if (typeof swatch === "object") return swatch.hidden;
-      return false;
     },
     getSwatchLabel(swatch) {
       if (typeof swatch === "string") return swatch;

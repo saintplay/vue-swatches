@@ -112,7 +112,6 @@ describe("Presets", () => {
   };
 
   testPreset("basic");
-  testPreset("material-basic");
   testPreset("text-basic");
   testPreset("text-advanced");
 

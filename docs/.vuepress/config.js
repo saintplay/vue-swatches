@@ -1,3 +1,5 @@
+const path = require("path")
+
 module.exports = {
   title: 'Vue Swatches',
   description: 'Help the user picking beautiful colors',
@@ -17,11 +19,17 @@ module.exports = {
         link: 'https://github.com/saintplay/vue-swatches/releases',
       },
     ],
-    sidebar: 'auto',
-  },
-  markdown: {
-    config: md => {
-      md.use(require('markdown-it-include'))
+    sidebar: {
+      '/api/': [{
+        title: 'API',
+        collapsable: false,
+        children: [
+          ['', 'Introduction'],
+          'props',
+          'events',
+          'slots'
+        ]
+      }]
     },
-  },
+  }
 }

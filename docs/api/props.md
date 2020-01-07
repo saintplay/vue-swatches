@@ -1,21 +1,20 @@
-## Props
+# Props
 
-### Model Props
+## Model Props
 
-#### colors
+### swatches
 
 The colors that will be shown in the swatches. You should always use **6-digits hex colors**.
 
-- **Type**: `Array`, `Object` or `String`
-- Use an `Array` of `Strings` to use your custom colors.
-- Use an `Array` of `Arrays` to use your custom colors and group them in arrays.
-- Use an `Array` of `Objects` to use your custom colors and specify additional information like text and alternative text.
+- **Type**: `Array` or `String`
+- Use an `Array` of `String`s to use your custom colors.
+- Use an `Array` of `Array`s to use your custom colors and group them in arrays.
+- Use an `Array` of `Object`s to use your custom colors and specify additional information like text and alternative text.
 - Use an `String` to use a preset.
-- Use an `Object` to use your own preset.
 - **Default**: `'basic'`
-- **Examples**: `'material-light'`, `'text-advanced'`
+- **Examples**: `'text-basic'`, `'text-advanced'`
 
-#### value
+### value
 
 Sets the selected color. It's compatible with the **v-model** directive.
 
@@ -24,23 +23,23 @@ Sets the selected color. It's compatible with the **v-model** directive.
 - **Default**: `null`
 - **Examples**: `'#1b22ee'`, `''`, `'#fc2343'`
 
-### Behaviour Props
+## Behaviour Props
 
-#### close-on-select
+### close-on-select
 
 Hides the popover after select a color.
 
 - **Type**: `Boolean`
 - **Default**: `true`
 
-#### disabled
+### disabled
 
 Disables the color picker, user won't be able to open the popover. When using `inline-mode` all swatches will be disabled too.
 
 - **Type**: `Boolean`
 - **Default**: `false`
 
-#### inline
+### inline
 
 Wheter the swatches should be shown in a popover or not (inline).
 
@@ -49,16 +48,16 @@ Wheter the swatches should be shown in a popover or not (inline).
 - Use Popover (`false`) to show the swatches in the builtin popover after clicking the trigger.
 - **Default**: `false`
 
-#### show-fallback
+### show-fallback
 
 Shows an input to change the color from there as well.
 
 - **Type**: `Boolean`
 - **Default**: `false`
 
-### Presentational Props
+## Presentational Props
 
-#### background-color
+### background-color
 
 Sets the background color of the wrapper.
 
@@ -66,7 +65,7 @@ Sets the background color of the wrapper.
 - **Default**: `'#ffffff'`
 - **Examples**: `'#ffffff'`, `#cccccc`
 
-#### fallbackInputClass
+### fallbackInputClass
 
 Sets the [class](https://vuejs.org/v2/guide/class-and-style.html) for the fallback input.
 
@@ -74,7 +73,15 @@ Sets the [class](https://vuejs.org/v2/guide/class-and-style.html) for the fallba
 - **Default**: `null`
 - **Examples**: `'primary'`, `'is-primary'`, `'is-info'`
 
-#### fallbackOkClass
+### fallbackInputType
+
+Sets the input type for the fallback input.
+
+- **Type**: `String`
+- **Default**: `'text'`
+- **Examples**: `'text'`, `'color'`
+
+### fallbackOkClass
 
 Sets the [class](https://vuejs.org/v2/guide/class-and-style.html) for the fallback button.
 
@@ -82,7 +89,7 @@ Sets the [class](https://vuejs.org/v2/guide/class-and-style.html) for the fallba
 - **Default**: `null`
 - **Examples**: `'primary'`, `'is-primary'`, `'is-info'`
 
-#### fallbackOkText
+### fallbackOkText
 
 Sets the text for the fallback button.
 
@@ -90,7 +97,7 @@ Sets the text for the fallback button.
 - **Default**: `'Ok'`
 - **Examples**: `'Select'`, `'Save'`, `'OK'`
 
-#### max-height
+### max-height
 
 The maximum height for the builtin popover. Don't append the `px` at the end.
 
@@ -98,14 +105,14 @@ The maximum height for the builtin popover. Don't append the `px` at the end.
 - **Default**: `300`
 - **Examples**: `'300'`, `400`, `'600'`
 
-#### shapes
+### shapes
 
 The shape that will be used for the swatches and the trigger. Use `circles` or `squares`
 
 - **Type**: `String`
 - **Default**: `'squares'`
 
-#### row-length
+### row-length
 
 The number of swatches to show in a row. This don't affect inline mode.
 
@@ -113,14 +120,14 @@ The number of swatches to show in a row. This don't affect inline mode.
 - **Default**: `4`
 - **Examples**: `10`, `6`, `'8'`
 
-#### show-border
+### show-border
 
 Whether the swatches should be showing borders or not. Useful for making lighter colors more noticeable.
 
 - **Type**: `Boolean`
 - **Default**: `false`
 
-#### swatch-size
+### swatch-size
 
 Sets the swatches size.
 
@@ -128,7 +135,7 @@ Sets the swatches size.
 - **Default**: `42`
 - **Examples**: `30`, `24`, `'36'`
 
-#### swatch-style
+### swatch-style
 
 Sets the [inline style](https://vuejs.org/v2/guide/class-and-style.html#Binding-Inline-Styles) for every swatch.
 
@@ -136,7 +143,7 @@ Sets the [inline style](https://vuejs.org/v2/guide/class-and-style.html#Binding-
 - **Default**: `{}`
 - **Examples**: `{ width: '32px', height: '32px' }`, `{ borderRadius: '10px' }`, `{ padding: '16px 12px' }`
 
-#### trigger-style
+### trigger-style
 
 Sets the [inline style](https://vuejs.org/v2/guide/class-and-style.html#Binding-Inline-Styles) for the trigger.
 
@@ -144,7 +151,7 @@ Sets the [inline style](https://vuejs.org/v2/guide/class-and-style.html#Binding-
 - **Default**: `{}`
 - **Examples**: `{ width: '32px', height: '32px' }`, `{ borderRadius: '10px' }`, `{ padding: '16px 12px' }`
 
-#### wrapper-style
+### wrapper-style
 
 Sets the [inline style](https://vuejs.org/v2/guide/class-and-style.html#Binding-Inline-Styles) for the wrapper.
 

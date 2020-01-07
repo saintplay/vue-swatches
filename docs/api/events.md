@@ -1,18 +1,18 @@
-## Events
+# Events
 
-### input
+## input
 
 Emitted after when `value` changes. It's compatible with the **v-model** directive.
 
 - **Payload**: `value`
 
-### open
+## open
 
 Emitted when the popover is opened.
 
 - **Payload**: _nothing_
 
-### close
+## close
 
 Emitted when the popover is closed.
 

@@ -1,7 +1,7 @@
 # API
 
-!!!include(docs/api/props.md)!!!
+Here you fill find out how to personalize this component
 
-!!!include(docs/api/events.md)!!!
-
-!!!include(docs/api/slots.md)!!!
+- [Props](props)
+- [Events](events)
+- [Slots](slots)

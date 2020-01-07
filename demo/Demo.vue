@@ -14,6 +14,7 @@
         popover-x="left"
         show-labels
         show-fallback
+        fallback-input-type="color"
         :spacing-size="20"
       />
       <v-swatches :value="color1" popover-y="top" popover-x="left" />
@@ -61,10 +62,10 @@ export default {
   data: () => ({
     color1: "#1FBC9C",
     swatchesArray: [
-      { hidden: true, color: "#1FBC9C", label: "Green 1" },
-      { hidden: true, color: "#1CA085", label: "Green 2" },
-      { hidden: true, color: "#2ECC70", label: "Green 3" },
-      { hidden: true, color: "#27AF60", label: "Green 4" },
+      { color: "#1FBC9C", label: "Green 1" },
+      { color: "#1CA085", label: "Green 2" },
+      { color: "#2ECC70", label: "Green 3" },
+      { color: "#27AF60", label: "Green 4" },
       { showBorder: false, color: "#3398DB", label: "Blue 1" },
       { showBorder: false, color: "#2980B9", label: "Blue 2" },
       { showBorder: false, color: "#A463BF", label: "Purple 1" },

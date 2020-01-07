@@ -45,10 +45,6 @@ export default {
       type: Boolean
       // this prop comes from computed property and always should have a value
     },
-    hidden: {
-      type: Boolean
-      // this prop comes from computed property and always should have a value
-    },
     selected: {
       type: Boolean,
       default: false
@@ -98,7 +94,6 @@ export default {
     },
     computedSwatchStyle() {
       return {
-        display: this.hidden ? "none" : "inline-block",
         width: `${this.size}px`,
         height: `${this.size}px`,
         marginBottom: `${this.spacingSize}px`,
@@ -125,6 +120,7 @@ export default {
 <style lang="scss">
 .vue-swatches__swatch {
   position: relative;
+  display: inline-block;
   font-size: 0;
 
   &:hover,

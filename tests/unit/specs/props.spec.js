@@ -287,11 +287,11 @@ describe("Props", () => {
     });
     describe("When preset name is passed as a prop", () => {
       test("preset colors are shown", () => {
-        const presetNameTest = "material-basic";
+        const presetNameTest = "text-basic";
         const rgbColors = presets[presetNameTest].swatches.map(c => rgb(c));
         const componentWrapper = mount(Swatches, {
           propsData: {
-            swatches: presets[presetNameTest]
+            swatches: presetNameTest
           }
         });
         const swatches = Array.from(
@@ -631,6 +631,37 @@ describe("Props", () => {
 
       return Vue.nextTick().then(() => {
         expect(input.classes().indexOf("class-example") !== -1).toBeTruthy();
+      });
+    });
+  });
+
+  describe("fallback-type-prop", () => {
+    test("default fallback input type is set to text", () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          fallbackInputType: "text",
+          showFallback: true
+        }
+      });
+
+      return Vue.nextTick().then(() => {
+        expect(componentWrapper.html()).toEqual(
+          defaultComponentWithFallback.html()
+        );
+      });
+    });
+
+    test("fallback input type is set to color", () => {
+      const componentWrapper = mount(Swatches, {
+        propsData: {
+          showFallback: true,
+          fallbackInputType: "color"
+        }
+      });
+      const input = componentWrapper.find(".vue-swatches__fallback__input");
+
+      return Vue.nextTick().then(() => {
+        expect(input.attributes().type).toBe("color");
       });
     });
   });
