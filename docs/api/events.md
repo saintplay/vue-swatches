@@ -2,7 +2,7 @@
 
 ## input
 
-Emitted after when `value` changes. It's compatible with the **v-model** directive.
+Emitted after the `value` changes. It's compatible with the **v-model** directive.
 
 - **Payload**: `value`
 

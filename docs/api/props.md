@@ -4,15 +4,23 @@
 
 ### swatches
 
-The colors that will be shown in the swatches. You should always use **6-digits hex colors**.
+The swatches to use. Every swatch must be an `string` or `object` type. You should always use **6-digits hex colors**.
 
 - **Type**: `Array` or `String`
-- Use an `Array` of `String`s to use your custom colors.
-- Use an `Array` of `Array`s to use your custom colors and group them in arrays.
-- Use an `Array` of `Object`s to use your custom colors and specify additional information like text and alternative text.
 - Use an `String` to use a preset.
+- Use an `Array` to use your custom colors.
+
 - **Default**: `'basic'`
-- **Examples**: `'text-basic'`, `'text-advanced'`
+- **Swatch Object**:
+  - **color**:      `String`. Color to show in the swatch
+  - **showBorder**: `Boolean`. Show border. Default `false`
+  - **disabled**:   `Boolean`. Disable the swatch or not. Default `false`
+  - **label**:      `String`. Label to show for the swatch
+- **Examples**:
+  - `'text-advanced'`
+  - `['#F6648B', '#F493A7']`
+  - `[['#F891A6'], ['#F891A6']]`
+  - `[{ color: '#F493A7', showBorder: true }, { color: '#F891A6', disabled: true }]`
 
 ### value
 
@@ -114,7 +122,7 @@ The shape that will be used for the swatches and the trigger. Use `circles` or `
 
 ### row-length
 
-The number of swatches to show in a row. This don't affect inline mode.
+The number of swatches to show in a row. This doesn't affect inline mode.
 
 - **Type**: `Number` or `String`
 - **Default**: `4`
@@ -129,7 +137,7 @@ Whether the swatches should be showing borders or not. Useful for making lighter
 
 ### swatch-size
 
-Sets the swatches size.
+Sets the swatches size. Don't append the px at the end.
 
 - **Type**: `Number` or `String`
 - **Default**: `42`

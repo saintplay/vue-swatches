@@ -5,7 +5,9 @@
 Vue Swatches is a Vue component that allows the user to choose a color.
 By default it shows the colors in a popover after clicking a color box (the trigger).
 
-From now on we will refer a **swatch** as an object that contain multiple properties.
+From now on we will use the term **swatch** as an object that contain multiple properties.
+
+<img src="/assets/images/swatch.png" width="100%" style="max-width:480px" alt="Swatch">
 
 Unlike classic color pickers, where all colors are available (167 77 216 colors), Vue Swatches only shows a bunch of predefined colors.
 
@@ -69,7 +71,7 @@ npm install --save vue-swatches
 
 ### Usage in Browser
 
-You can use [UNPKG CDN](https://unpkg.com/) to use Vue Swatches in the browser
+You can download `vue-swatches.umd.min.js` and `vue-swatches.css` from the `dist` folder or you can use [unpkg CDN](https://unpkg.com/) to use Vue Swatches in the browser
 
 ```html
 <head>

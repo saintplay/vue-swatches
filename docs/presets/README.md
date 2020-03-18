@@ -4,7 +4,7 @@ sidebar: auto
 
 # Presets
 
-**Vue Swatches** has a bunch of predefined sets of swatches ready to be used for most common usages
+**Vue Swatches** has a bunch of predefined sets of swatches ready to be used for most common usage cases
 
 ## Basic
 
@@ -36,7 +36,7 @@ To use it pass `'text-advanced'` to `swatches` prop.
 
 <v-swatches swatches="text-advanced" inline />
 
-**Using this preset will internally update the default value of these props:**
+**Using this preset will internally update the default value of tshese props:**
 
 - `border-radius`
 - `show-border`
