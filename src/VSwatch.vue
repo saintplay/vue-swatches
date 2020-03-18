@@ -63,10 +63,6 @@ export default {
       type: Boolean
       // default is especified in `Swatches.vue`
     },
-    size: {
-      type: Number
-      // default is especified in `Swatches.vue`
-    },
     spacingSize: {
       type: Number
       // this prop comes from computed property and always should have a value
@@ -82,6 +78,10 @@ export default {
     swatchAlt: {
       type: String
       // this prop comes from computed property and always should have a value
+    },
+    swatchSize: {
+      type: Number
+      // default is especified in `Swatches.vue`
     },
     swatchStyle: {
       type: Object
@@ -100,8 +100,8 @@ export default {
     },
     computedSwatchStyle() {
       return {
-        width: `${this.size}px`,
-        height: `${this.size}px`,
+        width: `${this.swatchSize}px`,
+        height: `${this.swatchSize}px`,
         marginBottom: `${this.spacingSize}px`,
         marginRight: `${this.spacingSize}px`,
         borderRadius: this.borderRadius,

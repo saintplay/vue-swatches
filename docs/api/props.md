@@ -34,6 +34,20 @@ Sets the selected color. It's compatible with the **v-model** directive.
 
 ## Behaviour Props
 
+### popover-x
+
+Updates the prefered horizontal position for the popover.
+
+- **Type**: `String`
+- **Values**: `left`, `right`
+
+### popover-y
+
+Updates the prefered vertical position for the popover.
+
+- **Type**: `String`
+- **Values**: `up`, `bottom`
+
 ### close-on-select
 
 Hides the popover after select a color.
@@ -43,7 +57,7 @@ Hides the popover after select a color.
 
 ### disabled
 
-Disables the color picker, user won't be able to open the popover. When using `inline-mode` all swatches will be disabled too.
+Disables the color picker, user won't be able to open the popover. When using `inline` mode all swatches will be disabled too.
 
 - **Type**: `Boolean`
 - **Default**: `false`
@@ -64,6 +78,13 @@ Shows an input to change the color from there as well.
 - **Type**: `Boolean`
 - **Default**: `false`
 
+### show-labels
+
+Shows a label for each swatch.
+
+- **Type**: `Boolean`
+- **Default**: `false`
+
 ## Presentational Props
 
 ### background-color
@@ -73,38 +94,6 @@ Sets the background color of the wrapper.
 - **Type**: `String`
 - **Default**: `'#ffffff'`
 - **Examples**: `'#ffffff'`, `#cccccc`
-
-### fallbackInputClass
-
-Sets the [class](https://vuejs.org/v2/guide/class-and-style.html) for the fallback input.
-
-- **Type**: `Array`, `Object` or `String`
-- **Default**: `null`
-- **Examples**: `'primary'`, `'is-primary'`, `'is-info'`
-
-### fallbackInputType
-
-Sets the input type for the fallback input.
-
-- **Type**: `String`
-- **Default**: `'text'`
-- **Examples**: `'text'`, `'color'`
-
-### fallbackOkClass
-
-Sets the [class](https://vuejs.org/v2/guide/class-and-style.html) for the fallback button.
-
-- **Type**: `Array`, `Object` or `String`
-- **Default**: `null`
-- **Examples**: `'primary'`, `'is-primary'`, `'is-info'`
-
-### fallbackOkText
-
-Sets the text for the fallback button.
-
-- **Type**: `String`
-- **Default**: `'Ok'`
-- **Examples**: `'Select'`, `'Save'`, `'OK'`
 
 ### max-height
 
@@ -136,6 +125,13 @@ Whether the swatches should be showing borders or not. Useful for making lighter
 - **Type**: `Boolean`
 - **Default**: `false`
 
+### show-checkbox
+
+Whether to show a checkbox when a swatch is selected.
+
+- **Type**: `Boolean`
+- **Default**: `true`
+
 ### swatch-size
 
 Sets the swatches size. Don't append the px at the end.
@@ -143,6 +139,16 @@ Sets the swatches size. Don't append the px at the end.
 - **Type**: `Number` or `String`
 - **Default**: `42`
 - **Examples**: `30`, `24`, `'36'`
+
+### spacing-size
+
+Sets the space between swatches.
+
+- **Type**: `Number`
+- **Default**: `42`
+- **Examples**: `10`, `8`
+
+## Style Props
 
 ### swatch-style
 
@@ -167,3 +173,37 @@ Sets the [inline style](https://vuejs.org/v2/guide/class-and-style.html#Binding-
 - **Type**: `Array` or `Object`
 - **Default**: `{}`
 - **Examples**: `{ paddingLeft: '32px' }`, `{ backgroundColor: '#ccc' }`, `{ paddingRight: '12px' }`
+
+## Fallback Input Props
+
+### fallback-input-class
+
+Sets the [class](https://vuejs.org/v2/guide/class-and-style.html) for the fallback input.
+
+- **Type**: `Array`, `Object` or `String`
+- **Default**: `null`
+- **Examples**: `'primary'`, `'is-primary'`, `'is-info'`
+
+### fallback-input-type
+
+Sets the input type for the fallback input.
+
+- **Type**: `String`
+- **Default**: `'text'`
+- **Examples**: `'text'`, `'color'`
+
+### fallback-ok-class
+
+Sets the [class](https://vuejs.org/v2/guide/class-and-style.html) for the fallback button.
+
+- **Type**: `Array`, `Object` or `String`
+- **Default**: `null`
+- **Examples**: `'primary'`, `'is-primary'`, `'is-info'`
+
+### fallback-ok-text
+
+Sets the text for the fallback button.
+
+- **Type**: `String`
+- **Default**: `'Ok'`
+- **Examples**: `'Select'`, `'Save'`, `'OK'`

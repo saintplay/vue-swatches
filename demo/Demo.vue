@@ -6,6 +6,7 @@
         v-model="colorInline"
         inline
         :swatches="swatchesArray"
+        :spacing-size="10"
         show-border
         show-labels
       />
