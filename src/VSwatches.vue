@@ -274,11 +274,11 @@ export default {
       if (typeof this.swatches === "string") {
         switch (this.swatches) {
           case "basic":
-            return this.extractSwatchesFromPreset(basicPreset);
+            return this.extractColorAndApplyPreset(basicPreset);
           case "text-basic":
-            return this.extractSwatchesFromPreset(textBasicPreset);
+            return this.extractColorAndApplyPreset(textBasicPreset);
           case "text-advanced":
-            return this.extractSwatchesFromPreset(textAdvancedPreset);
+            return this.extractColorAndApplyPreset(textAdvancedPreset);
         }
       }
       return [];
@@ -571,7 +571,7 @@ export default {
         this.hidePopover();
       }
     },
-    extractSwatchesFromPreset(preset) {
+    extractColorAndApplyPreset(preset) {
       // Applying the styles if present in the preset
       if (preset.borderRadius) this.presetBorderRadius = preset.borderRadius;
       if (preset.rowLength) this.presetRowLength = preset.rowLength;
@@ -581,7 +581,7 @@ export default {
         this.presetSpacingSize = preset.spacingSize;
 
       // Must return the swatches from the preset
-      return preset.swatches;
+      return preset.colors;
     }
   }
 };

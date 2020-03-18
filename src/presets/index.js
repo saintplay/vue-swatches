@@ -6,12 +6,12 @@ export { basic, textBasic, textAdvanced };
 
 export default {
   basic: basic,
-  textBasic: textBasic,
-  textAdvanced: textAdvanced
+  "text-basic": textBasic,
+  "text-advanced": textAdvanced
 };
 
 export const supportedProperties = [
-  "swatches", // Required
+  "colors", // Required
   "borderRadius", // Optional String: '50px', '0', '40%'
   "rowLength", // Optional Integer: 5, 8, 6
   "swatchSize", // Optional Positive Number: 12.5, 36, 10

@@ -7,26 +7,26 @@ describe("Presets", () => {
     describe(`"${presetName}"`, () => {
       test("should have swatches property", () => {
         const preset = presets[presetName];
-        const swatches = preset.swatches;
+        const colors = preset.colors;
 
-        expect(swatches).toBeTruthy();
+        expect(colors).toBeTruthy();
       });
       test("preset should have valid colors", () => {
         let isNested = false;
         let validSwatches = 0;
         let swatchesCount = 0;
         const preset = presets[presetName];
-        const swatches = preset.swatches;
+        const colors = preset.colors;
 
         if (
-          swatches instanceof Array &&
-          swatches.length > 0 &&
-          swatches[0] instanceof Array
+          colors instanceof Array &&
+          colors.length > 0 &&
+          colors[0] instanceof Array
         ) {
           isNested = true;
         }
         if (isNested) {
-          swatches.forEach(r => {
+          colors.forEach(r => {
             if (!(r instanceof Array)) return swatchesCount++;
             r.forEach(s => {
               if (isHexColor(s)) validSwatches++;
@@ -34,7 +34,7 @@ describe("Presets", () => {
             });
           });
         } else {
-          swatches.forEach(s => {
+          colors.forEach(s => {
             if (isHexColor(s)) validSwatches++;
             return swatchesCount++;
           });

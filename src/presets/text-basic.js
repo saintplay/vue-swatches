@@ -1,5 +1,5 @@
 export default {
-  swatches: [
+  colors: [
     "#CC0001",
     "#E36101",
     "#FFCC00",

@@ -10,26 +10,6 @@ import Swatches, {
 import Swatch from "@/VSwatch";
 import presets from "@/presets";
 
-const completePresetExample = {
-  swatches: [
-    "#cc4125",
-    "#e06666",
-    "#f6b26b",
-    "#ffd966",
-    "#93c47d",
-    "#76a5af",
-    "#6d9eeb",
-    "#6fa8dc",
-    "#8e7cc3",
-    "#c27ba0"
-  ],
-  borderRadius: "0",
-  rowLength: 6,
-  swatchSize: 18,
-  spacingSize: 90,
-  showBorder: true
-};
-
 const defaultComponent = mount(Swatches);
 const defaultComponentWithFallback = mount(Swatches, {
   propsData: {
@@ -133,11 +113,11 @@ describe("Props", () => {
     });
   });
 
-  describe("colors", () => {
+  describe("swatches", () => {
     test("default swatches are shown", () => {
       const presetComponent = mount(Swatches, {
         propsData: {
-          swatches: presets["basic"]
+          swatches: "basic"
         }
       });
       return Vue.nextTick().then(() => {
@@ -287,30 +267,10 @@ describe("Props", () => {
     });
     describe("When preset name is passed as a prop", () => {
       test("preset colors are shown", () => {
-        const presetNameTest = "text-basic";
-        const rgbColors = presets[presetNameTest].swatches.map(c => rgb(c));
+        const rgbColors = presets["text-basic"].colors.map(c => rgb(c));
         const componentWrapper = mount(Swatches, {
           propsData: {
-            swatches: presetNameTest
-          }
-        });
-        const swatches = Array.from(
-          componentWrapper.element.querySelectorAll(".vue-swatches__swatch")
-        );
-        const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor));
-
-        return Vue.nextTick().then(() => {
-          expect(swatchesColors).toEqual(rgbColors);
-        });
-      });
-    });
-    describe("When preset object is passed as a pop", () => {
-      test("preset colors are shown", () => {
-        const rgbColors = completePresetExample.swatches.map(c => rgb(c));
-        const componentWrapper = mount(Swatches, {
-          propsData: {
-            inline: false,
-            swatches: completePresetExample
+            swatches: "text-basic"
           }
         });
         const swatches = Array.from(
@@ -324,209 +284,6 @@ describe("Props", () => {
       });
     });
   });
-
-  // describe("exceptions && exception-mode", () => {
-  //   test("default exceptions are set to []", () => {
-  //     const componentWrapper = mount(Swatches, {
-  //       propsData: {
-  //         exceptions: []
-  //       }
-  //     });
-
-  //     return Vue.nextTick().then(() => {
-  //       expect(componentWrapper.html()).toEqual(defaultComponent.html());
-  //     });
-  //   });
-  //   test("default exception-mode are set to disabled", () => {
-  //     const componentWrapper = mount(Swatches, {
-  //       propsData: {
-  //         exceptionMode: "disabled"
-  //       }
-  //     });
-
-  //     return Vue.nextTick().then(() => {
-  //       expect(componentWrapper.html()).toEqual(defaultComponent.html());
-  //     });
-  //   });
-  //   test("should not update value if clicked", () => {
-  //     const colors = ["#e31432", "#a156e2", "#eca23e"];
-  //     const componentWrapper = mount(Swatches, {
-  //       propsData: {
-  //         value: "#eca23e",
-  //         swatches: colors,
-  //         exceptions: ["#e31432"]
-  //       }
-  //     });
-
-  //     const swatch = componentWrapper.find(".vue-swatches__swatch");
-  //     swatch.trigger("click");
-  //     const selectedSwatch = componentWrapper
-  //       .findAll(Swatch)
-  //       .wrappers.filter(s => s.vm.selected)[0];
-
-  //     return Vue.nextTick().then(() => {
-  //       expect(selectedSwatch.vm.swatchColor).toEqual("#eca23e");
-  //     });
-  //   });
-  //   describe("When swatches array is simple", () => {
-  //     test("exceptions should be hidden if exception-mode is hidden", () => {
-  //       const colors = [
-  //         "#a23e41",
-  //         "#e31432",
-  //         "#a156e2",
-  //         "#aeccea",
-  //         "#5f0f2a",
-  //         "#eca23e",
-  //         "#12313a"
-  //       ];
-  //       const rgbColors = colors.map(c => rgb(c));
-  //       const exceptions = ["#E31432", "#A156E2", "#ECA23E"]; // Also the case shouldn't matter
-  //       const rgbExceptions = exceptions.map(e => rgb(e));
-  //       const trueRgbExceptions = rgbColors.filter(
-  //         c => rgbExceptions.indexOf(c) !== -1
-  //       );
-  //       const componentWrapper = mount(Swatches, {
-  //         propsData: {
-  //           exceptionMode: "hidden",
-  //           swatches: colors,
-  //           exceptions
-  //         }
-  //       });
-  //       const exceptionSwatches = Array.from(
-  //         componentWrapper.element.querySelectorAll(
-  //           ".vue-swatches__swatch--is-exception"
-  //         )
-  //       );
-  //       const hiddenSwatches = exceptionSwatches.filter(
-  //         s => s.style.display === "none"
-  //       );
-  //       const hiddenSwatchesColors = hiddenSwatches.map(s =>
-  //         rgb(s.style.backgroundColor)
-  //       );
-
-  //       return Vue.nextTick().then(() => {
-  //         expect(hiddenSwatchesColors).toEqual(trueRgbExceptions);
-  //       });
-  //     });
-  //     test("exceptions should be disabled if exception-mode is disabled", () => {
-  //       const colors = [
-  //         "#a23e41",
-  //         "#e31432",
-  //         "#a156e2",
-  //         "#aeccea",
-  //         "#5f0f2a",
-  //         "#eca23e",
-  //         "#12313a"
-  //       ];
-  //       const rgbColors = colors.map(c => rgb(c));
-  //       const exceptions = ["#e31432", "#a156e2", "#eca23e"];
-  //       const rgbExceptions = exceptions.map(e => rgb(e));
-  //       const trueRgbExceptions = rgbColors.filter(
-  //         c => rgbExceptions.indexOf(c) !== -1
-  //       );
-  //       const componentWrapper = mount(Swatches, {
-  //         propsData: {
-  //           exceptionMode: "disabled",
-  //           swatches: colors,
-  //           exceptions
-  //         }
-  //       });
-  //       const exceptionSwatches = Array.from(
-  //         componentWrapper.element.querySelectorAll(
-  //           ".vue-swatches__swatch--is-exception"
-  //         )
-  //       );
-  //       const disabledSwatches = exceptionSwatches.filter(
-  //         s => s.style.cursor === "not-allowed"
-  //       );
-  //       const disabledSwatchesColors = disabledSwatches.map(s =>
-  //         rgb(s.style.backgroundColor)
-  //       );
-
-  //       return Vue.nextTick().then(() => {
-  //         expect(disabledSwatchesColors).toEqual(trueRgbExceptions);
-  //       });
-  //     });
-  //   });
-  //   describe("When swatches array is nested", () => {
-  //     test("exceptions should be hidden if exception-mode is hidden", () => {
-  //       const colors = [
-  //         ["#e31432", "#ef86ff", "#166002"],
-  //         ["#a2341e", "$a156e2", "#eiaea3"],
-  //         ["#eec451", "$3321de", "#eca23e"]
-  //       ];
-  //       const rgbColors = colors.map(row => {
-  //         return row.map(s => rgb(s));
-  //       });
-  //       const flattenedRgbColors = [].concat(...rgbColors);
-  //       const exceptions = ["#e31432", "#a156e2", "#eca23e"];
-  //       const rgbExceptions = exceptions.map(e => rgb(e));
-  //       const trueRgbExceptions = flattenedRgbColors.filter(
-  //         c => rgbExceptions.indexOf(c) !== -1
-  //       );
-  //       const componentWrapper = mount(Swatches, {
-  //         propsData: {
-  //           exceptionMode: "hidden",
-  //           swatche: colors,
-  //           exceptions
-  //         }
-  //       });
-  //       const exceptionSwatches = Array.from(
-  //         componentWrapper.element.querySelectorAll(
-  //           ".vue-swatches__swatch--is-exception"
-  //         )
-  //       );
-  //       const hiddenSwatches = exceptionSwatches.filter(
-  //         s => s.style.display === "none"
-  //       );
-  //       const hiddenSwatchesColors = hiddenSwatches.map(s =>
-  //         rgb(s.style.backgroundColor)
-  //       );
-
-  //       return Vue.nextTick().then(() => {
-  //         expect(hiddenSwatchesColors).toEqual(trueRgbExceptions);
-  //       });
-  //     });
-  //     test("exceptions should be disabled if exception-mode is disabled", () => {
-  //       const colors = [
-  //         ["#e31432", "#ef86ff", "#166002"],
-  //         ["#a2341e", "$a156e2", "#eiaea3"],
-  //         ["#eec451", "$3321de", "#eca23e"]
-  //       ];
-  //       const rgbColors = colors.map(row => {
-  //         return row.map(s => rgb(s));
-  //       });
-  //       const flattenedRgbColors = [].concat(...rgbColors);
-  //       const exceptions = ["#e31432", "#a156e2", "#eca23e"];
-  //       const rgbExceptions = exceptions.map(e => rgb(e));
-  //       const trueRgbExceptions = flattenedRgbColors.filter(
-  //         c => rgbExceptions.indexOf(c) !== -1
-  //       );
-  //       const componentWrapper = mount(Swatches, {
-  //         propsData: {
-  //           exceptionMode: "disabled",
-  //           swatches: colors,
-  //           exceptions
-  //         }
-  //       });
-  //       const exceptionSwatches = Array.from(
-  //         componentWrapper.element.querySelectorAll(
-  //           ".vue-swatches__swatch--is-exception"
-  //         )
-  //       );
-  //       const disabledSwatches = exceptionSwatches.filter(
-  //         s => s.style.cursor === "not-allowed"
-  //       );
-  //       const disabledSwatchesColors = disabledSwatches.map(s =>
-  //         rgb(s.style.backgroundColor)
-  //       );
-
-  //       return Vue.nextTick().then(() => {
-  //         expect(disabledSwatchesColors).toEqual(trueRgbExceptions);
-  //       });
-  //     });
-  //   });
-  // });
 
   describe("disabled", () => {
     test("default disabled is set to false", () => {
@@ -815,40 +572,6 @@ describe("Props", () => {
     });
   });
 
-  // describe('popover-to', () => {
-  //   test('default popover-to is set to right', () => {
-  //     const componentWrapper = mount(Swatches, {
-  //       propsData: {
-  //         popoverTo: 'right',
-  //       },
-  //     })
-
-  //     return Vue.nextTick().then(() => {
-  //       expect(componentWrapper.html()).toEqual(defaultComponent.html())
-  //     })
-  //   })
-  //   test('container should posisionate at right if prop is left', () => {
-  //     const componentWrapper = mount(Swatches, {
-  //       propsData: {
-  //         inline: false,
-  //         popoverTo: 'left',
-  //       },
-  //     })
-  //     const container = componentWrapper.find('.vue-swatches__container')
-  //     expect(container.element.style.right).toEqual('0px')
-  //   })
-  //   test('container should posisionate at left if prop is right', () => {
-  //     const componentWrapper = mount(Swatches, {
-  //       propsData: {
-  //         inline: false,
-  //         popoverTo: 'right',
-  //       },
-  //     })
-  //     const container = componentWrapper.find('.vue-swatches__container')
-  //     expect(container.element.style.left).toEqual('0px')
-  //   })
-  // })
-
   describe("row-length", () => {
     test(`default row-length is set to ${DEFAULT_ROW_LENGTH}`, () => {
       const componentWrapper = mount(Swatches, {
@@ -886,20 +609,20 @@ describe("Props", () => {
     test("should update the row-length if preset especify one", () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
-          swatches: completePresetExample
+          swatches: "text-advanced"
         }
       });
 
       return Vue.nextTick().then(() => {
         expect(componentWrapper.vm.computedRowLength).toEqual(
-          completePresetExample.rowLength
+          presets["text-advanced"].rowLength
         );
       });
     });
     test("should priorize the row-length from the prop over the preset one", () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
-          swatches: completePresetExample,
+          swatches: "text-advanced",
           rowLength: 10
         }
       });
@@ -941,7 +664,7 @@ describe("Props", () => {
     test("should update the show-border if preset especify one", () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
-          swatches: completePresetExample
+          swatches: "text-basic"
         }
       });
       const borderedSwatches = componentWrapper.findAll(
@@ -957,7 +680,7 @@ describe("Props", () => {
     test("should priorize the show-border from the prop over the preset one", () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
-          swatches: completePresetExample,
+          swatches: "text-advanced",
           showBorder: false
         }
       });
@@ -1085,12 +808,12 @@ describe("Props", () => {
     test("should update the swatch-size if preset especify one", () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
-          swatches: completePresetExample
+          swatches: "text-advanced"
         }
       });
       const expectedDimensions = {
-        width: `${completePresetExample.swatchSize}px`,
-        height: `${completePresetExample.swatchSize}px`
+        width: `${presets["text-advanced"].swatchSize}px`,
+        height: `${presets["text-advanced"].swatchSize}px`
       };
       const swatch = componentWrapper.find(".vue-swatches__swatch");
       const swatchDimensions = {
@@ -1105,7 +828,7 @@ describe("Props", () => {
     test("should priorize the swatch-size from the prop over the preset one", () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
-          swatches: completePresetExample,
+          swatches: "text-advanced",
           swatchSize: 34
         }
       });
@@ -1140,7 +863,7 @@ describe("Props", () => {
     test("swatch-style should be applied over presets and swatch-size props", () => {
       const componentWrapper = mount(Swatches, {
         propsData: {
-          swatches: completePresetExample,
+          swatches: "text-advanced",
           swatchSize: 20,
           swatchStyle: {
             width: "24px"
