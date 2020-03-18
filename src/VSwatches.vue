@@ -56,9 +56,11 @@
                 :show-label="showLabels"
                 :swatch-color="getSwatchColor(swatch)"
                 :swatch-label="getSwatchLabel(swatch)"
+                :swatch-alt="getSwatchAlt(swatch)"
                 :swatch-style="swatchStyle"
                 @blur="relatedTarget => onBlur(relatedTarget)"
                 @click.native="updateSwatch(swatch)"
+                @click="updateSwatch(swatch)"
               />
             </div>
           </template>
@@ -78,9 +80,11 @@
               :show-label="showLabels"
               :swatch-color="getSwatchColor(swatch)"
               :swatch-label="getSwatchLabel(swatch)"
+              :swatch-alt="getSwatchAlt(swatch)"
               :swatch-style="swatchStyle"
               @blur="relatedTarget => onBlur(relatedTarget)"
               @click.native="updateSwatch(swatch)"
+              @click="updateSwatch(swatch)"
             />
           </template>
         </div>
@@ -519,7 +523,12 @@ export default {
     },
     getSwatchLabel(swatch) {
       if (typeof swatch === "string") return swatch;
-      else if (typeof swatch === "object") return swatch.label;
+      else if (typeof swatch === "object") return swatch.label || swatch.color;
+    },
+    getSwatchAlt(swatch) {
+      if (typeof swatch === "string") return swatch;
+      else if (typeof swatch === "object")
+        return swatch.alt || this.getSwatchLabel(swatch);
     },
     // Called by user action
     onBlur(relatedTarget) {

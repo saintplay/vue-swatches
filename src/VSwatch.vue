@@ -7,8 +7,10 @@
       'vue-swatches__swatch--is-disabled': disabled
     }"
     :style="swatchStyles"
-    :aria-label="swatchLabel"
+    :aria-label="swatchAlt"
+    role="button"
     tabindex="0"
+    @keyup.enter="$emit('click', swatchColor)"
     @blur="e => this.$emit('blur', e.relatedTarget)"
   >
     <div
@@ -74,6 +76,10 @@ export default {
       default: ""
     },
     swatchLabel: {
+      type: String
+      // this prop comes from computed property and always should have a value
+    },
+    swatchAlt: {
       type: String
       // this prop comes from computed property and always should have a value
     },

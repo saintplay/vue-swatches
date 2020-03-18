@@ -15,7 +15,8 @@ The swatches to use. Every swatch must be an `string` or `object` type. You shou
   - **color**:      `String`. Color to show in the swatch
   - **showBorder**: `Boolean`. Show border. Default `false`
   - **disabled**:   `Boolean`. Disable the swatch or not. Default `false`
-  - **label**:      `String`. Label to show for the swatch
+  - **label**:      `String`. Label to show for the swatch. Default to the color value
+  - **alt**:        `String`. Alt text for the swatch. Default to the label value
 - **Examples**:
   - `'text-advanced'`
   - `['#F6648B', '#F493A7']`
