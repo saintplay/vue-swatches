@@ -39,7 +39,9 @@ sidebar: auto
 
 <examples-simple></examples-simple>
 
+::: details View Code
 <<< @/docs/.vuepress/components/examples/simple.vue
+:::
 
 ## Using a Preset
 
@@ -47,7 +49,9 @@ Vue Swatches has a bunch of [presets](/presets) ready to use. Make sure to check
 
 <examples-preset></examples-preset>
 
+::: details View Code
 <<< @/docs/.vuepress/components/examples/preset.vue
+:::
 
 ## Using a Custom Trigger
 
@@ -55,7 +59,9 @@ You can use your custom trigger. Useful to show `buttons`, `icons`, custom `inpu
 
 <examples-custom-trigger></examples-custom-trigger>
 
+::: details View Code
 <<< @/docs/.vuepress/components/examples/custom-trigger.vue
+:::
 
 ## Custom Colors
 
@@ -63,7 +69,9 @@ Remember to use always **6-digits** hexadecimal colors. If you want to provide a
 
 <examples-custom-colors></examples-custom-colors>
 
+::: details View Code
 <<< @/docs/.vuepress/components/examples/custom-colors.vue
+:::
 
 ## Nested Colors
 
@@ -71,7 +79,9 @@ You can use your own colors in a nested arrays.
 
 <examples-nested-colors></examples-nested-colors>
 
+::: details View Code
 <<< @/docs/.vuepress/components/examples/nested-colors.vue
+:::
 
 ## Inline Mode
 
@@ -79,13 +89,17 @@ Inline Mode hides the trigger and show all the swatches right away! Useful for A
 
 <examples-inline-simple></examples-inline-simple>
 
+::: details View Code
 <<< @/docs/.vuepress/components/examples/inline-simple.vue
+:::
 
 ## Inline + Custom UI
 
 <examples-inline-advanced></examples-inline-advanced>
 
+::: details View Code
 <<< @/docs/.vuepress/components/examples/inline-advanced.vue
+:::
 
 ## Disabling Swatches
 
@@ -93,7 +107,9 @@ You can disable specific swatches adding `disabled: true`
 
 <examples-disabling></examples-disabling>
 
+::: details View Code
 <<< @/docs/.vuepress/components/examples/disabling.vue
+:::
 
 ## Fallback Input
 
@@ -101,7 +117,9 @@ If your user wants to use its own color you can use a fallback input and customi
 
 <examples-fallback-input></examples-fallback-input>
 
+::: details View Code
 <<< @/docs/.vuepress/components/examples/fallback-input.vue
+:::
 
 ## Fallback Input + Color Picker
 
@@ -109,4 +127,6 @@ You can set the fallback input type to color and get a visual color picker inter
 
 <examples-fallback-input-color></examples-fallback-input-color>
 
+::: details View Code
 <<< @/docs/.vuepress/components/examples/fallback-input-color.vue
+:::
