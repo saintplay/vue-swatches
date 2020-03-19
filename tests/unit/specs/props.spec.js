@@ -2,16 +2,17 @@ import Vue from "vue";
 import { mount } from "@vue/test-utils";
 import rgb from "rgb";
 
-import Swatches, {
+import VSwatches, {
   DEFAULT_BACKGROUND_COLOR,
   DEFAULT_ROW_LENGTH,
   DEFAULT_SWATCH_SIZE
 } from "@/VSwatches";
-import Swatch from "@/VSwatch";
+import VSwatch from "@/VSwatch";
+import VCheck from "@/VCheck";
 import presets from "@/presets";
 
-const defaultComponent = mount(Swatches);
-const defaultComponentWithFallback = mount(Swatches, {
+const defaultComponent = mount(VSwatches);
+const defaultComponentWithFallback = mount(VSwatches, {
   propsData: {
     showFallback: true
   }
@@ -21,7 +22,7 @@ describe("Props", () => {
   describe("background-color", () => {
     const testColor = "#333";
     test("default background-color are shown", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           backgroundColor: DEFAULT_BACKGROUND_COLOR
         }
@@ -33,7 +34,7 @@ describe("Props", () => {
     });
     describe("When Popover mode is enabled", () => {
       test("background color should render color passed as a prop", () => {
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             backgroundColor: testColor
           }
@@ -49,7 +50,7 @@ describe("Props", () => {
 
     describe("When Inline mode is enabled", () => {
       test("background color should render color passed as a prop", () => {
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             inline: true,
             backgroundColor: testColor
@@ -67,7 +68,7 @@ describe("Props", () => {
 
   describe("close-on-select", () => {
     test("default close-on-select is set to true", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           closeOnSelect: true
         }
@@ -79,7 +80,7 @@ describe("Props", () => {
     });
     describe("When Popover mode is enabled", () => {
       test("should close the popover if true", () => {
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             closeOnSelect: true,
             inline: false
@@ -95,7 +96,7 @@ describe("Props", () => {
         });
       });
       test("should not close the popover if false", () => {
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             closeOnSelect: false,
             inline: false
@@ -115,7 +116,7 @@ describe("Props", () => {
 
   describe("swatches", () => {
     test("default swatches are shown", () => {
-      const presetComponent = mount(Swatches, {
+      const presetComponent = mount(VSwatches, {
         propsData: {
           swatches: "basic"
         }
@@ -128,7 +129,7 @@ describe("Props", () => {
       test("given array colors are shown", () => {
         const colors = ["#e31432", "#a156e2", "#eca23e"];
         const rgbColors = colors.map(c => rgb(c));
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             swatches: colors
           }
@@ -150,7 +151,7 @@ describe("Props", () => {
         const rgbColors = colors.map(row => {
           return row.map(s => rgb(s));
         });
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             swatches: colors
           }
@@ -176,7 +177,7 @@ describe("Props", () => {
       describe("When empty string are passed as a color", () => {
         test("it should render the swatch diagonal", () => {
           const colors = ["", "#a156e2", "#eca23e"];
-          const componentWrapper = mount(Swatches, {
+          const componentWrapper = mount(VSwatches, {
             propsData: {
               swatches: colors
             }
@@ -190,7 +191,7 @@ describe("Props", () => {
         });
         test("it should render a diagonal in the trigger if value match", () => {
           const colors = ["", "#a156e2", "#eca23e"];
-          const componentWrapper = mount(Swatches, {
+          const componentWrapper = mount(VSwatches, {
             propsData: {
               swatches: colors,
               value: ""
@@ -205,7 +206,7 @@ describe("Props", () => {
         });
         test("it should not render a diagonal in the trigger if value doesn't match", () => {
           const colors = ["", "#a156e2", "#eca23e"];
-          const componentWrapper = mount(Swatches, {
+          const componentWrapper = mount(VSwatches, {
             propsData: {
               swatches: colors,
               value: "#a156e2"
@@ -220,7 +221,7 @@ describe("Props", () => {
         });
         test("it should update the value", () => {
           const colors = ["", "#a156e2", "#eca23e"];
-          const componentWrapper = mount(Swatches, {
+          const componentWrapper = mount(VSwatches, {
             propsData: {
               swatches: colors
             }
@@ -233,7 +234,7 @@ describe("Props", () => {
         });
         test("it should render the check if the value is empty string", () => {
           const colors = ["", "#a156e2", "#eca23e"];
-          const componentWrapper = mount(Swatches, {
+          const componentWrapper = mount(VSwatches, {
             propsData: {
               swatches: colors,
               value: ""
@@ -251,7 +252,7 @@ describe("Props", () => {
       test("given array colors are shown", () => {
         const colors = ["#e31432", "#a156e2", "#eca23e"];
         const rgbColors = colors.map(c => rgb(c));
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             swatches: colors
           }
@@ -268,7 +269,7 @@ describe("Props", () => {
     describe("When preset name is passed as a prop", () => {
       test("preset colors are shown", () => {
         const rgbColors = presets["text-basic"].colors.map(c => rgb(c));
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             swatches: "text-basic"
           }
@@ -287,7 +288,7 @@ describe("Props", () => {
 
   describe("disabled", () => {
     test("default disabled is set to false", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           disabled: false
         }
@@ -301,7 +302,7 @@ describe("Props", () => {
     describe("When Inline mode is enabled", () => {
       test("value won't change when cliking a swatch", () => {
         const colors = ["#e31432", "#a156e2", "#eca23e"];
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             value: "#eca23e",
             swatches: colors,
@@ -313,7 +314,7 @@ describe("Props", () => {
         const swatch = componentWrapper.find(".vue-swatches__swatch");
         swatch.trigger("click");
         const selectedSwatch = componentWrapper
-          .findAll(Swatch)
+          .findAll(VSwatch)
           .wrappers.filter(s => s.vm.selected)[0];
 
         return Vue.nextTick().then(() => {
@@ -324,7 +325,7 @@ describe("Props", () => {
 
     describe("When Inline mode is not enabled", () => {
       test("default trigger won't open the Popover", () => {
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             disabled: true,
             inline: false
@@ -340,7 +341,7 @@ describe("Props", () => {
       });
       test("custom trigger won't open the Popover", () => {
         const buttonTest = '<button id="button-test">Hello World</button>';
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           slots: {
             trigger: buttonTest
           },
@@ -362,7 +363,7 @@ describe("Props", () => {
 
   describe("fallback-input-class", () => {
     test("default fallback-input-class is set to null", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           fallbackInputClass: null,
           showFallback: true
@@ -377,7 +378,7 @@ describe("Props", () => {
     });
 
     test("fallback-input-class should be applied", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           fallbackInputClass: "class-example",
           showFallback: true,
@@ -392,9 +393,9 @@ describe("Props", () => {
     });
   });
 
-  describe("fallback-type-prop", () => {
-    test("default fallback input type is set to text", () => {
-      const componentWrapper = mount(Swatches, {
+  describe("fallback-input-type", () => {
+    test("default fallback-input-type is set to text", () => {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           fallbackInputType: "text",
           showFallback: true
@@ -408,8 +409,8 @@ describe("Props", () => {
       });
     });
 
-    test("fallback input type is set to color", () => {
-      const componentWrapper = mount(Swatches, {
+    test("fallback-input-type should be applied", () => {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           showFallback: true,
           fallbackInputType: "color"
@@ -425,7 +426,7 @@ describe("Props", () => {
 
   describe("fallback-ok-class", () => {
     test("default fallback-ok-class is set to null", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           fallbackOkClass: null,
           showFallback: true
@@ -440,7 +441,7 @@ describe("Props", () => {
     });
 
     test("fallback-ok-class should be applied", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           fallbackOkClass: "class-example",
           showFallback: true
@@ -455,8 +456,8 @@ describe("Props", () => {
   });
 
   describe("fallback-ok-text", () => {
-    test("default fallback-text-class is set to Ok", () => {
-      const componentWrapper = mount(Swatches, {
+    test("default fallback-ok-text is set to Ok", () => {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           fallbackOkText: "Ok",
           showFallback: true
@@ -471,7 +472,7 @@ describe("Props", () => {
     });
 
     test("fallback-ok-text should be applied", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           fallbackOkText: "click me",
           showFallback: true
@@ -487,7 +488,7 @@ describe("Props", () => {
 
   describe("inline", () => {
     test("inline default is set to false", () => {
-      const noInlineComponent = mount(Swatches, {
+      const noInlineComponent = mount(VSwatches, {
         propsData: {
           inline: false
         }
@@ -499,7 +500,7 @@ describe("Props", () => {
     });
     describe("When inline prop is true", () => {
       test("should not render the trigger", () => {
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             inline: true
           }
@@ -508,7 +509,7 @@ describe("Props", () => {
         expect(trigger.exists()).not.toBeTruthy();
       });
       test("should render swatches visible", () => {
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             inline: true
           }
@@ -522,7 +523,7 @@ describe("Props", () => {
     });
     describe("When inline prop is false (Popover)", () => {
       test("should render the trigger", () => {
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             inline: false
           }
@@ -531,7 +532,7 @@ describe("Props", () => {
         expect(trigger.exists()).toBeTruthy();
       });
       test("should render swatches not visible", () => {
-        const componentWrapper = mount(Swatches, {
+        const componentWrapper = mount(VSwatches, {
           propsData: {
             inline: false
           }
@@ -547,7 +548,7 @@ describe("Props", () => {
 
   describe("shapes", () => {
     test("default shape is set to squares", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           shapes: "squares"
         }
@@ -558,7 +559,7 @@ describe("Props", () => {
       });
     });
     test("trigger should render as circle if prop is circles", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           shapes: "circles",
           inline: false
@@ -572,9 +573,73 @@ describe("Props", () => {
     });
   });
 
+  describe("popover-x", () => {
+    // TODO: Always on Screen needs E2E testing
+    test("default popover-x is set to right", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          popoverX: "right"
+        }
+      });
+
+      await Vue.nextTick();
+      return expect(componentWrapper.html()).toEqual(defaultComponent.html());
+    });
+    test("container should positionate at trigger right if popover-x is left", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          popoverX: "left"
+        }
+      });
+      const container = componentWrapper.find(".vue-swatches__container");
+      expect(container.element.style.right).toEqual("0px");
+    });
+    test("container should positionate at trigger left if popover-x is right", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          popoverX: "right"
+        }
+      });
+      const container = componentWrapper.find(".vue-swatches__container");
+      expect(container.element.style.left).toEqual("0px");
+    });
+  });
+
+  describe("popover-y", () => {
+    // TODO: Always on Screen needs E2E testing
+    test("default popover-y is set to bottom", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          popoverY: "bottom"
+        }
+      });
+
+      await Vue.nextTick();
+      return expect(componentWrapper.html()).toEqual(defaultComponent.html());
+    });
+    test("container should positionate at trigger bottom if popover-y is top", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          popoverY: "top"
+        }
+      });
+      const container = componentWrapper.find(".vue-swatches__container");
+      expect(container.element.style.bottom).toEqual("+100%");
+    });
+    test("container should positionate at trigger top if popover-y is bottom", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          popoverY: "bottom"
+        }
+      });
+      const container = componentWrapper.find(".vue-swatches__container");
+      expect(container.element.style.top).toEqual("+100%");
+    });
+  });
+
   describe("row-length", () => {
     test(`default row-length is set to ${DEFAULT_ROW_LENGTH}`, () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           rowLength: DEFAULT_ROW_LENGTH
         }
@@ -585,7 +650,7 @@ describe("Props", () => {
       });
     });
     test("should update the row-length if prop is passed", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           rowLength: 8
         }
@@ -596,7 +661,7 @@ describe("Props", () => {
       });
     });
     test("should accept string number", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           rowLength: "6"
         }
@@ -607,7 +672,7 @@ describe("Props", () => {
       });
     });
     test("should update the row-length if preset especify one", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatches: "text-advanced"
         }
@@ -620,7 +685,7 @@ describe("Props", () => {
       });
     });
     test("should priorize the row-length from the prop over the preset one", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatches: "text-advanced",
           rowLength: 10
@@ -635,7 +700,7 @@ describe("Props", () => {
 
   describe("show-border", () => {
     test("default show-border is set to false", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           showBorder: false
         }
@@ -646,7 +711,7 @@ describe("Props", () => {
       });
     });
     test("should update the show-border if prop is passed", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           showBorder: true
         }
@@ -662,7 +727,7 @@ describe("Props", () => {
       });
     });
     test("should update the show-border if preset especify one", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatches: "text-basic"
         }
@@ -678,7 +743,7 @@ describe("Props", () => {
       });
     });
     test("should priorize the show-border from the prop over the preset one", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatches: "text-advanced",
           showBorder: false
@@ -696,7 +761,7 @@ describe("Props", () => {
 
   describe("show-fallback", () => {
     test("default show-fallback is set to false", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           showFallback: false
         }
@@ -707,7 +772,7 @@ describe("Props", () => {
       });
     });
     test("should render the fallback if true", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           showFallback: true
         }
@@ -721,7 +786,7 @@ describe("Props", () => {
       });
     });
     test("should not render the fallback if false", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           showFallback: false
         }
@@ -734,9 +799,8 @@ describe("Props", () => {
         expect(fallbackWrapper.exists()).not.toBeTruthy();
       });
     });
-
     test("should close the popover when click to ok button", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           showFallback: true,
           inline: false
@@ -753,9 +817,166 @@ describe("Props", () => {
     });
   });
 
+  describe("show-checkbox", () => {
+    test("default show-checkbox is set to true", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          showCheckbox: true
+        }
+      });
+
+      return Vue.nextTick().then(() => {
+        expect(componentWrapper.html()).toEqual(defaultComponent.html());
+      });
+    });
+    test("should render the checkbox if true", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          showCheckbox: true
+        }
+      });
+      componentWrapper.vm.showPopover();
+      const componentSwatch = componentWrapper.find(VSwatch);
+      componentWrapper.setProps({ value: componentSwatch.vm.swatchColor });
+
+      await Vue.nextTick();
+      const componentCheckbox = componentSwatch.find(VCheck);
+      expect(componentCheckbox.isVisible()).toBeTruthy();
+    });
+    test("should not render the checkbox if false", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          showCheckbox: false
+        }
+      });
+      componentWrapper.vm.showPopover();
+      const componentSwatch = componentWrapper.find(VSwatch);
+      componentWrapper.setProps({ value: componentSwatch.vm.swatchColor });
+
+      await Vue.nextTick();
+      const componentCheckbox = componentSwatch.find(VCheck);
+      expect(componentCheckbox.isVisible()).toBeFalsy();
+    });
+  });
+
+  describe("show-labels", () => {
+    test("default show-labels is set to false", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          showLabels: false
+        }
+      });
+
+      return Vue.nextTick().then(() => {
+        expect(componentWrapper.html()).toEqual(defaultComponent.html());
+      });
+    });
+    test("should render labels if true", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          showLabels: true
+        }
+      });
+      const labelWrapper = componentWrapper.find(
+        ".vue-swatches__swatch__label"
+      );
+
+      await Vue.nextTick();
+      expect(labelWrapper.exists()).toBeTruthy();
+    });
+    test("should not render labels if false", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          showLabels: false
+        }
+      });
+      const labelWrapper = componentWrapper.find(
+        ".vue-swatches__swatch__label"
+      );
+
+      await Vue.nextTick();
+      expect(labelWrapper.exists()).not.toBeTruthy();
+    });
+  });
+
+  describe("spacing-size", () => {
+    test("default spacing-size is set to 1/4 to swatch size", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          spacingSize: Math.round(DEFAULT_SWATCH_SIZE / 4)
+        }
+      });
+
+      return Vue.nextTick().then(() => {
+        expect(componentWrapper.html()).toEqual(defaultComponent.html());
+      });
+    });
+    test("should update the spacing-size if prop is passed", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          spacingSize: 24
+        }
+      });
+      const expectedDimensions = {
+        marginBottom: "24px",
+        marginRight: "24px"
+      };
+      const swatch = componentWrapper.find(".vue-swatches__swatch");
+      const swatchDimensions = {
+        marginBottom: swatch.element.style.marginBottom,
+        marginRight: swatch.element.style.marginRight
+      };
+
+      return Vue.nextTick().then(() => {
+        expect(swatchDimensions).toEqual(expectedDimensions);
+      });
+    });
+    test("should update the spacing-size if preset especify one", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          swatches: "text-advanced"
+        }
+      });
+      const expectedDimensions = {
+        marginBottom: `${presets["text-advanced"].spacingSize}px`,
+        marginRight: `${presets["text-advanced"].spacingSize}px`
+      };
+      const swatch = componentWrapper.find(".vue-swatches__swatch");
+      const swatchDimensions = {
+        marginBottom: swatch.element.style.marginBottom,
+        marginRight: swatch.element.style.marginRight
+      };
+
+      return Vue.nextTick().then(() => {
+        expect(swatchDimensions).toEqual(expectedDimensions);
+      });
+    });
+    test("should priorize the spacing-size from the prop over the preset one", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          swatches: "text-advanced",
+          spacingSize: 34
+        }
+      });
+      const expectedDimensions = {
+        marginBottom: "34px",
+        marginRight: "34px"
+      };
+      const swatch = componentWrapper.find(".vue-swatches__swatch");
+      const swatchDimensions = {
+        marginBottom: swatch.element.style.marginBottom,
+        marginRight: swatch.element.style.marginRight
+      };
+
+      return Vue.nextTick().then(() => {
+        expect(swatchDimensions).toEqual(expectedDimensions);
+      });
+    });
+  });
+
   describe("swatch-size", () => {
     test(`default swatch-size is set to ${DEFAULT_SWATCH_SIZE}`, () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatchSize: DEFAULT_SWATCH_SIZE
         }
@@ -766,7 +987,7 @@ describe("Props", () => {
       });
     });
     test("should accept string number", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatchSize: "16"
         }
@@ -786,7 +1007,7 @@ describe("Props", () => {
       });
     });
     test("should update the swatch-size if prop is passed", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatchSize: 24
         }
@@ -806,7 +1027,7 @@ describe("Props", () => {
       });
     });
     test("should update the swatch-size if preset especify one", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatches: "text-advanced"
         }
@@ -826,7 +1047,7 @@ describe("Props", () => {
       });
     });
     test("should priorize the swatch-size from the prop over the preset one", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatches: "text-advanced",
           swatchSize: 34
@@ -850,7 +1071,7 @@ describe("Props", () => {
 
   describe("swatch-style", () => {
     test("default swatch-style is applied", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatchStyle: {}
         }
@@ -861,7 +1082,7 @@ describe("Props", () => {
       });
     });
     test("swatch-style should be applied over presets and swatch-size props", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatches: "text-advanced",
           swatchSize: 20,
@@ -880,7 +1101,7 @@ describe("Props", () => {
 
   describe("trigger-style", () => {
     test("default trigger-style is applied", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           triggerStyle: {}
         }
@@ -891,7 +1112,7 @@ describe("Props", () => {
       });
     });
     test("trigger-style should be applied", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           triggerStyle: {
             width: "26px"
@@ -908,7 +1129,7 @@ describe("Props", () => {
 
   describe("wrapper-style", () => {
     test("default wrapper-style is applied", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           wrapperStyle: {}
         }
@@ -919,7 +1140,7 @@ describe("Props", () => {
       });
     });
     test("wrapper-style should be applied", () => {
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           wrapperStyle: {
             paddingLeft: "60px"
@@ -937,14 +1158,14 @@ describe("Props", () => {
   describe("value", () => {
     test("should select value", () => {
       const colors = ["#e31432", "#a156e2", "#eca23e"];
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           value: "#e31432",
           swatches: colors
         }
       });
       const selectedSwatch = componentWrapper
-        .findAll(Swatch)
+        .findAll(VSwatch)
         .wrappers.filter(s => s.vm.selected)[0];
 
       return Vue.nextTick().then(() => {
@@ -953,7 +1174,7 @@ describe("Props", () => {
     });
     test("should update the value", () => {
       const colors = ["#e31432", "#a156e2", "#eca23e"];
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           value: "#eca23e",
           swatches: colors
@@ -963,21 +1184,21 @@ describe("Props", () => {
 
       return Vue.nextTick().then(() => {
         const selectedSwatch = componentWrapper
-          .findAll(Swatch)
+          .findAll(VSwatch)
           .wrappers.filter(s => s.vm.selected)[0];
         expect(selectedSwatch.vm.swatchColor).toEqual("#a156e2");
       });
     });
     test("should select value with diferent case", () => {
       const colors = ["#e31432", "#a156e2", "#eca23e"];
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           value: "#ECa23E",
           swatches: colors
         }
       });
       const selectedSwatch = componentWrapper
-        .findAll(Swatch)
+        .findAll(VSwatch)
         .wrappers.filter(s => s.vm.selected)[0];
 
       return Vue.nextTick().then(() => {
@@ -986,13 +1207,13 @@ describe("Props", () => {
     });
     test("should not select any swatch when null", () => {
       const colors = ["#e31432", "#a156e2", "#eca23e"];
-      const componentWrapper = mount(Swatches, {
+      const componentWrapper = mount(VSwatches, {
         propsData: {
           swatches: colors
         }
       });
       const selectedSwatchList = componentWrapper
-        .findAll(Swatch)
+        .findAll(VSwatch)
         .wrappers.filter(s => s.vm.selected);
 
       return Vue.nextTick().then(() => {

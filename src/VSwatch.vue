@@ -21,7 +21,7 @@
     </div>
     <v-check v-show="showCheckbox && selected" />
     <div
-      v-if="showLabel"
+      v-if="showLabels"
       class="vue-swatches__swatch__label"
       :style="labelStyles"
     >
@@ -59,7 +59,7 @@ export default {
       type: Boolean
       // default is calculated in `Swatches.vue`
     },
-    showLabel: {
+    showLabels: {
       type: Boolean
       // default is especified in `Swatches.vue`
     },

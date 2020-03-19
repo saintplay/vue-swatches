@@ -53,7 +53,7 @@
                 :spacing-size="computedSpacingSize"
                 :show-border="getSwatchShowBorder(swatch)"
                 :show-checkbox="showCheckbox"
-                :show-label="showLabels"
+                :show-labels="showLabels"
                 :swatch-color="getSwatchColor(swatch)"
                 :swatch-label="getSwatchLabel(swatch)"
                 :swatch-alt="getSwatchAlt(swatch)"
@@ -77,7 +77,7 @@
               :spacing-size="computedSpacingSize"
               :show-border="getSwatchShowBorder(swatch)"
               :show-checkbox="showCheckbox"
-              :show-label="showLabels"
+              :show-labels="showLabels"
               :swatch-color="getSwatchColor(swatch)"
               :swatch-label="getSwatchLabel(swatch)"
               :swatch-alt="getSwatchAlt(swatch)"
@@ -210,7 +210,7 @@ export default {
     },
     spacingSize: {
       type: Number,
-      default: null
+      default: null // The default depends on swatch size
     },
     swatchSize: {
       type: [Number, String],
