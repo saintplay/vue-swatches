@@ -3,6 +3,7 @@ import { mount } from "@vue/test-utils";
 import rgb from "rgb";
 
 import VSwatches, {
+  DEFAULT_TRIGGER_CONTAINER_SPACE,
   DEFAULT_BACKGROUND_COLOR,
   DEFAULT_ROW_LENGTH,
   DEFAULT_SWATCH_SIZE
@@ -574,7 +575,6 @@ describe("Props", () => {
   });
 
   describe("popover-x", () => {
-    // TODO: Always on Screen needs E2E testing
     test("default popover-x is set to right", async () => {
       const componentWrapper = mount(VSwatches, {
         propsData: {
@@ -585,28 +585,107 @@ describe("Props", () => {
       await Vue.nextTick();
       return expect(componentWrapper.html()).toEqual(defaultComponent.html());
     });
-    test("container should positionate at trigger right if popover-x is left", () => {
-      const componentWrapper = mount(VSwatches, {
-        propsData: {
-          popoverX: "left"
-        }
+
+    describe("popover-x is set to left", () => {
+      test("container should positionate at trigger left", async () => {
+        const componentWrapper = mount(VSwatches, {
+          propsData: {
+            popoverX: "left"
+          }
+        });
+        const trigger = componentWrapper.find({ ref: "triggerWrapper" });
+        const container = componentWrapper.find({ ref: "containerWrapper" });
+        trigger.element.getBoundingClientRect = () => ({
+          top: 0,
+          bottom: 50,
+          left: window.innerWidth - 50,
+          right: window.innerWidth
+        });
+        container.element.getBoundingClientRect = () => ({
+          width: 200,
+          height: 200
+        });
+
+        componentWrapper.vm.showPopover();
+        await Vue.nextTick();
+
+        return expect(container.element.style.right).toEqual("0px");
       });
-      const container = componentWrapper.find(".vue-swatches__container");
-      expect(container.element.style.right).toEqual("0px");
+      test("container should positionate at trigger right if there is no available space", async () => {
+        const componentWrapper = mount(VSwatches, {
+          propsData: {
+            popoverX: "left"
+          }
+        });
+        const trigger = componentWrapper.find({ ref: "triggerWrapper" });
+        const container = componentWrapper.find({ ref: "containerWrapper" });
+        trigger.element.getBoundingClientRect = () => ({
+          top: 0,
+          bottom: 50,
+          left: 0,
+          right: 50
+        });
+        container.element.getBoundingClientRect = () => ({
+          width: 200,
+          height: 200
+        });
+
+        componentWrapper.vm.showPopover();
+        await Vue.nextTick();
+        expect(container.element.style.left).toEqual("0px");
+      });
     });
-    test("container should positionate at trigger left if popover-x is right", () => {
-      const componentWrapper = mount(VSwatches, {
-        propsData: {
-          popoverX: "right"
-        }
+    describe("popover-x is set to right", () => {
+      test("container should positionate at trigger right", async () => {
+        const componentWrapper = mount(VSwatches, {
+          propsData: {
+            popoverX: "right"
+          }
+        });
+        const trigger = componentWrapper.find({ ref: "triggerWrapper" });
+        const container = componentWrapper.find({ ref: "containerWrapper" });
+        trigger.element.getBoundingClientRect = () => ({
+          top: 0,
+          bottom: 50,
+          left: 0,
+          right: 50
+        });
+        container.element.getBoundingClientRect = () => ({
+          width: 200,
+          height: 200
+        });
+
+        componentWrapper.vm.showPopover();
+        await Vue.nextTick();
+        return expect(container.element.style.left).toEqual("0px");
       });
-      const container = componentWrapper.find(".vue-swatches__container");
-      expect(container.element.style.left).toEqual("0px");
+      test("container should positionate at trigger left if there is no available space", async () => {
+        const componentWrapper = mount(VSwatches, {
+          propsData: {
+            popoverX: "right"
+          }
+        });
+        const trigger = componentWrapper.find({ ref: "triggerWrapper" });
+        const container = componentWrapper.find({ ref: "containerWrapper" });
+        trigger.element.getBoundingClientRect = () => ({
+          top: 0,
+          bottom: 50,
+          left: window.innerWidth - 50,
+          right: window.innerWidth
+        });
+        container.element.getBoundingClientRect = () => ({
+          width: 200,
+          height: 200
+        });
+
+        componentWrapper.vm.showPopover();
+        await Vue.nextTick();
+        expect(container.element.style.right).toEqual("0px");
+      });
     });
   });
 
   describe("popover-y", () => {
-    // TODO: Always on Screen needs E2E testing
     test("default popover-y is set to bottom", async () => {
       const componentWrapper = mount(VSwatches, {
         propsData: {
@@ -617,23 +696,114 @@ describe("Props", () => {
       await Vue.nextTick();
       return expect(componentWrapper.html()).toEqual(defaultComponent.html());
     });
-    test("container should positionate at trigger bottom if popover-y is top", () => {
-      const componentWrapper = mount(VSwatches, {
-        propsData: {
-          popoverY: "top"
-        }
+
+    describe("popover-y is set to top", () => {
+      test("container should positionate above the trigger", async () => {
+        const componentWrapper = mount(VSwatches, {
+          propsData: {
+            popoverY: "top"
+          }
+        });
+        const trigger = componentWrapper.find({ ref: "triggerWrapper" });
+        const container = componentWrapper.find({ ref: "containerWrapper" });
+        trigger.element.getBoundingClientRect = () => ({
+          top: window.innerHeight - 50,
+          bottom: window.innerHeight,
+          left: 0,
+          right: 50,
+          height: 50
+        });
+        container.element.getBoundingClientRect = () => ({
+          width: 200,
+          height: 200
+        });
+
+        componentWrapper.vm.showPopover();
+        await Vue.nextTick();
+        return expect(container.element.style.bottom).toEqual(
+          `${50 + DEFAULT_TRIGGER_CONTAINER_SPACE}px`
+        );
       });
-      const container = componentWrapper.find(".vue-swatches__container");
-      expect(container.element.style.bottom).toEqual("+100%");
+      test("container should positionate bellow the trigger top if there is no available space", async () => {
+        const componentWrapper = mount(VSwatches, {
+          propsData: {
+            popoverY: "top"
+          }
+        });
+        const trigger = componentWrapper.find({ ref: "triggerWrapper" });
+        const container = componentWrapper.find({ ref: "containerWrapper" });
+        trigger.element.getBoundingClientRect = () => ({
+          top: 0,
+          bottom: 50,
+          left: 0,
+          right: 50,
+          height: 50
+        });
+        container.element.getBoundingClientRect = () => ({
+          width: 200,
+          height: 200
+        });
+
+        componentWrapper.vm.showPopover();
+        await Vue.nextTick();
+        expect(container.element.style.top).toEqual(
+          `${50 + DEFAULT_TRIGGER_CONTAINER_SPACE}px`
+        );
+      });
     });
-    test("container should positionate at trigger top if popover-y is bottom", () => {
-      const componentWrapper = mount(VSwatches, {
-        propsData: {
-          popoverY: "bottom"
-        }
+    describe("popover-y is set to bottom", () => {
+      test("container should positionate bellow the trigger", async () => {
+        const componentWrapper = mount(VSwatches, {
+          propsData: {
+            popoverY: "bottom"
+          }
+        });
+        const trigger = componentWrapper.find({ ref: "triggerWrapper" });
+        const container = componentWrapper.find({ ref: "containerWrapper" });
+        trigger.element.getBoundingClientRect = () => ({
+          top: 0,
+          bottom: 50,
+          left: 0,
+          right: 50,
+          height: 50
+        });
+        container.element.getBoundingClientRect = () => ({
+          width: 200,
+          height: 200
+        });
+
+        componentWrapper.vm.showPopover();
+        await Vue.nextTick();
+        return expect(container.element.style.top).toEqual(
+          `${50 + DEFAULT_TRIGGER_CONTAINER_SPACE}px`
+        );
       });
-      const container = componentWrapper.find(".vue-swatches__container");
-      expect(container.element.style.top).toEqual("+100%");
+      test("container should positionate above the trigger if there is no available space", async () => {
+        const componentWrapper = mount(VSwatches, {
+          propsData: {
+            popoverY: "bottom"
+          }
+        });
+        const trigger = componentWrapper.find({ ref: "triggerWrapper" });
+        const container = componentWrapper.find({ ref: "containerWrapper" });
+        trigger.element.getBoundingClientRect = () => ({
+          top: window.innerHeight - 50,
+          bottom: window.innerHeight,
+          left: 0,
+          right: 50,
+          height: 50
+        });
+        container.element.getBoundingClientRect = () => ({
+          width: 200,
+          height: 200
+        });
+
+        componentWrapper.vm.showPopover();
+        await Vue.nextTick();
+        expect(container.element.style.bottom).toEqual(
+          `${50 + DEFAULT_TRIGGER_CONTAINER_SPACE}px`
+        );
+      });
     });
   });
 

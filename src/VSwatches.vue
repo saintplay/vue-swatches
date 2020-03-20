@@ -29,6 +29,7 @@
     <transition name="vue-swatches-show-hide">
       <!-- The container handles the padding -->
       <div
+        ref="containerWrapper"
         v-show="inline || isOpen"
         class="vue-swatches__container"
         :class="{ 'vue-swatches--inline': inline }"
@@ -128,6 +129,7 @@ import VSwatch from "./VSwatch";
 export const DEFAULT_BACKGROUND_COLOR = "#ffffff";
 export const DEFAULT_BORDER_RADIUS = "10px";
 export const DEFAULT_ROW_LENGTH = 4;
+export const DEFAULT_TRIGGER_CONTAINER_SPACE = 5;
 export const DEFAULT_SWATCH_SIZE = 42;
 export const DEFAULT_SHOW_BORDER = false;
 
@@ -338,23 +340,9 @@ export default {
       else if (this.shapes === "circles") return `50%`;
       return "";
     },
-    containerHeight() {
-      return this.wrapperHeight + 10;
-    },
-    containerWidth() {
-      return this.wrapperWidth + 10;
-    },
     columnLength() {
       if (this.isNested) return this.computedSwatches.length;
       return Math.ceil(this.computedSwatches.length / this.computedRowLength);
-    },
-    wrapperHeight() {
-      return (
-        this.columnLength *
-          (this.computedSwatchSize + this.computedSpacingSize) +
-        2 * this.computedSpacingSize +
-        5
-      );
     },
     wrapperWidth() {
       return (
@@ -376,33 +364,13 @@ export default {
     triggerStyles() {
       return [this.computedtriggerStyle, this.triggerStyle];
     },
-    containerStyle() {
-      const baseStyles = {
-        backgroundColor: this.backgroundColor
-      };
-      let positionStyle = {};
-
-      if (this.inline) return baseStyles;
-
-      if (this.popoverY === "top") {
-        positionStyle.bottom = "+100%";
-      } else if (this.popoverY === "bottom") {
-        positionStyle.top = "+100%";
-      }
-
-      if (this.popoverX === "left") {
-        positionStyle.right = 0;
-      } else if (this.popoverX === "right") {
-        positionStyle.left = 0;
-      }
-
-      return {
-        ...positionStyle,
-        ...baseStyles
-      };
-    },
     containerStyles() {
-      return [this.containerStyle, this.alwaysOnScreenStyle];
+      return [
+        {
+          backgroundColor: this.backgroundColor
+        },
+        this.alwaysOnScreenStyle
+      ];
     },
     computedWrapperStyle() {
       const baseStyles = {
@@ -460,6 +428,7 @@ export default {
     getAlwaysOnScreenStyle() {
       const styles = {};
       const triggerEl = this.$refs.triggerWrapper;
+      const containerEl = this.$refs.containerWrapper;
 
       if (
         !this.componentMounted ||
@@ -470,7 +439,7 @@ export default {
       )
         return styles;
 
-      const rect = triggerEl.getBoundingClientRect();
+      const triggerRect = triggerEl.getBoundingClientRect();
       const leftMin = 5;
       const rightMax =
         (document.documentElement.clientWidth || window.innerWidth) - 5;
@@ -478,29 +447,58 @@ export default {
       const bottomMax =
         (document.documentElement.clientHeight || window.innerHeight) - 5;
 
-      if (this.popoverY === "top" && rect.top - this.containerHeight < topMin) {
-        styles.top = `${topMin - rect.top}px`;
-        styles.bottom = "auto";
-      } else if (
-        this.popoverY === "bottom" &&
-        rect.bottom + this.containerHeight > bottomMax
-      ) {
-        styles.bottom = `${rect.bottom - bottomMax}px`;
-        styles.top = "auto";
+      containerEl.style.visibility = "hidden";
+      containerEl.style.display = "block";
+      const containerRect = containerEl.getBoundingClientRect();
+      containerEl.style.display = "none";
+      containerEl.style.visibility = "visible";
+
+      if (this.popoverY === "top") {
+        if (triggerRect.top - containerRect.height < topMin) {
+          // Showing bellow
+          styles.top = `${triggerRect.height +
+            DEFAULT_TRIGGER_CONTAINER_SPACE}px`;
+          styles.bottom = "auto";
+        } else {
+          // Showing above
+          styles.bottom = `${triggerRect.height +
+            DEFAULT_TRIGGER_CONTAINER_SPACE}px`;
+          styles.top = "auto";
+        }
+      } else if (this.popoverY === "bottom") {
+        if (triggerRect.bottom + containerRect.height > bottomMax) {
+          // Showing above
+          styles.bottom = `${triggerRect.height +
+            DEFAULT_TRIGGER_CONTAINER_SPACE}px`;
+          styles.top = "auto";
+        } else {
+          // Showing bellow
+          styles.top = `${triggerRect.height +
+            DEFAULT_TRIGGER_CONTAINER_SPACE}px`;
+          styles.bottom = "auto";
+        }
       }
 
-      if (
-        this.popoverX === "left" &&
-        rect.right - this.containerWidth < leftMin
-      ) {
-        styles.left = `${leftMin - rect.left}px`;
-        styles.right = "auto";
-      } else if (
-        this.popoverX === "right" &&
-        rect.left + this.containerWidth > rightMax
-      ) {
-        styles.right = `${rect.right - rightMax}px`;
-        styles.left = "auto";
+      if (this.popoverX === "left") {
+        if (triggerRect.right - containerRect.width < leftMin) {
+          // Showing at the right
+          styles.left = 0;
+          styles.right = "auto";
+        } else {
+          // Showing at the left
+          styles.right = 0;
+          styles.left = "auto";
+        }
+      } else if (this.popoverX === "right") {
+        if (triggerRect.left + containerRect.width > rightMax) {
+          // Showing at the left
+          styles.right = 0;
+          styles.left = "auto";
+        } else {
+          // Showing at the right
+          styles.left = 0;
+          styles.right = "auto";
+        }
       }
 
       return styles;

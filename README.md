@@ -1,4 +1,6 @@
-# new-vue-swatches
+# Vue Swatches
+
+TODO
 
 ## Project setup
 ```
