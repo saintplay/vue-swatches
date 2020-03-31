@@ -1,10 +1,16 @@
+.announcer__container
+  | Vue Swatches 2
+  a.typo__link(href='https://github.com/saintplay/vue-swatches', target='_blank')  is out!
+  |  Make sure to check the
+  a.typo__link(href='https://github.com/saintplay/vue-swatches', target='_blank')  migration guide!
+
 section.hero
   .brand__container
     img.brand__logo(src=require('assets/vue-logo.png'))
     span.brand__name
       h1.typo__h1.typo__h1--hero(:class="`color--${color}`")
         span.brand__vue Vue
-        | 
+        |
         span.brand__swatches Swatches
       small.brand__version
         =`v${require('../package.json').version}`

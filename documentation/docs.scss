@@ -19,6 +19,17 @@ body {
   margin-bottom: to-rem(42px);
 }
 
+.announcer__container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: white;
+  background-color: #35495e;
+  text-align: center;
+  padding-left: 40px;
+  padding-right: 40px;
+  line-height: 24px;
+}
+
 .brand__container {
   display: flex;
   justify-content: space-between;
