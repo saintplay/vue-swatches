@@ -9,9 +9,6 @@
   <a href="https://travis-ci.org/saintplay/vue-swatches">
     <img src="https://travis-ci.org/saintplay/vue-swatches.svg?branch=master" alt="Travis CI">
   </a>
-  <a href="https://coveralls.io/github/saintplay/vue-swatches?branch=master">
-    <img src="https://coveralls.io/repos/github/saintplay/vue-swatches/badge.svg?branch=master" alt="Coveralls">
-  </a>
   <a href="https://www.npmjs.org/package/vue-swatches">
     <img src="https://img.shields.io/npm/v/vue-swatches.svg" alt="npm version">
   </a>
@@ -22,6 +19,11 @@
     <img src="https://img.shields.io/badge/tested_with-jest-99424f.svg" alt="Jest">
   </a>
 </p>
+
+## **NOTICE**
+
+Vue Swatches recently reached **version 2**. If you were using v1 please consider reading the *Migration Guide* or you can check v1 [here](https://github.com/saintplay/vue-swatches/tree/v1.x)
+
 
 ## Demo And Documentation ##
 
@@ -56,7 +58,7 @@ With fewer options, the user experience will be improved
     <a href="https://saintplay.github.io/vue-swatches/#presets">Presets ready to use</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-simple">Popover Mode</a>
+    <a href="https://saintplay.github.io/vue-swatches/#sub-simple">Built-in Popover</a>
   </li>
   <li>
     <a href="https://saintplay.github.io/vue-swatches/#sub-inline-mode">Inline Mode</a>
@@ -148,3 +150,4 @@ IE10 should be fine
 ## License
 
 MIT
+
