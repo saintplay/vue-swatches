@@ -1,8 +1,7 @@
 <template>
   <div class="form__field">
     <div class="form__label">
-      <button @click="$modal.show('my-custom-ui')">Please choose a color</button>
-      <custom-modal name="my-custom-ui" :adaptive="true" height="192">
+      <custom-modal btnText="Please choose a color">
         <div class="custom-ui-class">
           <v-swatches v-model="color" inline></v-swatches>
         </div>
