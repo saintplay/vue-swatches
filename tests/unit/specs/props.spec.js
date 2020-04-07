@@ -250,22 +250,6 @@ describe("Props", () => {
           });
         });
       });
-      test("given array colors are shown", () => {
-        const colors = ["#e31432", "#a156e2", "#eca23e"];
-        const rgbColors = colors.map(c => rgb(c));
-        const componentWrapper = mount(VSwatches, {
-          propsData: {
-            swatches: colors
-          }
-        });
-        const swatches = Array.from(
-          componentWrapper.element.querySelectorAll(".vue-swatches__swatch")
-        );
-        const swatchesColors = swatches.map(s => rgb(s.style.backgroundColor));
-        return Vue.nextTick().then(() => {
-          expect(swatchesColors).toEqual(rgbColors);
-        });
-      });
     });
     describe("When preset name is passed as a prop", () => {
       test("preset colors are shown", () => {
@@ -298,6 +282,25 @@ describe("Props", () => {
       return Vue.nextTick().then(() => {
         expect(componentWrapper.html()).toEqual(defaultComponent.html());
       });
+    });
+
+    test("should update disabled only for swatch if object swatch is used", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          disabled: false,
+          value: "#C0382B",
+          inline: true,
+          swatches: [{ color: "#3D556E", disabled: true }, "#C0382B"]
+        }
+      });
+      const componentSwatch = componentWrapper.find(VSwatch);
+      componentSwatch.trigger("click");
+      const selectedSwatch = componentWrapper
+        .findAll(VSwatch)
+        .wrappers.filter(s => s.vm.selected)[0];
+
+      await Vue.nextTick();
+      expect(selectedSwatch.vm.swatchColor).toEqual("#C0382B");
     });
 
     describe("When Inline mode is enabled", () => {
@@ -758,6 +761,7 @@ describe("Props", () => {
             popoverY: "bottom"
           }
         });
+
         const trigger = componentWrapper.find({ ref: "triggerWrapper" });
         const container = componentWrapper.find({ ref: "containerWrapper" });
         trigger.element.getBoundingClientRect = () => ({
@@ -895,6 +899,20 @@ describe("Props", () => {
           componentWrapper.vm.computedSwatches.length
         );
       });
+    });
+    test("should update the show-border only for swatch if object swatch is used", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          showBorder: false,
+          swatches: [{ color: "#3D556E", showBorder: true }, "#C0382B"]
+        }
+      });
+      const componentSwatch = componentWrapper.find(VSwatch);
+
+      await Vue.nextTick();
+      expect(
+        componentSwatch.classes().includes("vue-swatches__swatch--border")
+      ).toBeTruthy();
     });
     test("should update the show-border if preset especify one", () => {
       const componentWrapper = mount(VSwatches, {
@@ -1066,6 +1084,44 @@ describe("Props", () => {
 
       await Vue.nextTick();
       expect(labelWrapper.exists()).not.toBeTruthy();
+    });
+    test("should render custom label if object swatch is used", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          showLabels: true,
+          swatches: [{ color: "#3D556E", label: "custom-label" }, "#C0382B"]
+        }
+      });
+      const componentSwatch = componentWrapper.find(VSwatch);
+      const labelWrapper = componentSwatch.find(".vue-swatches__swatch__label");
+
+      await Vue.nextTick();
+      expect(labelWrapper.text()).toEqual("custom-label");
+    });
+    test("should use custom label as alt if object swatch is used", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          showLabels: true,
+          swatches: [{ color: "#3D556E", label: "custom-label" }, "#C0382B"]
+        }
+      });
+      const componentSwatch = componentWrapper.find(VSwatch);
+      await Vue.nextTick();
+      expect(componentSwatch.attributes("aria-label")).toEqual("custom-label");
+    });
+    test("should use custom alt if object swatch is used", async () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          showLabels: true,
+          swatches: [
+            { color: "#3D556E", label: "custom-label", alt: "custom-alt" },
+            "#C0382B"
+          ]
+        }
+      });
+      const componentSwatch = componentWrapper.find(VSwatch);
+      await Vue.nextTick();
+      expect(componentSwatch.attributes("aria-label")).toEqual("custom-alt");
     });
   });
 

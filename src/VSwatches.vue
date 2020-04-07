@@ -273,17 +273,20 @@ export default {
     computedSwatches() {
       if (this.swatches instanceof Array) return this.swatches;
 
+      /* istanbul ignore else */
       if (typeof this.swatches === "string") {
         switch (this.swatches) {
-          case "basic":
-            return this.extractColorAndApplyPreset(basicPreset);
           case "text-basic":
             return this.extractColorAndApplyPreset(textBasicPreset);
           case "text-advanced":
             return this.extractColorAndApplyPreset(textAdvancedPreset);
+          case "basic":
+          default:
+            return this.extractColorAndApplyPreset(basicPreset);
         }
+      } else {
+        return [];
       }
-      return [];
     },
     // Computed value for `borderRadius`
     computedBorderRadius() {
@@ -338,11 +341,8 @@ export default {
       if (this.shapes === "squares")
         return `${Math.round(this.computedSwatchSize * 0.25)}px`;
       else if (this.shapes === "circles") return `50%`;
+      /* istanbul ignore next */
       return "";
-    },
-    columnLength() {
-      if (this.isNested) return this.computedSwatches.length;
-      return Math.ceil(this.computedSwatches.length / this.computedRowLength);
     },
     wrapperWidth() {
       return (
@@ -430,6 +430,7 @@ export default {
       const triggerEl = this.$refs.triggerWrapper;
       const containerEl = this.$refs.containerWrapper;
 
+      /* istanbul ignore if */
       if (
         !this.componentMounted ||
         this.inline ||
@@ -465,17 +466,20 @@ export default {
             DEFAULT_TRIGGER_CONTAINER_SPACE}px`;
           styles.top = "auto";
         }
-      } else if (this.popoverY === "bottom") {
-        if (triggerRect.bottom + containerRect.height > bottomMax) {
-          // Showing above
-          styles.bottom = `${triggerRect.height +
-            DEFAULT_TRIGGER_CONTAINER_SPACE}px`;
-          styles.top = "auto";
-        } else {
-          // Showing bellow
-          styles.top = `${triggerRect.height +
-            DEFAULT_TRIGGER_CONTAINER_SPACE}px`;
-          styles.bottom = "auto";
+      } else {
+        /* istanbul ignore else */
+        if (this.popoverY === "bottom") {
+          if (triggerRect.bottom + containerRect.height > bottomMax) {
+            // Showing above
+            styles.bottom = `${triggerRect.height +
+              DEFAULT_TRIGGER_CONTAINER_SPACE}px`;
+            styles.top = "auto";
+          } else {
+            // Showing bellow
+            styles.top = `${triggerRect.height +
+              DEFAULT_TRIGGER_CONTAINER_SPACE}px`;
+            styles.bottom = "auto";
+          }
         }
       }
 
@@ -489,15 +493,18 @@ export default {
           styles.right = 0;
           styles.left = "auto";
         }
-      } else if (this.popoverX === "right") {
-        if (triggerRect.left + containerRect.width > rightMax) {
-          // Showing at the left
-          styles.right = 0;
-          styles.left = "auto";
-        } else {
-          // Showing at the right
-          styles.left = 0;
-          styles.right = "auto";
+      } else {
+        /* istanbul ignore else */
+        if (this.popoverX === "right") {
+          if (triggerRect.left + containerRect.width > rightMax) {
+            // Showing at the left
+            styles.right = 0;
+            styles.left = "auto";
+          } else {
+            // Showing at the right
+            styles.left = 0;
+            styles.right = "auto";
+          }
         }
       }
 
