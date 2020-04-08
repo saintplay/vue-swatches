@@ -94,7 +94,7 @@ or
 <!-- Vue component -->
 <template>
   <div>
-    <swatches v-model="color"></swatches>
+    <swatches v-model="color" :swatches="colors"></swatches>
   </div>
 </template>
 
@@ -108,7 +108,8 @@ or
     components: { Swatches }, // window.VueSwatches.default - from CDN
     data () {
       return {
-        color: '#1CA085'
+        color: '#1CA085',
+        colors: ['#FFFFFF','#000000','#FF0000','#0000FF','#FFFF00']
       }
     }
   }
