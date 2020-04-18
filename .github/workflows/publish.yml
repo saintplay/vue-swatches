@@ -12,6 +12,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - run: yarn install
       - run: yarn test:unit
 
   publish-npm:
@@ -23,6 +24,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
+      - run: yarn install
       - run: yarn build
       - run: npm publish
         env:
@@ -37,6 +39,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
+      - run: yarn install
       - run: yarn build
       - run: npm publish
         env:
