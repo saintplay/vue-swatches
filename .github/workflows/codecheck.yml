@@ -1,0 +1,24 @@
+name: Vue Swatches Code Check
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: yarn test
+
+  coverage:
+    needs: test
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - uses: coverallsapp/github-action@v1.0.1
