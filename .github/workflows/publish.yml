@@ -29,21 +29,3 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
-  publish-docs:
-    needs: test
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - run: yarn install
-      - run: yarn docs:build
-      - uses: crazy-max/ghaction-github-pages@v1.4.0
-        with:
-          build_dir: docs/.vuepress/dist
-          committer_name: Diego Jara
-          committer_email: diegojara6@gmail.com
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
