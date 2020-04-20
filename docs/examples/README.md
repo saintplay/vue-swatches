@@ -45,7 +45,7 @@ sidebar: auto
 
 ## Using a Preset
 
-Vue Swatches has a bunch of [presets](/presets) ready to use. Make sure to check it out!
+Vue Swatches has a bunch of <a :href="$withBase('/presets')">presets</a> ready to use. Make sure to check it out!
 
 <examples-preset></examples-preset>
 
