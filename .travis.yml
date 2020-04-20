@@ -9,5 +9,5 @@ jobs:
     - stage: unit tests
       script:
         - yarn install
-        - yarn test
+        - yarn test:unit
         - cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
