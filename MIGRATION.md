@@ -27,7 +27,7 @@ The css file has changed from `dist/vue-swatches.min.css` to `dist/vue-swatches.
 
 `popover-to` prop no longer exists, instead you can use **popover-x** and **popover-y**.
 
-See more about the [new popover props](TODO)
+See more about the [new popover props](https://saintplay.github.io/vue-swatches/api/props.html#behaviour-props)
 
 **4. If you are using exceptions, you will need to use swatch objects**
 
@@ -60,7 +60,7 @@ This is because, the presets aren't actually standarized, they where very opinio
 ['#D32F2F','#C2185B','#7B1FA2','#512DA8','#303F9F','#1976D2','#0288D1','#0097A7','#00796B','#388E3C','#689F38','#AFB42B','#FBC02D','#FFA000','#F57C00','#E64A19','#5D4037','#616161','#455A64']
 ```
 
-See more about the [new presets](TODO)
+See more about the [new presets](https://saintplay.github.io/vue-swatches/presets)
 
 
 ## Other (not likely) breaking changes
