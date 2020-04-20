@@ -1,6 +1,6 @@
 {
   "name": "vue-swatches",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Help the user picking beautiful colors!",
   "author": "Diego Jara <saintplay96@gmail.com>",
   "private": false,
@@ -35,10 +35,6 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
-  "dependencies": {
-    "core-js": "^3.6.4",
-    "vue": "^2.6.11"
-  },
   "devDependencies": {
     "@melmacaluso/vue-modal": "^2.1.0",
     "@vue/cli-plugin-babel": "^4.3.0",
@@ -48,6 +44,7 @@
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/test-utils": "1.0.0-beta.31",
     "babel-eslint": "^10.1.0",
+    "core-js": "^3.6.4",
     "coveralls": "^3.0.11",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.1",
@@ -58,6 +55,7 @@
     "rgb": "^0.1.0",
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2",
+    "vue": "^2.6.11",
     "vue-template-compiler": "^2.6.11",
     "vuepress": "^1.4.0"
   },
