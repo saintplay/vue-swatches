@@ -16,6 +16,10 @@ module.exports = {
       { text: 'API', link: '/api/' },
       { text: 'Presets', link: '/presets/' },
       {
+        text: 'v1.x',
+        link: 'https://vue-swatches-v1.netlify.com/',
+      },
+      {
         text: 'Changelog',
         link: 'https://github.com/saintplay/vue-swatches/releases',
       },
