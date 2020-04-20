@@ -4,6 +4,7 @@ on:
   release:
     types: [created, edited]
 
+jobs:
   publish-docs:
     needs: test
     runs-on: ubuntu-18.04
