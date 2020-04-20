@@ -128,7 +128,7 @@ import VSwatch from "./VSwatch";
 
 export const DEFAULT_BACKGROUND_COLOR = "#ffffff";
 export const DEFAULT_BORDER_RADIUS = "10px";
-export const DEFAULT_ROW_LENGTH = 4;
+export const DEFAULT_ROW_LENGTH = 8;
 export const DEFAULT_TRIGGER_CONTAINER_SPACE = 5;
 export const DEFAULT_SWATCH_SIZE = 42;
 export const DEFAULT_SHOW_BORDER = false;
@@ -149,7 +149,7 @@ export default {
     },
     swatches: {
       type: [Array, String],
-      default: () => "basic"
+      default: () => "text-advanced"
     },
     disabled: {
       type: Boolean,
