@@ -27,7 +27,7 @@
 
 ## **Notice**
 
-Vue Swatches recently reached **version 2**. If you were using v1 please consider reading the [Migration Guide](https://github.com/saintplay/vue-swatches/blob/master/MIGRATION.md) or you can check v1 [here](https://github.com/saintplay/vue-swatches/tree/v1.x)
+Vue Swatches recently reached **version 2**. If you were using v1 please consider reading the [release notes](https://github.com/saintplay/vue-swatches/releases/tag/v2.0.0) or you can check v1 [here](https://github.com/saintplay/vue-swatches/tree/v1.x)
 
 
 ## Demo And Documentation ##
@@ -60,28 +60,28 @@ With fewer options, the user experience will be improved
 
 <ul>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#presets">Presets ready to use</a>
+    <a href="https://saintplay.github.io/vue-swatches/presets/">Presets ready to use</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-simple">Built-in Popover</a>
+    <a href="https://saintplay.github.io/vue-swatches/api/props.html#behaviour-props">Built-in Popover</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-inline-mode">Inline Mode</a>
+    <a href="https://saintplay.github.io/vue-swatches/examples/#inline-mode">Inline Mode</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-custom-colors">Custom Colors</a>
+    <a href="https://saintplay.github.io/vue-swatches/examples/#custom-colors">Custom Colors</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-nested-colors">Nested Colors Array</a>
+    <a href="https://saintplay.github.io/vue-swatches/examples/#nested-colors">Nested Colors Array</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-props">Easily Customizable</a>
+    <a href="https://saintplay.github.io/vue-swatches/api/">Easily Customizable</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-using-a-custom-trigger">Custom Trigger</a>
+    <a href="https://saintplay.github.io/vue-swatches/examples/#using-a-custom-trigger">Custom Trigger</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-fallback-input">Fallback Input</a>
+    <a href="https://saintplay.github.io/vue-swatches/examples/#fallback-input">Fallback Input</a>
   </li>
 </ul>
 
@@ -99,18 +99,18 @@ or
 <!-- Vue component -->
 <template>
   <div>
-    <swatches v-model="color"></swatches>
+    <v-swatches v-model="color"></v-swatches>
   </div>
 </template>
 
 <script>
-  import Swatches from 'vue-swatches'
+  import VSwatches from 'vue-swatches'
 
   // Import the styles too, globally
-  import "vue-swatches/dist/vue-swatches.min.css"
+  import "vue-swatches/dist/vue-swatches.css"
 
   export default {
-    components: { Swatches }, // window.VueSwatches.default - from CDN
+    components: { VSwatches }, // window['vue-swatches'] - from CDN
     data () {
       return {
         color: '#1CA085'
@@ -124,16 +124,16 @@ or
 
 ``` bash
 # serve with hot reload at localhost:8080
-npm run dev
+yarn serve
 
 # distribution build with minification
-npm run bundle
+yarn build
 
 # build the documentation into docs
-npm run docs
+npm docs:dev
 
 # run unit tests
-npm run test
+yarn test:unit
 
 ```
 

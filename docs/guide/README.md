@@ -7,7 +7,7 @@ By default it shows the colors in a popover after clicking a color box (the trig
 
 From now on we will use the term **swatch** as an object that contain multiple properties.
 
-<img src="/assets/images/swatch.png" width="100%" style="max-width:480px" alt="Swatch">
+<img :src="$withBase('/assets/images/swatch.png')" width="100%" style="max-width:480px" alt="Swatch">
 
 Unlike classic color pickers, where all colors are available (167 77 216 colors), Vue Swatches only shows a bunch of predefined colors.
 
@@ -91,7 +91,7 @@ You can download `vue-swatches.umd.min.js` and `vue-swatches.css` from the `dist
       },
       data() {
         return {
-          color: ''
+          color: '#1CA085'
         }
       }
     })
