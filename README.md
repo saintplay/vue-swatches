@@ -25,9 +25,9 @@
   </a>
 </p>
 
-## **NOTICE**
+## **Notice**
 
-Vue Swatches recently reached **version 2**. If you were using v1 please consider reading the *Migration Guide* or you can check v1 [here](https://github.com/saintplay/vue-swatches/tree/v1.x)
+Vue Swatches recently reached **version 2**. If you were using v1 please consider reading the [Migration Guide](https://github.com/saintplay/vue-swatches/blob/master/MIGRATION.md) or you can check v1 [here](https://github.com/saintplay/vue-swatches/tree/v1.x)
 
 
 ## Demo And Documentation ##
