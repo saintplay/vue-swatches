@@ -1,20 +1,11 @@
 <h1 align="center">
   <br>
-  <a href="https://saintplay.github.io/vue-swatches/">
+  <a href="https://vue-swatches-v1.netlify.app">
     <img src="https://github.com/saintplay/vue-swatches/blob/master/.github/promo.png?raw=true" alt="Vue Swatches">
   </a>
 </h1>
 
 <p align="center">
-  <a href="https://travis-ci.org/saintplay/vue-swatches">
-    <img src="https://travis-ci.org/saintplay/vue-swatches.svg?branch=master" alt="Travis CI">
-  </a>
-  <a href="https://coveralls.io/github/saintplay/vue-swatches?branch=master">
-    <img src="https://coveralls.io/repos/github/saintplay/vue-swatches/badge.svg?branch=master" alt="Coveralls">
-  </a>
-  <a href="https://www.npmjs.org/package/vue-swatches">
-    <img src="https://img.shields.io/npm/v/vue-swatches.svg" alt="npm version">
-  </a>
   <a href="https://www.npmjs.org/package/vue-swatches">
     <img src="https://img.shields.io/github/license/saintplay/vue-swatches.svg" alt="license">
   </a>
@@ -25,7 +16,7 @@
 
 ## Demo And Documentation ##
 
-<https://saintplay.github.io/vue-swatches/>
+<https://vue-swatches-v1.netlify.app/>
 
 
 ## Table of Contents ##
@@ -53,28 +44,28 @@ With fewer options, the user experience will be improved
 
 <ul>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#presets">Presets ready to use</a>
+    <a href="https://vue-swatches-v1.netlify.app/#presets">Presets ready to use</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-simple">Popover Mode</a>
+    <a href="https://vue-swatches-v1.netlify.app/#sub-simple">Popover Mode</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-inline-mode">Inline Mode</a>
+    <a href="https://vue-swatches-v1.netlify.app/#sub-inline-mode">Inline Mode</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-custom-colors">Custom Colors</a>
+    <a href="https://vue-swatches-v1.netlify.app/#sub-custom-colors">Custom Colors</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-nested-colors">Nested Colors Array</a>
+    <a href="https://vue-swatches-v1.netlify.app/#sub-nested-colors">Nested Colors Array</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-props">Easily Customizable</a>
+    <a href="https://vue-swatches-v1.netlify.app/#sub-props">Easily Customizable</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-using-a-custom-trigger">Custom Trigger</a>
+    <a href="https://vue-swatches-v1.netlify.app/#sub-using-a-custom-trigger">Custom Trigger</a>
   </li>
   <li>
-    <a href="https://saintplay.github.io/vue-swatches/#sub-fallback-input">Fallback Input</a>
+    <a href="https://vue-swatches-v1.netlify.app/#sub-fallback-input">Fallback Input</a>
   </li>
 </ul>
 
