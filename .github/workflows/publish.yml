@@ -28,22 +28,7 @@ jobs:
       - run: yarn build
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-
-  publish-gpr:
-    needs: test
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: https://npm.pkg.github.com/
-      - run: yarn install
-      - run: yarn build
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
   publish-docs:
     needs: test
@@ -54,7 +39,7 @@ jobs:
         with:
           node-version: 12
       - run: yarn install
-      - run: docs:build
+      - run: yarn docs:build
       - uses: crazy-max/ghaction-github-pages@v1.4.0
         with:
           build_dir: docs/.vuepress/dist
