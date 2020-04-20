@@ -4,6 +4,7 @@ module.exports = {
   title: 'Vue Swatches',
   description: 'Help the user picking beautiful colors',
   head: [['link', { rel: 'icon', href: '/assets/images/vue-logo.png' }]],
+  base: "/vue-swatches/",
   themeConfig: {
     repo: 'saintplay/vue-swatches',
     logo: '/assets/images/vue-logo.png',
