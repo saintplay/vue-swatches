@@ -1,4 +1,4 @@
-name: Vue Swatches Publish
+name: Vue Swatches Publish Docs
 
 on:
   release:
