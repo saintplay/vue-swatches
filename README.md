@@ -25,7 +25,7 @@
   </a>
 </p>
 
-## **NOTICE**
+## **Notice**
 
 Vue Swatches recently reached **version 2**. If you were using v1 please consider reading the *Migration Guide* or you can check v1 [here](https://github.com/saintplay/vue-swatches/tree/v1.x)
 
