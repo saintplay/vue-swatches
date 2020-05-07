@@ -107,6 +107,7 @@
             />
           </span>
           <button
+            v-if="showFallbackOk"
             class="vue-swatches__fallback__button"
             :class="fallbackOkClass"
             @click.prevent="onFallbackButtonClick"
@@ -333,6 +334,10 @@ export default {
       if (this.presetShowBorder !== null) return this.presetShowBorder;
       // Use default value if these two are unset
       return DEFAULT_SHOW_BORDER;
+    },
+
+    showFallbackOk() {
+      return !this.inline;
     },
 
     /** DUMB COMPUTEDS (these only mutate props) **/

@@ -448,7 +448,8 @@ describe("Props", () => {
       const componentWrapper = mount(VSwatches, {
         propsData: {
           fallbackOkClass: "class-example",
-          showFallback: true
+          showFallback: true,
+          inline: false
         }
       });
       const button = componentWrapper.find(".vue-swatches__fallback__button");
@@ -523,6 +524,16 @@ describe("Props", () => {
         return Vue.nextTick().then(() => {
           expect(container.isVisible()).toBe(true);
         });
+      });
+      test("should not render the fallback ok button", () => {
+        const componentWrapper = mount(VSwatches, {
+          propsData: {
+            inline: true,
+            showFallback: true
+          }
+        });
+        const button = componentWrapper.find(".vue-swatches__fallback__button");
+        expect(button.exists()).not.toBeTruthy();
       });
     });
     describe("When inline prop is false (Popover)", () => {
@@ -987,7 +998,7 @@ describe("Props", () => {
         expect(fallbackWrapper.exists()).not.toBeTruthy();
       });
     });
-    test("should close the popover when click to ok button", () => {
+    test("should close the popover when click to ok button", async () => {
       const componentWrapper = mount(VSwatches, {
         propsData: {
           showFallback: true,
@@ -999,9 +1010,8 @@ describe("Props", () => {
       const button = componentWrapper.find(".vue-swatches__fallback__button");
       button.trigger("click");
 
-      return Vue.nextTick().then(() => {
-        expect(container.isVisible()).not.toBeTruthy();
-      });
+      await Vue.nextTick();
+      return expect(container.isVisible()).not.toBeTruthy();
     });
   });
 
