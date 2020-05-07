@@ -20,4 +20,4 @@ jobs:
           committer_name: Diego Jara
           committer_email: diegojara6@gmail.com
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
