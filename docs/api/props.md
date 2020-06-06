@@ -46,7 +46,7 @@ Updates the prefered horizontal position for the popover.
 Updates the prefered vertical position for the popover.
 
 - **Type**: `String`
-- **Values**: `up`, `bottom`
+- **Values**: `top`, `bottom`
 
 ### close-on-select
 
