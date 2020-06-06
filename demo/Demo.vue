@@ -2,14 +2,17 @@
   <div id="app">
     <div>
       <h2>Inline Swatches</h2>
-      <v-swatches
-        v-model="colorInline"
-        inline
-        :swatches="swatchesArray"
-        :spacing-size="10"
-        show-border
-        show-labels
-      />
+
+      <div style="background-color:tomato">
+        <v-swatches
+          v-model="colorInline"
+          inline
+          :swatches="swatchesArray"
+          :spacing-size="10"
+          background-color="transparent"
+          show-border
+        />
+      </div>
 
       <h2>Popover</h2>
       <v-swatches>
@@ -35,9 +38,7 @@
         popover-y="top"
         popover-x="right"
         :swatches="[
-          ...swatchesArray,
           { color: '#ffffff', showBorder: true },
-          { color: '#ffffff' },
           { color: '#ffffff' },
           { color: '#ffffff', showBorder: true }
         ]"
@@ -96,6 +97,7 @@ export default {
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  box-sizing: border-box;
 }
 
 .flexbox {

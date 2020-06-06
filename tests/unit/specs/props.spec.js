@@ -881,6 +881,16 @@ describe("Props", () => {
         expect(componentWrapper.vm.computedRowLength).toEqual(10);
       });
     });
+    test("should priorize the swatches-length over the default one", () => {
+      const componentWrapper = mount(VSwatches, {
+        propsData: {
+          swatches: ["#333333", "222222"]
+        }
+      });
+      return Vue.nextTick().then(() => {
+        expect(componentWrapper.vm.computedRowLength).toEqual(2);
+      });
+    });
   });
 
   describe("show-border", () => {

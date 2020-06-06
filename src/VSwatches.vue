@@ -47,8 +47,16 @@
               <v-swatch
                 v-for="(swatch, swatchIndex) in swatchRow"
                 :key="swatchIndex"
+                :is-last="
+                  index === computedSwatches.length - 1 &&
+                    swatchIndex === swatchRow.length
+                "
+                :row-length-setted="
+                  rowLength !== null || presetRowLength !== null
+                "
                 :border-radius="computedBorderRadius"
                 :disabled="getSwatchDisabled(swatch)"
+                :inline="inline"
                 :selected="checkEquality(getSwatchColor(swatch), value)"
                 :swatch-size="computedSwatchSize"
                 :spacing-size="computedSpacingSize"
@@ -71,8 +79,13 @@
             <v-swatch
               v-for="(swatch, swatchIndex) in computedSwatches"
               :key="swatchIndex"
+              :is-last="swatchIndex === computedSwatches.length - 1"
+              :row-length-setted="
+                rowLength !== null || presetRowLength !== null
+              "
               :border-radius="computedBorderRadius"
               :disabled="getSwatchDisabled(swatch)"
+              :inline="inline"
               :selected="checkEquality(getSwatchColor(swatch), value)"
               :swatch-size="computedSwatchSize"
               :spacing-size="computedSpacingSize"
@@ -133,6 +146,27 @@ export const DEFAULT_ROW_LENGTH = 4;
 export const DEFAULT_TRIGGER_CONTAINER_SPACE = 5;
 export const DEFAULT_SWATCH_SIZE = 42;
 export const DEFAULT_SHOW_BORDER = false;
+
+export const extractPropertyFromPreset = (
+  presetName,
+  property,
+  alwaysReturn
+) => {
+  if (typeof presetName !== "string") return null;
+  else if (presetName === "text-basic")
+    return textBasicPreset[property] === undefined
+      ? null
+      : textBasicPreset[property];
+  else if (presetName === "text-advanced")
+    return textAdvancedPreset[property] === undefined
+      ? null
+      : textAdvancedPreset[property];
+  else if (presetName === "basic")
+    return basicPreset[property] === undefined ? null : basicPreset[property];
+  else if (alwaysReturn)
+    return basicPreset[property] === undefined ? null : basicPreset[property];
+  else return null;
+};
 
 export default {
   name: "v-swatches",
@@ -240,11 +274,6 @@ export default {
     return {
       alwaysOnScreenStyle: {},
       componentMounted: false,
-      presetBorderRadius: null,
-      presetRowLength: null,
-      presetShowBorder: null,
-      presetSwatchSize: null,
-      presetSpacingSize: null,
       internalValue: this.value,
       internalIsOpen: false
     };
@@ -270,21 +299,30 @@ export default {
 
     /** REAL COMPUTEDS (depends on user's props and preset's values, these have 'computed' prefix) **/
 
+    // Preset Computeds
+    presetBorderRadius() {
+      return extractPropertyFromPreset(this.swatches, "borderRadius");
+    },
+    presetRowLength() {
+      return extractPropertyFromPreset(this.swatches, "rowLength");
+    },
+    presetShowBorder() {
+      return extractPropertyFromPreset(this.swatches, "showBorder");
+    },
+    presetSwatchSize() {
+      return extractPropertyFromPreset(this.swatches, "swatchSize");
+    },
+    presetSpacingSize() {
+      return extractPropertyFromPreset(this.swatches, "spacingSize");
+    },
+
     // Computed value for `swatches`
     computedSwatches() {
       if (this.swatches instanceof Array) return this.swatches;
 
       /* istanbul ignore else */
       if (typeof this.swatches === "string") {
-        switch (this.swatches) {
-          case "text-basic":
-            return this.extractColorAndApplyPreset(textBasicPreset);
-          case "text-advanced":
-            return this.extractColorAndApplyPreset(textAdvancedPreset);
-          case "basic":
-          default:
-            return this.extractColorAndApplyPreset(basicPreset);
-        }
+        return extractPropertyFromPreset(this.swatches, "colors", true);
       } else {
         return [];
       }
@@ -301,10 +339,15 @@ export default {
     computedRowLength() {
       // Priorize user value
       if (this.rowLength !== null) return Number(this.rowLength);
-      else if (this.presetRowLength !== null)
-        // Over preset value
-        return this.presetRowLength;
-      // Use default value if these two are unset!
+      // Over preset value
+      else if (this.presetRowLength !== null) return this.presetRowLength;
+      // If there are less swatches than the default
+      else if (
+        this.computedSwatches.length < DEFAULT_ROW_LENGTH &&
+        !this.isNested
+      )
+        return this.computedSwatches.length;
+      // Use default otherwise
       return DEFAULT_ROW_LENGTH;
     },
     // Computed value for `swatchSize`
@@ -370,23 +413,29 @@ export default {
       return [this.computedtriggerStyle, this.triggerStyle];
     },
     containerStyles() {
-      return [
+      const baseStyles = [
         {
           backgroundColor: this.backgroundColor
         },
         this.alwaysOnScreenStyle
       ];
-    },
-    computedWrapperStyle() {
-      const baseStyles = {
-        paddingTop: `${this.computedSpacingSize}px`,
-        paddingLeft: `${this.computedSpacingSize}px`
-      };
 
       if (this.inline) return baseStyles;
 
-      return {
+      return [
         ...baseStyles,
+        {
+          padding: "5px",
+          marginBottom: "5px"
+        }
+      ];
+    },
+    computedWrapperStyle() {
+      if (this.inline) return {};
+
+      return {
+        paddingTop: `${this.computedSpacingSize}px`,
+        paddingLeft: `${this.computedSpacingSize}px`,
         width: `${this.wrapperWidth}px`
       };
     },
@@ -580,18 +629,6 @@ export default {
       if (this.closeOnSelect && !this.inline && !fromFallbackInput) {
         this.hidePopover();
       }
-    },
-    extractColorAndApplyPreset(preset) {
-      // Applying the styles if present in the preset
-      if (preset.borderRadius) this.presetBorderRadius = preset.borderRadius;
-      if (preset.rowLength) this.presetRowLength = preset.rowLength;
-      if (preset.showBorder) this.presetShowBorder = preset.showBorder;
-      if (preset.swatchSize) this.presetSwatchSize = preset.swatchSize;
-      if (preset.spacingSize === 0 || preset.spacingSize)
-        this.presetSpacingSize = preset.spacingSize;
-
-      // Must return the swatches from the preset
-      return preset.colors;
     }
   }
 };
@@ -624,9 +661,11 @@ fieldset[disabled] .vue-swatches {
 }
 
 .vue-swatches__container {
-  margin-bottom: 5px;
   box-sizing: content-box;
-  padding: 5px;
+
+  &.vue-swatches--inline {
+    font-size: 0;
+  }
 
   &:not(.vue-swatches--inline) {
     position: absolute;
@@ -640,6 +679,7 @@ fieldset[disabled] .vue-swatches {
 
 .vue-swatches__wrapper {
   background-color: inherit;
+  box-sizing: content-box;
 }
 
 .vue-swatches__row {

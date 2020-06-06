@@ -43,9 +43,21 @@ export default {
       type: String
       // default is calculated in `Swatches.vue`
     },
+    isLast: {
+      type: Boolean,
+      default: false
+    },
+    rowLengthSetted: {
+      type: Boolean,
+      default: false
+    },
     disabled: {
       type: Boolean
       // this prop comes from computed property and always should have a value
+    },
+    inline: {
+      type: Boolean
+      // default is calculated in `Swatches.vue`
     },
     selected: {
       type: Boolean,
@@ -99,14 +111,23 @@ export default {
       };
     },
     computedSwatchStyle() {
-      return {
+      const baseStyles = {
         width: `${this.swatchSize}px`,
         height: `${this.swatchSize}px`,
-        marginBottom: `${this.spacingSize}px`,
-        marginRight: `${this.spacingSize}px`,
         borderRadius: this.borderRadius,
         backgroundColor: this.swatchColor !== "" ? this.swatchColor : "#FFFFFF",
         cursor: this.cursorStyle
+      };
+
+      if (!this.inline || !this.isLast) {
+        baseStyles.marginRight = `${this.spacingSize}px`;
+      }
+
+      if (this.inline && !this.rowLengthSetted) return baseStyles;
+
+      return {
+        ...baseStyles,
+        marginBottom: `${this.spacingSize}px`
       };
     },
     cursorStyle() {
