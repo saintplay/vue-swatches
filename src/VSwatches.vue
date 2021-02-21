@@ -138,7 +138,7 @@ import basicPreset from "./presets/basic";
 import textBasicPreset from "./presets/text-basic";
 import textAdvancedPreset from "./presets/text-advanced";
 
-import VSwatch from "./VSwatch";
+import VSwatch from "./VSwatch.vue";
 
 export const DEFAULT_BACKGROUND_COLOR = "#ffffff";
 export const DEFAULT_BORDER_RADIUS = "10px";
