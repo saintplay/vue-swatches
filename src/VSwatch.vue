@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import VCheck from "./VCheck";
+import VCheck from "./VCheck.vue";
 
 export default {
   name: "v-swatch",
