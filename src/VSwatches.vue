@@ -1,135 +1,23 @@
 <template>
   <div class="vue-swatches" tabindex="-1" @blur="e => onBlur(e.relatedTarget)">
-    <!-- Trigger -->
     <div
-      v-if="!inline"
       ref="triggerWrapper"
       class="vue-swatches__trigger__wrapper"
       @click="togglePopover"
     >
-      <slot name="trigger">
+      <slot>
         <div
           class="vue-swatches__trigger"
           :class="{
-            'vue-swatches--is-empty': !value,
+            'vue-swatches--is-empty': !modelValue,
             'vue-swatches--is-disabled': disabled
           }"
           :style="triggerStyles"
         >
-          <div
-            v-show="isNoColor"
-            class="vue-swatches__diagonal__wrapper vue-swatches--has-children-centered"
-          >
-            <div class="vue-swatches__diagonal"></div>
-          </div>
+         Hola Munndo
         </div>
       </slot>
     </div>
-
-    <transition name="vue-swatches-show-hide">
-      <!-- The container handles the padding -->
-      <div
-        ref="containerWrapper"
-        v-show="inline || isOpen"
-        class="vue-swatches__container"
-        :class="{ 'vue-swatches--inline': inline }"
-        :style="containerStyles"
-      >
-        <!-- The wrapper handles the internal spacing -->
-        <div class="vue-swatches__wrapper" :style="wrapperStyles">
-          <!-- for nested distribution -->
-          <template v-if="isNested">
-            <div
-              v-for="(swatchRow, index) in computedSwatches"
-              :key="index"
-              class="vue-swatches__row"
-            >
-              <v-swatch
-                v-for="(swatch, swatchIndex) in swatchRow"
-                :key="swatchIndex"
-                :is-last="
-                  index === computedSwatches.length - 1 &&
-                    swatchIndex === swatchRow.length
-                "
-                :row-length-setted="
-                  rowLength !== null || presetRowLength !== null
-                "
-                :border-radius="computedBorderRadius"
-                :disabled="getSwatchDisabled(swatch)"
-                :inline="inline"
-                :selected="checkEquality(getSwatchColor(swatch), value)"
-                :swatch-size="computedSwatchSize"
-                :spacing-size="computedSpacingSize"
-                :show-border="getSwatchShowBorder(swatch)"
-                :show-checkbox="showCheckbox"
-                :show-labels="showLabels"
-                :swatch-color="getSwatchColor(swatch)"
-                :swatch-label="getSwatchLabel(swatch)"
-                :swatch-alt="getSwatchAlt(swatch)"
-                :swatch-style="swatchStyle"
-                @blur="relatedTarget => onBlur(relatedTarget)"
-                @click.native="updateSwatch(swatch)"
-                @click="updateSwatch(swatch)"
-              />
-            </div>
-          </template>
-
-          <!-- for normal distribution -->
-          <template v-else>
-            <v-swatch
-              v-for="(swatch, swatchIndex) in computedSwatches"
-              :key="swatchIndex"
-              :is-last="swatchIndex === computedSwatches.length - 1"
-              :row-length-setted="
-                rowLength !== null || presetRowLength !== null
-              "
-              :border-radius="computedBorderRadius"
-              :disabled="getSwatchDisabled(swatch)"
-              :inline="inline"
-              :selected="checkEquality(getSwatchColor(swatch), value)"
-              :swatch-size="computedSwatchSize"
-              :spacing-size="computedSpacingSize"
-              :show-border="getSwatchShowBorder(swatch)"
-              :show-checkbox="showCheckbox"
-              :show-labels="showLabels"
-              :swatch-color="getSwatchColor(swatch)"
-              :swatch-label="getSwatchLabel(swatch)"
-              :swatch-alt="getSwatchAlt(swatch)"
-              :swatch-style="swatchStyle"
-              @blur="relatedTarget => onBlur(relatedTarget)"
-              @click.native="updateSwatch(swatch)"
-              @click="updateSwatch(swatch)"
-            />
-          </template>
-        </div>
-        <div
-          v-if="showFallback"
-          class="vue-swatches__fallback__wrapper"
-          :style="computedFallbackWrapperStyles"
-        >
-          <span class="vue-swatches__fallback__input--wrapper">
-            <input
-              ref="fallbackInput"
-              class="vue-swatches__fallback__input"
-              :class="fallbackInputClass"
-              :value="internalValue"
-              :type="fallbackInputType"
-              @input="
-                e => updateSwatch(e.target.value, { fromFallbackInput: true })
-              "
-            />
-          </span>
-          <button
-            v-if="showFallbackOk"
-            class="vue-swatches__fallback__button"
-            :class="fallbackOkClass"
-            @click.prevent="onFallbackButtonClick"
-          >
-            {{ fallbackOkText }}
-          </button>
-        </div>
-      </div>
-    </transition>
   </div>
 </template>
 
@@ -138,7 +26,7 @@ import basicPreset from "./presets/basic";
 import textBasicPreset from "./presets/text-basic";
 import textAdvancedPreset from "./presets/text-advanced";
 
-import VSwatch from "./VSwatch.vue";
+// import VSwatch from "./VSwatch.vue";
 
 export const DEFAULT_BACKGROUND_COLOR = "#ffffff";
 export const DEFAULT_BORDER_RADIUS = "10px";
@@ -171,8 +59,8 @@ export const extractPropertyFromPreset = (
 export default {
   name: "v-swatches",
   components: {
-    VSwatch
   },
+  emits: ['close', 'update:modelValue', 'open'],
   props: {
     backgroundColor: {
       type: String,
@@ -265,7 +153,7 @@ export default {
       type: [Object, Array],
       default: () => {}
     },
-    value: {
+    modelValue: {
       type: String,
       default: null
     }
@@ -274,7 +162,7 @@ export default {
     return {
       alwaysOnScreenStyle: {},
       componentMounted: false,
-      internalValue: this.value,
+      internalValue: this.modelValue,
       internalIsOpen: false
     };
   },
@@ -294,7 +182,7 @@ export default {
       return this.internalIsOpen;
     },
     isNoColor() {
-      return this.checkEquality("", this.value);
+      return this.checkEquality("", this.modelValue);
     },
 
     /** REAL COMPUTEDS (depends on user's props and preset's values, these have 'computed' prefix) **/
@@ -405,7 +293,7 @@ export default {
       return {
         width: "42px",
         height: "42px",
-        backgroundColor: this.value ? this.value : "#ffffff",
+        backgroundColor: this.modelValue ? this.modelValue : "#ffffff",
         borderRadius: this.shapes === "circles" ? "50%" : DEFAULT_BORDER_RADIUS
       };
     },
@@ -460,7 +348,7 @@ export default {
     }
   },
   watch: {
-    value(newValue) {
+    modelValue(newValue) {
       this.internalValue = newValue;
     }
   },
@@ -476,7 +364,7 @@ export default {
     },
     hidePopover() {
       this.internalIsOpen = false;
-      this.$el.blur();
+      // this.$el.blur();
       this.$emit("close", this.internalValue);
     },
     getAlwaysOnScreenStyle() {
@@ -590,14 +478,14 @@ export default {
         return swatch.alt || this.getSwatchLabel(swatch);
     },
     // Called by user action
-    onBlur(relatedTarget) {
+    onBlur() {
       /* istanbul ignore if */
       if (!this.isOpen) return; /* dont hide */
 
       // We only close the Popover if the relatedTarget came from outside the component
       // Check if the relatedTarget is inside the component
-      if (relatedTarget !== null && this.$el.contains(relatedTarget))
-        return; /* dont hide */
+      // if (relatedTarget !== null && this.$el.contains(relatedTarget))
+      //   return; /* dont hide */
 
       this.internalIsOpen = false;
       this.$emit("close", this.internalValue);
@@ -612,7 +500,7 @@ export default {
 
       this.alwaysOnScreenStyle = this.getAlwaysOnScreenStyle();
       this.internalIsOpen = true;
-      this.$el.focus();
+      // this.$el.focus();
       this.$emit("open");
     },
     togglePopover() {
@@ -624,7 +512,7 @@ export default {
       const color = this.getSwatchColor(swatch);
 
       this.internalValue = color;
-      this.$emit("input", color);
+      this.$emit("update:modelValue", color);
 
       if (this.closeOnSelect && !this.inline && !fromFallbackInput) {
         this.hidePopover();

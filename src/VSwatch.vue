@@ -12,6 +12,7 @@
     tabindex="0"
     @keyup.enter="$emit('click', swatchColor)"
     @blur="e => this.$emit('blur', e.relatedTarget)"
+    @click="$emit('click', $event)"
   >
     <div
       v-if="swatchColor === ''"
@@ -36,8 +37,9 @@ import VCheck from "./VCheck.vue";
 export default {
   name: "v-swatch",
   components: {
-    VCheck
+    'v-check': VCheck
   },
+  emits: ['blur', 'click'],
   props: {
     borderRadius: {
       type: String

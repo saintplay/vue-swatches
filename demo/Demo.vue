@@ -16,7 +16,9 @@
 
       <h2>Popover</h2>
       <v-swatches>
-        <button slot="trigger">Open</button>
+        <template v-slot:trigger>
+          <button>Open</button>
+        </template>
       </v-swatches>
     </div>
     <h2>Popover to Top and Left</h2>
